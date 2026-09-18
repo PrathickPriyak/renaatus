@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import { Outfit } from "next/font/google";
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
+import { Footer, Header } from "@/components/marketing";
+import { siteConfig } from "@/lib/site";
 import "./globals.css";
 
 const outfit = Outfit({
@@ -25,9 +25,8 @@ export const metadata: Metadata = {
     default: "Renaatus | Building foundations across borders",
     template: "%s | Renaatus",
   },
-  description:
-    "Renaatus Projects is a premier EPC, luxury realty, and AAC manufacturing group with a 50-year construction legacy across India, Maldives, and Mauritius.",
-  metadataBase: new URL("https://www.renaatus.com"),
+  description: siteConfig.description,
+  metadataBase: new URL(siteConfig.url),
   openGraph: {
     title: "Renaatus",
     description: "Infrastructure, luxury realty, and Renacon AAC blocks.",

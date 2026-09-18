@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import { PageHero } from "@/components/PageHero";
+import { PageHero } from "@/components/marketing";
 import { leadership } from "@/lib/content";
 
 export const metadata: Metadata = {

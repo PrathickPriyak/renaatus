@@ -1,4 +1,4 @@
-// Proposed production schema — not wired into the app in this phase.
+// Design snapshot. The live schema is website/prisma/schema.prisma.
 // Target: PostgreSQL + Prisma.
 
 generator client {

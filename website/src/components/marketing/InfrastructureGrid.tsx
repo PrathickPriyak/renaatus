@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { ProjectCard } from "@/components/ProjectCard";
+import { ProjectCard } from "@/components/marketing/ProjectCard";
 import { infrastructureProjects, type InfraProject } from "@/lib/content";
 
 const filters = ["All", "India", "Maldives", "Mauritius"] as const;

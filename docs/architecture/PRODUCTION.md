@@ -1,6 +1,6 @@
 # Renaatus production architecture
 
-**Status:** Design only. The application is not implemented in this phase.  
+**Status:** Production foundation is in `website/` (tooling, Prisma, env, logging, validation). Marketing pages from the prototype remain; CMS/admin are not implemented yet.  
 **Reference:** [skyi.com](https://skyi.com/) for pacing, cinematic media, and editorial restraint — not branding, copy, or code.  
 **Positioning:** Renaatus is a manufacturer-builder (EPC + luxury realty + Renacon AAC) across India, Maldives, and Mauritius. The site must feel more material, international, and civic than a single-city residential brand.
 

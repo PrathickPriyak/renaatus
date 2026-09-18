@@ -18,11 +18,14 @@ Renaatus-Website/
 
 ```bash
 cd website
+cp .env.example .env.local
 npm install
 npm run dev
 ```
 
-The site runs at [http://localhost:3000](http://localhost:3000). Assets sync from `/assets` into `website/public/assets` automatically.
+The site runs at [http://localhost:3000](http://localhost:3000). Assets sync from `/assets` into `website/public/assets` automatically. Never commit `.env.local` or production credentials.
+
+See `website/.env.example` and `website/README.md` for environment variables and scripts.
 
 ## Pages
 

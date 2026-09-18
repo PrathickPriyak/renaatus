@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
-import { InfrastructureGrid } from "@/components/InfrastructureGrid";
-import { PageHero } from "@/components/PageHero";
+import { InfrastructureGrid, PageHero } from "@/components/marketing";
 
 export const metadata: Metadata = {
   title: "Infrastructure",

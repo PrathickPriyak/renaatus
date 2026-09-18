@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
-import { PageHero } from "@/components/PageHero";
-import { ContactForm } from "@/components/ContactForm";
+import { ContactForm, PageHero } from "@/components/marketing";
 
 export const metadata: Metadata = {
   title: "Careers",
