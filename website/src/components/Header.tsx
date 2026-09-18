@@ -28,9 +28,10 @@ export function Header() {
   const solid = scrolled || open || pathname !== "/";
 
   return (
+    <>
     <header
       className={`fixed inset-x-0 top-0 z-50 transition-colors duration-300 ${
-        solid ? "bg-ink/90 backdrop-blur-md border-b border-white/10" : "bg-transparent"
+        solid ? "border-b border-white/10 bg-[#07090e]" : "bg-transparent"
       }`}
     >
       <div className="mx-auto flex h-[4.5rem] max-w-7xl items-center justify-between px-5 md:px-8">
@@ -83,22 +84,23 @@ export function Header() {
         </button>
       </div>
 
-      {open ? (
-        <div className="fixed inset-0 z-40 bg-ink px-6 pt-28 lg:hidden">
-          <nav className="flex flex-col gap-6" aria-label="Mobile">
-            {nav.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                onClick={() => setOpen(false)}
-                className="font-display text-4xl text-cream"
-              >
-                {item.label}
-              </Link>
-            ))}
-          </nav>
-        </div>
-      ) : null}
     </header>
+    {open ? (
+      <div className="fixed inset-0 z-40 bg-[#07090e] px-6 pt-28 lg:hidden">
+        <nav className="flex flex-col gap-6" aria-label="Mobile">
+          {nav.map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              onClick={() => setOpen(false)}
+              className="font-display text-4xl text-cream"
+            >
+              {item.label}
+            </Link>
+          ))}
+        </nav>
+      </div>
+    ) : null}
+    </>
   );
 }
