@@ -50,22 +50,37 @@ export default function DesignSystemPage() {
         </Text>
       </Section>
 
-      <Section tone="soft" eyebrow="Colour" title="Tokens from the brand" intro="The R mark is #253B78. Cream and brass sit on ink — never light suburbia, never rainbow gradients.">
+      <Section
+        tone="soft"
+        eyebrow="Colour"
+        title="Tokens from the brand"
+        intro="The R mark is #253B78. Cream and brass sit on ink — never light suburbia, never rainbow gradients."
+      >
+        <ul className="grid gap-px bg-line sm:grid-cols-2 lg:grid-cols-5">
+          {colorTokens.map((token) => (
+            <li key={token.variable} className="bg-ink-soft p-5">
+              <div
+                className="mb-5 h-16 border border-line"
+                style={{ background: token.value }}
+                aria-hidden
+              />
+              <p className="text-caption font-medium text-cream">{token.name}</p>
+              <p className="mt-1 font-mono text-[0.7rem] text-cream-muted">{token.value}</p>
+              <p className="mt-3 text-caption text-cream-muted">{token.usage}</p>
+            </li>
+          ))}
+        </ul>
+      </Section>
+
+      <Section
+        eyebrow="Motion"
+        title="Reveal, once"
+        intro="Framer Motion fades content a short distance as it enters. prefers-reduced-motion disables it."
+      >
         <Reveal>
-          <ul className="grid gap-px bg-line sm:grid-cols-2 lg:grid-cols-5">
-            {colorTokens.map((token) => (
-              <li key={token.variable} className="bg-ink-soft p-5">
-                <div
-                  className="mb-5 h-16 border border-line"
-                  style={{ background: token.value }}
-                  aria-hidden
-                />
-                <p className="text-caption font-medium text-cream">{token.name}</p>
-                <p className="mt-1 font-mono text-[0.7rem] text-cream-muted">{token.value}</p>
-                <p className="mt-3 text-caption text-cream-muted">{token.usage}</p>
-              </li>
-            ))}
-          </ul>
+          <Text variant="lead">
+            Animation is a measured lift — fourteen pixels, no bounce — then it stops.
+          </Text>
         </Reveal>
       </Section>
 

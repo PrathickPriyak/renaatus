@@ -50,7 +50,7 @@ export function SiteHeader({ items, cta }: SiteHeaderProps) {
       </a>
       <header
         className={cn(
-          "fixed inset-x-0 top-0 z-50 transition-colors duration-300",
+          "fixed inset-x-0 top-0 z-[70] transition-colors duration-300",
           solid ? "border-b border-line bg-ink" : "bg-transparent",
         )}
       >
@@ -74,7 +74,7 @@ export function SiteHeader({ items, cta }: SiteHeaderProps) {
                   aria-current={active ? "page" : undefined}
                   className={cn(
                     "relative py-1 text-[0.7rem] tracking-[0.2em] uppercase transition-colors duration-200",
-                    active ? "text-brass" : "text-cream/75 hover:text-cream",
+                    active ? "text-brass" : "text-cream hover:text-brass",
                   )}
                 >
                   {item.label}
@@ -96,7 +96,7 @@ export function SiteHeader({ items, cta }: SiteHeaderProps) {
 
           <button
             type="button"
-            className="relative z-50 flex h-11 w-11 flex-col items-center justify-center gap-1.5 lg:hidden"
+            className="relative z-50 flex h-11 w-11 cursor-pointer flex-col items-center justify-center gap-1.5 lg:hidden"
             aria-expanded={open}
             aria-controls={menuId}
             aria-label={open ? "Close menu" : "Open menu"}
@@ -127,7 +127,7 @@ export function SiteHeader({ items, cta }: SiteHeaderProps) {
       {open ? (
         <div
           id={menuId}
-          className="fixed inset-0 z-40 bg-ink px-[var(--gutter)] pt-28 lg:hidden"
+          className="fixed inset-0 z-[60] bg-ink px-[var(--gutter)] pt-28 lg:hidden"
         >
           <nav className="flex flex-col gap-7" aria-label="Mobile">
             {items.map((item) => (

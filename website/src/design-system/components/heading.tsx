@@ -1,5 +1,5 @@
 import { cva, type VariantProps } from "class-variance-authority";
-import type { ComponentProps } from "react";
+import { createElement, forwardRef, type ComponentProps } from "react";
 import { cn } from "@/lib/utils";
 
 const headingVariants = cva("text-balance text-cream", {
@@ -32,13 +32,15 @@ const defaultElement: Record<NonNullable<HeadingProps["variant"]>, Level> = {
   h4: "h4",
 };
 
-export function Heading({
-  as,
-  variant = "h2",
-  className,
-  ...props
-}: HeadingProps) {
+export const Heading = forwardRef<HTMLElement, HeadingProps>(function Heading(
+  { as, variant = "h2", className, ...props },
+  ref,
+) {
   const tag = variant ?? "h2";
   const Comp = as ?? defaultElement[tag];
-  return <Comp className={cn(headingVariants({ variant: tag }), className)} {...props} />;
-}
+  return createElement(Comp, {
+    ref,
+    className: cn(headingVariants({ variant: tag }), className),
+    ...props,
+  });
+});

@@ -1,5 +1,5 @@
 import { cva, type VariantProps } from "class-variance-authority";
-import type { ComponentProps } from "react";
+import { forwardRef, type ComponentProps } from "react";
 import { cn } from "@/lib/utils";
 
 const textVariants = cva("max-w-prose", {
@@ -19,6 +19,9 @@ const textVariants = cva("max-w-prose", {
 
 type TextProps = ComponentProps<"p"> & VariantProps<typeof textVariants>;
 
-export function Text({ variant, className, ...props }: TextProps) {
-  return <p className={cn(textVariants({ variant }), className)} {...props} />;
-}
+export const Text = forwardRef<HTMLParagraphElement, TextProps>(function Text(
+  { variant, className, ...props },
+  ref,
+) {
+  return <p ref={ref} className={cn(textVariants({ variant }), className)} {...props} />;
+});
