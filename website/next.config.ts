@@ -19,6 +19,13 @@ const nextConfig: NextConfig = {
       { protocol: "https", hostname: "*.cloudflarestorage.com" },
     ],
   },
+  async redirects() {
+    return [
+      { source: "/realty", destination: "/projects?type=realty", permanent: false },
+      { source: "/infrastructure", destination: "/projects?type=infrastructure", permanent: false },
+      { source: "/blog", destination: "/journal", permanent: false },
+    ];
+  },
   async headers() {
     return [
       {

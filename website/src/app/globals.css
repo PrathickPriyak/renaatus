@@ -34,6 +34,7 @@
   --container: 80rem;
   --container-narrow: 42rem;
   --container-wide: 90rem;
+  --header-height: 4.75rem;
 }
 
 @theme inline {
@@ -97,6 +98,7 @@
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: var(--header-height);
 }
 
 body {

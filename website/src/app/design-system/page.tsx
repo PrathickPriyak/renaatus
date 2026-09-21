@@ -4,6 +4,8 @@ import { ModalDemo } from "@/app/design-system/modal-demo";
 import {
   Badge,
   Button,
+  Breadcrumb,
+  CtaBand,
   Card,
   CardDescription,
   CardHeader,
@@ -231,13 +233,27 @@ export default function DesignSystemPage() {
         </div>
       </Section>
 
-      <Section tone="soft" eyebrow="Navigation & footer" title="Already on this page" intro="The header and footer wrapping this catalog are the production primitives. They use the official mark and wordmark, not CSS-drawn lettering.">
-        <Text>
-          Skip-to-content, a solid bar after scroll, brass underline for the active
-          route, and a full-screen mobile menu on ink. The footer lists real offices
-          only.
+      <Section
+        tone="soft"
+        eyebrow="Navigation"
+        title="One sitemap, every chrome."
+        intro="Header, footer, breadcrumbs, and the enquire band all read from website/src/lib/navigation.ts. Primary stays short; secondary lives in the mobile overlay and footer."
+      >
+        <Breadcrumb
+          items={[
+            { href: "/", label: "Home" },
+            { href: "/projects", label: "Projects" },
+            { href: "/projects/irumathi", label: "Irumathi" },
+          ]}
+        />
+        <Text className="mt-8">
+          Skip-to-content, a reserved header height, brass for the active route, Escape to close
+          the mobile menu, and a focus loop inside it. Footer lists real offices, legal stubs, and
+          the confirmed LinkedIn profile only.
         </Text>
       </Section>
+
+      <CtaBand className="border-y" />
 
       <Section eyebrow="Modal" title="Interruptions, contained">
         <ModalDemo />
