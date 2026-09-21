@@ -2,29 +2,38 @@
 
 :root {
   --ink: #07090e;
-  --ink-soft: #10141c;
-  --panel: #161c28;
-  --line: rgba(255, 255, 255, 0.1);
-  --brand: #004cb8;
-  --brand-bright: #3d7ef0;
-  --gold: #c6b08a;
+  --ink-soft: #0e1219;
+  --stone: #161c28;
+  --line: rgba(243, 238, 228, 0.12);
+  --brand: #253b78;
+  --brand-bright: #314a94;
+  --brand-muted: rgba(37, 59, 120, 0.22);
   --cream: #f3eee4;
-  --muted: #a8b0be;
+  --cream-muted: #b7b1a6;
+  --brass: #c6b08a;
+  --gold: var(--brass);
+  --muted: var(--cream-muted);
+  --danger: #c45c5c;
   --background: var(--ink);
   --foreground: var(--cream);
   --primary: var(--brand);
   --primary-foreground: #ffffff;
-  --secondary: var(--panel);
+  --secondary: var(--stone);
   --secondary-foreground: var(--cream);
-  --destructive: #e11d48;
-  --card: var(--panel);
+  --destructive: var(--danger);
+  --card: var(--stone);
   --card-foreground: var(--cream);
   --accent: var(--ink-soft);
   --accent-foreground: var(--cream);
   --border: var(--line);
-  --input: rgba(255, 255, 255, 0.12);
+  --input: rgba(243, 238, 228, 0.14);
   --ring: var(--brand);
-  --radius: 0.75rem;
+  --radius: 2px;
+  --gutter: clamp(1.25rem, 4vw, 3rem);
+  --section-y: clamp(4.5rem, 9vw, 8rem);
+  --container: 80rem;
+  --container-narrow: 42rem;
+  --container-wide: 90rem;
 }
 
 @theme inline {
@@ -32,12 +41,18 @@
   --color-foreground: var(--foreground);
   --color-ink: var(--ink);
   --color-ink-soft: var(--ink-soft);
-  --color-panel: var(--panel);
+  --color-stone: var(--stone);
+  --color-line: var(--line);
+  --color-panel: var(--stone);
   --color-brand: var(--brand);
   --color-brand-bright: var(--brand-bright);
-  --color-gold: var(--gold);
+  --color-brand-muted: var(--brand-muted);
+  --color-gold: var(--brass);
+  --color-brass: var(--brass);
   --color-cream: var(--cream);
+  --color-cream-muted: var(--cream-muted);
   --color-muted: var(--muted);
+  --color-danger: var(--danger);
   --color-primary: var(--primary);
   --color-primary-foreground: var(--primary-foreground);
   --color-secondary: var(--secondary);
@@ -50,12 +65,30 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
+  --radius-sm: 2px;
+  --radius-md: 2px;
+  --radius-lg: 4px;
+  --radius-xl: 4px;
   --font-sans: var(--font-outfit);
   --font-display: var(--font-candara);
+  --text-display: clamp(2.75rem, 5.8vw, 5.25rem);
+  --text-display--line-height: 1.04;
+  --text-h1: clamp(2.25rem, 4.2vw, 3.75rem);
+  --text-h1--line-height: 1.08;
+  --text-h2: clamp(1.75rem, 3vw, 2.5rem);
+  --text-h2--line-height: 1.15;
+  --text-h3: clamp(1.25rem, 2vw, 1.625rem);
+  --text-h3--line-height: 1.25;
+  --text-h4: 1.125rem;
+  --text-h4--line-height: 1.35;
+  --text-lead: 1.125rem;
+  --text-lead--line-height: 1.75;
+  --text-body: 1rem;
+  --text-body--line-height: 1.7;
+  --text-caption: 0.8125rem;
+  --text-caption--line-height: 1.55;
+  --text-eyebrow: 0.6875rem;
+  --text-eyebrow--line-height: 1;
 }
 
 * {
@@ -78,21 +111,27 @@ body {
   color: white;
 }
 
+:focus-visible {
+  outline: 2px solid var(--brass);
+  outline-offset: 3px;
+}
+
 .font-display {
   font-family: var(--font-candara), "Trebuchet MS", sans-serif;
 }
 
 .kicker {
-  letter-spacing: 0.28em;
+  letter-spacing: 0.24em;
   text-transform: uppercase;
-  font-size: 0.72rem;
-  color: var(--gold);
+  font-size: 0.6875rem;
+  color: var(--brass);
   font-weight: 500;
 }
 
 .rule {
+  width: 2.5rem;
   height: 1px;
-  background: linear-gradient(90deg, var(--gold), transparent 80%);
+  background: var(--brass);
 }
 
 .grain {
@@ -104,7 +143,7 @@ body {
   pointer-events: none;
   position: absolute;
   inset: 0;
-  opacity: 0.08;
+  opacity: 0.06;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 140 140' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");
   mix-blend-mode: overlay;
 }
@@ -123,12 +162,11 @@ body {
 }
 
 .lift {
-  transition: transform 0.5s ease, box-shadow 0.5s ease;
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .lift:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.35);
+  transform: translateY(-4px);
 }
 
 input,
@@ -137,10 +175,19 @@ select {
   font: inherit;
 }
 
+@keyframes ds-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
 @keyframes fade-up {
   from {
     opacity: 0;
-    transform: translateY(18px);
+    transform: translateY(14px);
   }
   to {
     opacity: 1;
@@ -149,5 +196,30 @@ select {
 }
 
 .fade-up {
-  animation: fade-up 0.8s ease both;
+  animation: fade-up 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes ds-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .lift:hover {
+    transform: none;
+  }
 }
