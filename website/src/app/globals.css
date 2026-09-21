@@ -163,6 +163,19 @@ body {
   object-fit: cover;
 }
 
+.media-zoom img,
+.media-zoom video {
+  transform: scale(1);
+  transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .media-zoom:hover img,
+  .media-zoom:hover video {
+    transform: scale(1.04);
+  }
+}
+
 .lift {
   transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
 }
@@ -222,6 +235,11 @@ select {
   }
 
   .lift:hover {
+    transform: none;
+  }
+
+  .media-zoom:hover img,
+  .media-zoom:hover video {
     transform: none;
   }
 }
