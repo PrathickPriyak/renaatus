@@ -15,6 +15,8 @@ export function Input({ className, type = "text", ...props }: InputProps) {
         "focus-visible:border-brass",
         "aria-invalid:border-danger",
         "disabled:cursor-not-allowed disabled:opacity-40",
+        type === "file" &&
+          "h-auto cursor-pointer py-2.5 file:mr-4 file:rounded-sm file:border-0 file:bg-brass/15 file:px-3 file:py-1.5 file:text-sm file:font-medium file:text-cream",
         className,
       )}
       {...props}

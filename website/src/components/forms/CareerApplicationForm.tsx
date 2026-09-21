@@ -110,14 +110,15 @@ function CareerFields({
       <Field
         label="Resume"
         htmlFor="career-resume"
-        hint="PDF or Word document, 5 MB or smaller."
+        hint="PDF or Word (.docx), 5 MB or smaller."
         error={state.fieldErrors?.resume}
       >
         <Input
           name="resume"
           type="file"
           required
-          accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+          accept=".pdf,.docx,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+          className={pending ? "pointer-events-none opacity-60" : undefined}
         />
       </Field>
     </>

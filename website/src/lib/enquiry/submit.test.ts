@@ -4,6 +4,7 @@ import { loadPrismaEnv } from "../../../prisma/load-env";
 import { createCliPrismaClient, readDatabaseUrl } from "../../../prisma/cli-client";
 import { RateLimitError, ValidationError } from "@/lib/errors";
 import { resetMemoryRateLimitStore } from "@/lib/security/rate-limit";
+import { getPrivateObject } from "@/lib/storage/private-object";
 import { submitEnquiry } from "@/lib/enquiry/submit";
 
 loadPrismaEnv();
@@ -133,6 +134,57 @@ describe("submitEnquiry pipeline", () => {
     assert.equal(row.resume.visibility, "PRIVATE");
     assert.match(row.resume.key, /^private\/careers\//);
     assert.equal(row.resume.key.startsWith("http"), false);
+    assert.equal("url" in result, false);
+    assert.equal("downloadUrl" in result, false);
+    assert.equal(row.resume.filename, "Meera-Iyer.pdf");
+    assert.equal(row.resume.mimeType, "application/pdf");
+    assert.equal(row.resume.byteSize, pdf.byteLength);
+    assert.equal("bytes" in row.resume, false);
+    assert.equal("data" in row.resume, false);
+    assert.equal("content" in row.resume, false);
+    assert.ok(!Object.prototype.hasOwnProperty.call(row.resume, "body"));
+
+    const storedObject = await getPrivateObject(row.resume.key);
+    assert.ok(storedObject);
+    assert.equal(storedObject.body.byteLength, pdf.byteLength);
+  });
+
+  it("does not write a career application when the resume is malicious", async () => {
+    const beforeEnquiries = await db.enquiry.count({ where: { kind: "CAREER" } });
+    const beforeMedia = await db.media.count();
+    const exe = new Uint8Array([0x4d, 0x5a, 0x90, 0x00]);
+
+    await assert.rejects(
+      () =>
+        submitEnquiry(
+          {
+            kind: "CAREER",
+            fields: {
+              name: "Bad Actor",
+              email: `bad.actor.${Date.now()}@example.com`,
+              phone: "+91 99887 76655",
+              message: "Please consider this executable.",
+              role: "Engineer",
+              sourcePath: "/careers",
+              website: "",
+            },
+            ip: "203.0.113.99",
+            resume: {
+              filename: "cv.pdf",
+              mimeType: "application/pdf",
+              byteSize: exe.byteLength,
+              bytes: exe,
+            },
+          },
+          { db, notify: async () => undefined },
+        ),
+      (error: unknown) => error instanceof ValidationError,
+    );
+
+    const afterEnquiries = await db.enquiry.count({ where: { kind: "CAREER" } });
+    const afterMedia = await db.media.count();
+    assert.equal(afterEnquiries, beforeEnquiries);
+    assert.equal(afterMedia, beforeMedia);
   });
 
   it("fakes success for honeypot submissions without writing", async () => {

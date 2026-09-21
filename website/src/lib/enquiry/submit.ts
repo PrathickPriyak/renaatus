@@ -14,7 +14,7 @@ import { hashClientIp } from "@/lib/security/ip";
 import { sanitizeEnquiryFields } from "@/lib/security/sanitize";
 import { isSpamEnquiry } from "@/lib/security/spam";
 import { verifyTurnstileToken } from "@/lib/security/turnstile";
-import { putPrivateObject } from "@/lib/storage/private-object";
+import { putPrivateObject, deletePrivateObject } from "@/lib/storage/private-object";
 import {
   careerEnquirySchema,
   contactEnquirySchema,
@@ -58,18 +58,27 @@ async function defaultStoreResume(
     mimeType: resume.mimeType,
   });
 
-  const media = await db.media.create({
-    data: {
-      key: stored.key,
-      bucket: stored.bucket,
-      filename: resume.filename,
-      mimeType: resume.mimeType,
-      byteSize: resume.byteSize,
-      visibility: "PRIVATE",
-    },
-  });
+  try {
+    const media = await db.media.create({
+      data: {
+        key: stored.key,
+        bucket: stored.bucket,
+        filename: resume.filename,
+        mimeType: resume.mimeType,
+        byteSize: resume.byteSize,
+        visibility: "PRIVATE",
+      },
+    });
 
-  return { id: media.id, key: media.key };
+    return { id: media.id, key: media.key };
+  } catch (error) {
+    try {
+      await deletePrivateObject(stored.key);
+    } catch (cleanupError) {
+      logger.exception("resume_object_cleanup_failed", cleanupError, { key: stored.key });
+    }
+    throw error;
+  }
 }
 
 async function resolveProductId(db: PrismaClient, slug: string): Promise<string> {
@@ -168,32 +177,55 @@ export async function submitEnquiry(
     subject = parsed.subject;
   }
 
+  let storedResume: StoredResume | undefined;
+
   if (parsed.kind === "CAREER") {
     role = parsed.role;
     subject = parsed.role ? `Career application: ${parsed.role}` : "Career application";
     const validated = validateResumeUpload(input.resume);
     const storeResume = deps.storeResume ?? ((resume) => defaultStoreResume(deps.db, resume));
-    const stored = await storeResume(validated);
-    resumeId = stored.id;
+    storedResume = await storeResume(validated);
+    resumeId = storedResume.id;
     hasResume = true;
   }
 
-  const enquiry = await deps.db.enquiry.create({
-    data: {
-      kind: parsed.kind,
-      status: "NEW",
-      name: parsed.name,
-      email: parsed.email,
-      phone: parsed.phone,
-      subject,
-      message: parsed.message,
-      office,
-      sourcePath: parsed.sourcePath,
-      ipHash: hashClientIp(input.ip),
-      productId,
-      resumeId,
-    },
-  });
+  let enquiry;
+  try {
+    enquiry = await deps.db.enquiry.create({
+      data: {
+        kind: parsed.kind,
+        status: "NEW",
+        name: parsed.name,
+        email: parsed.email,
+        phone: parsed.phone,
+        subject,
+        message: parsed.message,
+        office,
+        sourcePath: parsed.sourcePath,
+        ipHash: hashClientIp(input.ip),
+        productId,
+        resumeId,
+      },
+    });
+  } catch (error) {
+    if (storedResume) {
+      try {
+        await deletePrivateObject(storedResume.key);
+      } catch (cleanupError) {
+        logger.exception("resume_object_cleanup_failed", cleanupError, {
+          key: storedResume.key,
+        });
+      }
+      try {
+        await deps.db.media.delete({ where: { id: storedResume.id } });
+      } catch (cleanupError) {
+        logger.exception("resume_media_cleanup_failed", cleanupError, {
+          mediaId: storedResume.id,
+        });
+      }
+    }
+    throw error;
+  }
 
   const notification: EnquiryNotification = {
     kind: parsed.kind,
