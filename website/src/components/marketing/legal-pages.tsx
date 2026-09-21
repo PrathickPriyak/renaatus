@@ -18,16 +18,18 @@ function LegalPage({ title, description }: LegalPageProps) {
         title={title}
         copy="This policy is being prepared for legal review and is not yet published. The company details below are current."
       />
-      <Container className="max-w-2xl pb-[var(--section-y)]">
-        <Text>
-          {brand.legal}. {description}
-        </Text>
-        {headquarters ? (
-          <Text className="mt-6">
-            Headquarters: {headquarters.address} {headquarters.email}
-            {headquarters.phone ? ` · ${headquarters.phone}` : ""}.
+      <Container className="pb-[var(--section-y)]">
+        <div className="max-w-2xl">
+          <Text>
+            {brand.legal}. {description}
           </Text>
-        ) : null}
+          {headquarters ? (
+            <Text className="mt-6">
+              Headquarters: {headquarters.address} {headquarters.email}
+              {headquarters.phone ? ` · ${headquarters.phone}` : ""}.
+            </Text>
+          ) : null}
+        </div>
       </Container>
     </>
   );
