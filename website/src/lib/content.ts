@@ -9,6 +9,15 @@ export const brand = {
 
 export { primaryNav as nav } from "@/lib/navigation";
 
+export const company = {
+  visionTitle: "Inspiring, purposeful spaces for all",
+  vision:
+    "To create a world where everyone has access to inspiring and purposeful spaces. Every square foot holds the power to shape dreams, build communities, and transform lives.",
+  missionTitle: "Integrity, innovation, sustainability",
+  mission:
+    "Driven by the vision of developing one million square feet, we are committed to meaningful, accessible, high-quality spaces — ensuring every square foot we develop serves a greater purpose.",
+} as const;
+
 export const stats = [
   { value: "50+", label: "Years of construction expertise" },
   { value: "80+", label: "Projects delivered" },
@@ -41,14 +50,46 @@ export const verticals = [
 ] as const;
 
 export const timeline = [
-  { year: "1970", title: "A construction legacy begins", copy: "Five decades of building expertise that still shape how we work today." },
-  { year: "1988", title: "RPP Construction", copy: "The group’s contracting roots take form." },
-  { year: "2006", title: "Renaatus Projects Pvt Ltd", copy: "A full-service EPC company is established in Chennai." },
-  { year: "2008", title: "RPP Ready Mix", copy: "Vertical integration extends into materials." },
-  { year: "2011", title: "First project in the Maldives", copy: "International delivery begins across the Indian Ocean." },
-  { year: "2012", title: "Renacon’s first factory, Arcot", copy: "AAC manufacturing starts, pairing builder and materials maker." },
-  { year: "2017", title: "First project in Mauritius", copy: "The footprint expands to a third country." },
-  { year: "2024", title: "Manufacturing in Saudi Arabia", copy: "The next chapter of global scale." },
+  {
+    year: "1970",
+    title: "A construction legacy begins",
+    copy: "Five decades of building expertise that still shape how we work today.",
+  },
+  {
+    year: "1988",
+    title: "RPP Construction",
+    copy: "The group’s contracting roots take form.",
+  },
+  {
+    year: "2006",
+    title: "Renaatus Projects Pvt Ltd",
+    copy: "A full-service EPC company is established in Chennai.",
+  },
+  {
+    year: "2008",
+    title: "RPP Ready Mix",
+    copy: "Vertical integration extends into materials.",
+  },
+  {
+    year: "2011",
+    title: "First project in the Maldives",
+    copy: "International delivery begins across the Indian Ocean.",
+  },
+  {
+    year: "2012",
+    title: "Renacon’s first factory, Arcot",
+    copy: "AAC manufacturing starts, pairing builder and materials maker.",
+  },
+  {
+    year: "2017",
+    title: "First project in Mauritius",
+    copy: "The footprint expands to a third country.",
+  },
+  {
+    year: "2024",
+    title: "Manufacturing in Saudi Arabia",
+    copy: "The next chapter of global scale.",
+  },
 ] as const;
 
 export const pillars = [
@@ -331,14 +372,16 @@ export const offices: Office[] = [
   {
     region: "India",
     role: "Headquarters",
-    address: "139, VIBGYOR, 2nd Floor, Kodambakkam High Road, Nungambakkam, Chennai 600034, Tamil Nadu, India.",
+    address:
+      "139, VIBGYOR, 2nd Floor, Kodambakkam High Road, Nungambakkam, Chennai 600034, Tamil Nadu, India.",
     email: "bd@renaatus.com",
     phone: "+91 44 42654557",
   },
   {
     region: "Maldives",
     role: "Realty & projects",
-    address: "Renaatus Properties (Maldives) Pvt Ltd, 1st Floor, Blue Coral, Hulhumalé. Landmark: Opp. to Fahi Plaza.",
+    address:
+      "Renaatus Properties (Maldives) Pvt Ltd, 1st Floor, Blue Coral, Hulhumalé. Landmark: Opp. to Fahi Plaza.",
     email: "maldives@renaatus.com",
     phone: "+960 9755777",
   },
@@ -350,10 +393,53 @@ export const offices: Office[] = [
   },
 ];
 
+export const industries = [
+  {
+    title: "Aviation",
+    works: "Rajahmundry Domestic Airport; GAN International Airport.",
+    image: "/assets/images/infrastructure/india/rajahmundry-airport.jpg",
+  },
+  {
+    title: "Healthcare and campuses",
+    works:
+      "JIPMER Karaikal; Tiruppur Medical College and Hospital; IGMH; NIT-E Karaikal.",
+    image: "/assets/images/infrastructure/india/jipmer-karaikal.jpg",
+  },
+  {
+    title: "Water and irrigation",
+    works: "GA Canal; Rajavaikal, Kumarapalayam; Mettur East Bank Canal, Salem.",
+    image: "/assets/images/infrastructure/india/ga-canal.jpg",
+  },
+  {
+    title: "Transport",
+    works: "SH-95 Mohanur; Perungalathur Grade Separator; Pollachi–Podanur ROB.",
+    image: "/assets/images/infrastructure/india/perungalathur-grade-separator.jpg",
+  },
+  {
+    title: "Civic and justice",
+    works: "Supreme Court of Mauritius.",
+    image: "/assets/images/infrastructure/mauritius/supreme-court.jpg",
+  },
+  {
+    title: "Residential",
+    works: "Maldives residences, social housing, and Vilankurichi, Coimbatore.",
+    image: "/assets/images/realty/maldives/irumathi-exterior.png",
+  },
+] as const;
+
 export const aacHighlights = [
-  { title: "Green by design", copy: "Fly-ash based AAC that reduces load, energy use, and construction time versus conventional brick." },
-  { title: "South India’s scale", copy: "Three plants — Arcot, Perundurai, and Tirunelveli SIPCOT — covering the southern region." },
-  { title: "Certified quality", copy: "BIS-accredited, GreenPro certified, and IGBC member manufacturing with 5S Platinum discipline." },
+  {
+    title: "Green by design",
+    copy: "Fly-ash based AAC that reduces load, energy use, and construction time versus conventional brick.",
+  },
+  {
+    title: "South India’s scale",
+    copy: "Three plants — Arcot, Perundurai, and Tirunelveli SIPCOT — covering the southern region.",
+  },
+  {
+    title: "Certified quality",
+    copy: "BIS-accredited, GreenPro certified, and IGBC member manufacturing with 5S Platinum discipline.",
+  },
 ] as const;
 
 export const founderLetter = {

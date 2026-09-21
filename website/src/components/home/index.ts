@@ -1,0 +1,10 @@
+export { HomeHero } from "./hero";
+export { HomeIntro } from "./intro";
+export { HomeCapabilities } from "./capabilities";
+export { HomeSolutions } from "./solutions";
+export { HomeFeatured } from "./featured";
+export { HomeIndustries } from "./industries";
+export { HomeWhy } from "./why";
+export { HomeStats } from "./stats";
+export { HomeStory } from "./story";
+export { HomeJournal } from "./journal";
