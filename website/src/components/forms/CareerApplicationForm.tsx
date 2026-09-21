@@ -118,6 +118,7 @@ function CareerFields({
           type="file"
           required
           accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+          className={pending ? "pointer-events-none opacity-60" : undefined}
         />
       </Field>
     </>

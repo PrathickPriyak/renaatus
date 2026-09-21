@@ -19,9 +19,12 @@ export class AppError extends Error {
 }
 
 export class ValidationError extends AppError {
-  constructor(message: string, cause?: unknown) {
+  readonly fields?: Record<string, string>;
+
+  constructor(message: string, cause?: unknown, fields?: Record<string, string>) {
     super(message, "VALIDATION_ERROR", 400, true, cause);
     this.name = "ValidationError";
+    this.fields = fields;
   }
 }
 

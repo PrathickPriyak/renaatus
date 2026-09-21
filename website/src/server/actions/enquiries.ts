@@ -25,20 +25,10 @@ async function resumeFromFormData(formData: FormData) {
   }
 
   const bytes = new Uint8Array(await file.arrayBuffer());
-  const extension = file.name.split(".").pop()?.toLowerCase();
-  const inferredMime =
-    file.type ||
-    (extension === "pdf"
-      ? "application/pdf"
-      : extension === "doc"
-        ? "application/msword"
-        : extension === "docx"
-          ? "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-          : "");
 
   return {
     filename: file.name,
-    mimeType: inferredMime,
+    mimeType: file.type,
     byteSize: file.size,
     bytes,
   };

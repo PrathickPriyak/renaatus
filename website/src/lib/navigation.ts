@@ -86,7 +86,7 @@ export const prototypeRedirects = [
   { source: "/blog", destination: "/journal" },
 ] as const;
 
-const CTA_HIDDEN = new Set(["/", "/contact", "/privacy", "/terms", "/cookies"]);
+const CTA_HIDDEN = new Set(["/", "/contact", "/careers", "/privacy", "/terms", "/cookies"]);
 
 export function shouldShowSiteCta(pathname: string): boolean {
   if (CTA_HIDDEN.has(pathname)) return false;

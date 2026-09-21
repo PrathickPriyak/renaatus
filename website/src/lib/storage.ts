@@ -2,6 +2,7 @@ import "server-only";
 
 import { env, requireEnv } from "@/lib/env/server";
 import { AppError } from "@/lib/errors";
+import { isPrivateStorageKey } from "@/lib/storage/private-object";
 
 export type ObjectStorageConfig = {
   accountId: string;
@@ -44,6 +45,10 @@ export function getObjectStorageConfig(): ObjectStorageConfig {
 }
 
 export function publicAssetUrl(key: string): string {
+  if (isPrivateStorageKey(key) || key.includes("..")) {
+    throw new AppError("Private objects do not have public URLs.", "STORAGE_KEY", 400, false);
+  }
+
   const base = getObjectStorageConfig().publicBaseUrl.replace(/\/$/, "");
   return `${base}/${key.replace(/^\//, "")}`;
 }

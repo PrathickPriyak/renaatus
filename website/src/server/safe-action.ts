@@ -4,6 +4,10 @@ import { logger } from "@/lib/logger";
 import type { ActionResult } from "@/types";
 
 function fieldErrorsFrom(error: unknown): Record<string, string> | undefined {
+  if (error instanceof ValidationError && error.fields && Object.keys(error.fields).length > 0) {
+    return error.fields;
+  }
+
   const zod =
     error instanceof ZodError
       ? error
