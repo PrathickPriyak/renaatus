@@ -4,7 +4,6 @@ import { ValidationError } from "@/lib/errors";
 
 const EXTENSION_TO_MIME: Record<string, (typeof ALLOWED_RESUME_MIME_TYPES)[number]> = {
   pdf: "application/pdf",
-  doc: "application/msword",
   docx: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
 };
 
@@ -80,6 +79,26 @@ export type ValidatedResume = {
 
 function resumeError(message: string): ValidationError {
   return new ValidationError(message, undefined, { resume: message });
+}
+
+function mimeCompatibleWithKind(
+  declaredMime: string,
+  expectedMime: string,
+  kind: "pdf" | "docx",
+): boolean {
+  if (declaredMime === expectedMime) {
+    return true;
+  }
+  if (declaredMime === "application/octet-stream") {
+    return true;
+  }
+  if (
+    kind === "docx" &&
+    (declaredMime === "application/zip" || declaredMime === "application/x-zip-compressed")
+  ) {
+    return true;
+  }
+  return false;
 }
 
 function startsWith(bytes: Uint8Array, signature: number[] | Uint8Array): boolean {
@@ -241,19 +260,16 @@ export function validateResumeUpload(upload: ResumeUpload | null | undefined): V
     throw resumeError("Upload a PDF or Word document.");
   }
 
-  const declaredMime = upload.mimeType.trim().toLowerCase();
-  const allowedMimes = ALLOWED_RESUME_MIME_TYPES as readonly string[];
-  if (declaredMime) {
-    if (!allowedMimes.includes(declaredMime) || declaredMime !== expectedMime) {
-      throw resumeError("Upload a PDF or Word document.");
-    }
-  }
-
   const kind = detectKind(upload.bytes);
-  if (kind === "exe" || kind === "unknown") {
+  if (kind === "exe" || kind === "unknown" || kind === "doc") {
     throw resumeError("Upload a PDF or Word document.");
   }
   if (kind !== extension) {
+    throw resumeError("Upload a PDF or Word document.");
+  }
+
+  const declaredMime = upload.mimeType.trim().toLowerCase();
+  if (declaredMime && !mimeCompatibleWithKind(declaredMime, expectedMime, kind)) {
     throw resumeError("Upload a PDF or Word document.");
   }
 

@@ -99,6 +99,32 @@ describe("private download tokens", () => {
     assert.equal(loaded.mimeType, "application/pdf");
   });
 
+  it("does not load when the signed key does not match stored media", async () => {
+    const key = `private/careers/2099/01/${randomUUID()}.pdf`;
+    const otherKey = `private/careers/2099/01/${randomUUID()}.pdf`;
+    const body = new Uint8Array(Buffer.from("%PDF-1.4"));
+    await putPrivateObject({ key, body, mimeType: "application/pdf" });
+    writtenKeys.push(key);
+
+    const token = signPrivateDownloadToken({
+      mediaId: "media_mismatch",
+      key: otherKey,
+      secret: SECRET,
+    });
+
+    const loaded = await loadPrivateDownload(token, {
+      secret: SECRET,
+      lookupMedia: async () => ({
+        key,
+        filename: "cv.pdf",
+        mimeType: "application/pdf",
+        visibility: "PRIVATE",
+      }),
+    });
+
+    assert.equal(loaded, null);
+  });
+
   it("does not load a public-visibility object even with a valid signature", async () => {
     const key = `private/careers/2099/01/${randomUUID()}.pdf`;
     const body = new Uint8Array(Buffer.from("%PDF-1.4"));

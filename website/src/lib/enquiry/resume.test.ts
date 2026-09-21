@@ -129,17 +129,6 @@ describe("validateResumeUpload", () => {
     assert.equal(result.mimeType, "application/pdf");
   });
 
-  it("accepts a Word .doc with an OLE header", () => {
-    const bytes = oleDocBytes();
-    const result = validateResumeUpload({
-      filename: "cv.doc",
-      mimeType: "application/msword",
-      byteSize: bytes.byteLength,
-      bytes,
-    });
-    assert.equal(result.extension, "doc");
-  });
-
   it("accepts a real DOCX zip with Word internals", () => {
     const bytes = validDocxBytes();
     const result = validateResumeUpload({
@@ -149,6 +138,27 @@ describe("validateResumeUpload", () => {
       bytes,
     });
     assert.equal(result.extension, "docx");
+  });
+
+  it("accepts a DOCX when the browser labels it as a zip", () => {
+    const bytes = validDocxBytes();
+    const result = validateResumeUpload({
+      filename: "cv.docx",
+      mimeType: "application/zip",
+      byteSize: bytes.byteLength,
+      bytes,
+    });
+    assert.equal(result.extension, "docx");
+  });
+
+  it("rejects legacy OLE .doc files", () => {
+    const bytes = oleDocBytes();
+    assertResumeRejected({
+      filename: "cv.doc",
+      mimeType: "application/msword",
+      byteSize: bytes.byteLength,
+      bytes,
+    });
   });
 
   it("rejects an oversized resume", () => {
