@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { ContactForm, PageHero } from "@/components/marketing";
+import { PageHero } from "@/components/marketing";
+import { CareerApplicationForm } from "@/components/forms/CareerApplicationForm";
 
 export const metadata: Metadata = {
   title: "Careers",
@@ -38,7 +39,7 @@ export default function CareersPage() {
             </p>
           </div>
         </div>
-        <ContactForm />
+        <CareerApplicationForm sourcePath="/careers" />
       </section>
     </>
   );

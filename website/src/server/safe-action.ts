@@ -1,9 +1,30 @@
-import "server-only";
-
 import { ZodError } from "zod";
 import { AppError, ValidationError, toPublicError } from "@/lib/errors";
 import { logger } from "@/lib/logger";
 import type { ActionResult } from "@/types";
+
+function fieldErrorsFrom(error: unknown): Record<string, string> | undefined {
+  const zod =
+    error instanceof ZodError
+      ? error
+      : error instanceof ValidationError && error.cause instanceof ZodError
+        ? error.cause
+        : null;
+
+  if (!zod) {
+    return undefined;
+  }
+
+  const fieldErrors: Record<string, string> = {};
+  for (const issue of zod.issues) {
+    const key = issue.path[0];
+    if (typeof key === "string" && fieldErrors[key] === undefined) {
+      fieldErrors[key] = issue.message;
+    }
+  }
+
+  return Object.keys(fieldErrors).length > 0 ? fieldErrors : undefined;
+}
 
 export async function runAction<T>(
   name: string,
@@ -16,7 +37,7 @@ export async function runAction<T>(
     if (error instanceof ZodError) {
       const message = error.issues[0]?.message ?? "Invalid input.";
       logger.warn("action_validation_failed", { name, issueCount: error.issues.length });
-      return { ok: false, error: message, code: "VALIDATION_ERROR" };
+      return { ok: false, error: message, code: "VALIDATION_ERROR", fieldErrors: fieldErrorsFrom(error) };
     }
 
     if (error instanceof ValidationError || error instanceof AppError) {
@@ -26,6 +47,7 @@ export async function runAction<T>(
         ok: false,
         error: publicError.message,
         code: publicError.code,
+        fieldErrors: fieldErrorsFrom(error),
       };
     }
 
@@ -38,3 +60,5 @@ export async function runAction<T>(
     };
   }
 }
+
+export { fieldErrorsFrom };

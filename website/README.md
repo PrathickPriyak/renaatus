@@ -35,6 +35,7 @@ The app runs at [http://localhost:3000](http://localhost:3000). `npm run sync-as
 | `npm run db:check` | Ping PostgreSQL through Prisma |
 | `npm run db:seed` | Development-only seed (refuses production) |
 | `npm run db:studio` | Prisma Studio |
+| `npm test` | Enquiry validation, security, and database tests |
 
 Do not run `prisma migrate reset` or `prisma db push --force-reset` against a shared or production database.
 
@@ -50,5 +51,7 @@ Development seed inserts the approved journal stories (CMRL Central Tower and SA
 - Database access through `getDb()` in `src/lib/db.ts`
 - Structured JSON logs via `src/lib/logger.ts` (PII redacted)
 - Public errors from `src/lib/errors.ts` — no internal details to clients
+- Enquiry forms use Server Actions (`src/server/actions/enquiries.ts`). The browser never writes to PostgreSQL.
 - Zod schemas in `src/lib/validations/`
 - Shared domain types in `src/types/`
+- `npm test` runs Node’s test runner against validation, security, and enquiry persistence

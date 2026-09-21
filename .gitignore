@@ -18,3 +18,4 @@ coverage
 # Local/generated media copies
 website/public/assets
 website/generated
+website/.uploads
