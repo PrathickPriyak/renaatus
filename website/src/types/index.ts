@@ -24,3 +24,11 @@ export type LoginFormState = {
 };
 
 export const initialLoginFormState: LoginFormState = { status: "idle" };
+
+export type AdminFormState = {
+  status: "idle" | "error" | "success";
+  message?: string;
+  fieldErrors?: Record<string, string>;
+};
+
+export const initialAdminFormState: AdminFormState = { status: "idle" };

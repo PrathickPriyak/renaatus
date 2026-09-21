@@ -1,122 +1,108 @@
 import type { Metadata } from "next";
-import { Container } from "@/design-system/components/container";
-import { Heading } from "@/design-system/components/heading";
-import { Text } from "@/design-system/components/text";
-import { Button } from "@/design-system/components/button";
-import { Field } from "@/design-system/components/field";
-import { Input } from "@/design-system/components/input";
-import { getCurrentActor } from "@/lib/auth/current-actor";
-import { canExportEnquiries } from "@/lib/auth/permissions";
-import { ENQUIRY_KINDS, ENQUIRY_STATUSES } from "@/lib/constants";
-import { humanizeEnquiryKind, humanizeEnquiryStatus } from "@/lib/enquiry/excel";
-import { signOutStaff } from "@/server/actions/auth";
+import Link from "next/link";
+import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
+import { Card } from "@/design-system/components/card";
+import { getDashboardSnapshot } from "@/lib/admin/dashboard";
+import { formatAdminDateTime, humanizeAuditAction } from "@/lib/admin/format";
+import { requireAdminPage } from "@/lib/admin/guard";
+import { canManageBlog } from "@/lib/auth/permissions";
+import { getDb } from "@/lib/db";
 
 export const metadata: Metadata = {
-  title: "Enquiry export",
+  title: "Dashboard",
   robots: { index: false, follow: false },
 };
 
-const KIND_OPTIONS = ENQUIRY_KINDS.map((kind) => ({
-  value: kind,
-  label: humanizeEnquiryKind(kind),
-}));
+export default async function AdminDashboardPage() {
+  const actor = await requireAdminPage("/admin");
+  const snapshot = await getDashboardSnapshot(getDb(), actor);
 
-const STATUS_OPTIONS = ENQUIRY_STATUSES.map((status) => ({
-  value: status,
-  label: humanizeEnquiryStatus(status),
-}));
-
-const selectClassName =
-  "h-12 w-full min-w-0 rounded-sm border border-line bg-ink px-4 text-base text-cream outline-none md:text-sm focus-visible:border-brass";
-
-export default async function AdminHomePage() {
-  const actor = await getCurrentActor();
-  if (!actor) {
-    return null;
-  }
-
-  const canExport = canExportEnquiries(actor.role);
+  const stats = [
+    {
+      label: "Total enquiries",
+      value: snapshot.totalEnquiries,
+      href: "/admin/enquiries",
+    },
+    {
+      label: "New enquiries",
+      value: snapshot.newEnquiries,
+      href: "/admin/enquiries?status=NEW",
+    },
+    {
+      label: "Contact enquiries",
+      value: snapshot.contactEnquiries,
+      href: "/admin/enquiries?kind=CONTACT",
+    },
+    {
+      label: "Product enquiries",
+      value: snapshot.productEnquiries,
+      href: "/admin/enquiries?kind=PRODUCT",
+    },
+    {
+      label: "Career applications",
+      value: snapshot.careerApplications,
+      href: "/admin/enquiries?kind=CAREER",
+    },
+    {
+      label: "Journal entries",
+      value: snapshot.blogCount,
+      href: canManageBlog(actor.role) ? "/admin/blog" : "/admin",
+    },
+  ];
 
   return (
-    <section className="py-16 md:py-24">
-      <Container width="narrow">
-        <div className="flex flex-wrap items-start justify-between gap-4">
-          <div>
-            <p className="text-caption text-brass tracking-[0.18em] uppercase">
-              Administration
-            </p>
-            <Heading variant="h1" className="mt-4">
-              Enquiry export
-            </Heading>
-          </div>
-          <form action={signOutStaff}>
-            <Button type="submit" variant="secondary" size="sm">
-              Sign out
-            </Button>
-          </form>
-        </div>
-        <Text variant="muted" className="mt-4">
-          Signed in as {actor.email}. PostgreSQL is the system of record. Excel downloads
-          are snapshots for reporting only.
-        </Text>
+    <div>
+      <AdminPageHeader
+        eyebrow="Administration"
+        title="Dashboard"
+        description="Counts from PostgreSQL. Enquiry details stay on protected enquiry pages."
+      />
 
-        {canExport ? (
-          <form
-            method="get"
-            action="/admin/enquiries/export"
-            className="border-line bg-panel/80 mt-10 grid gap-5 rounded-sm border p-6 md:p-8"
-          >
-            <Field
-              label="Enquiry type"
-              htmlFor="kind"
-              hint="Leave as all to export every type."
-            >
-              <select id="kind" name="kind" className={selectClassName} defaultValue="">
-                <option value="">All types</option>
-                {KIND_OPTIONS.map((option) => (
-                  <option key={option.value} value={option.value}>
-                    {option.label}
-                  </option>
-                ))}
-              </select>
-            </Field>
-            <Field
-              label="Status"
-              htmlFor="status"
-              hint="Leave as all to export every status."
-            >
-              <select
-                id="status"
-                name="status"
-                className={selectClassName}
-                defaultValue=""
-              >
-                <option value="">All statuses</option>
-                {STATUS_OPTIONS.map((option) => (
-                  <option key={option.value} value={option.value}>
-                    {option.label}
-                  </option>
-                ))}
-              </select>
-            </Field>
-            <div className="grid gap-5 sm:grid-cols-2">
-              <Field label="From date" htmlFor="from">
-                <Input id="from" name="from" type="date" />
-              </Field>
-              <Field label="To date" htmlFor="to">
-                <Input id="to" name="to" type="date" />
-              </Field>
-            </div>
-            <Button type="submit" className="justify-self-start">
-              Export Excel
-            </Button>
-          </form>
-        ) : (
-          <p className="text-caption text-danger mt-10" role="status">
-            Your role cannot export enquiries. Ask a super administrator for a download.
+      <ul className="mt-10 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+        {stats.map((stat) => (
+          <li key={stat.label}>
+            <Link href={stat.href} className="block h-full">
+              <Card className="hover:border-brass/50 h-full transition-colors duration-200">
+                <p className="text-caption text-cream-muted tracking-[0.14em] uppercase">
+                  {stat.label}
+                </p>
+                <p className="font-display text-cream mt-4 text-4xl tabular-nums">
+                  {stat.value}
+                </p>
+              </Card>
+            </Link>
+          </li>
+        ))}
+      </ul>
+
+      <section className="mt-12">
+        <h2 className="font-display text-h3 text-cream">Recent activity</h2>
+        {snapshot.recentActivity.length === 0 ? (
+          <p className="text-body text-cream-muted mt-4">
+            No staff actions have been logged yet.
           </p>
+        ) : (
+          <ul className="border-line divide-line mt-5 divide-y overflow-hidden rounded-sm border">
+            {snapshot.recentActivity.map((item) => (
+              <li
+                key={item.id}
+                className="flex flex-col gap-1 px-4 py-4 sm:flex-row sm:items-center sm:justify-between"
+              >
+                <div>
+                  <p className="text-cream text-sm">{humanizeAuditAction(item.action)}</p>
+                  <p className="text-caption text-cream-muted mt-1">
+                    {item.entityType}
+                    {item.actorName ? ` · ${item.actorName}` : ""}
+                  </p>
+                </div>
+                <p className="text-caption text-cream-muted whitespace-nowrap">
+                  {formatAdminDateTime(item.createdAt)}
+                </p>
+              </li>
+            ))}
+          </ul>
         )}
-      </Container>
-    </section>
+      </section>
+    </div>
   );
 }

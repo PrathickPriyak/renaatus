@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
+import type { ReactNode } from "react";
 import localFont from "next/font/local";
 import { Outfit } from "next/font/google";
-import { Footer, Header } from "@/components/marketing";
-import { SiteCta } from "@/design-system";
 import { MotionProvider } from "@/components/motion/provider";
 import { siteConfig } from "@/lib/site";
 import "./globals.css";
@@ -36,18 +35,11 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" className={`${outfit.variable} ${candara.variable} h-full`}>
-      <body className="flex min-h-full flex-col bg-ink text-cream antialiased">
-        <MotionProvider>
-          <Header />
-          <main id="main-content" className="flex-1">
-            {children}
-          </main>
-          <SiteCta />
-          <Footer />
-        </MotionProvider>
+      <body className="bg-ink text-cream flex min-h-full flex-col antialiased">
+        <MotionProvider>{children}</MotionProvider>
       </body>
     </html>
   );
