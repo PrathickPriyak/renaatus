@@ -2,10 +2,12 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { ProductEnquiryForm } from "@/components/forms/ProductEnquiryForm";
 import { PageIntro } from "@/components/marketing";
 import { HoverMedia } from "@/components/marketing/hover-media";
 import { Button } from "@/design-system/components/button";
 import { Container } from "@/design-system/components/container";
+import { Heading } from "@/design-system/components/heading";
 import { Text } from "@/design-system/components/text";
 import { getProductBySlug, products } from "@/lib/catalog";
 
@@ -73,13 +75,23 @@ export default async function ProductDetailPage({ params }: PageProps) {
         </div>
       </Container>
 
-      <Container className="flex flex-wrap gap-3 pb-[var(--section-y)]">
+      <Container className="flex flex-wrap gap-3 pb-12">
         <Button asChild>
-          <Link href="/contact">Enquire</Link>
+          <a href="#enquiry">Enquire</a>
         </Button>
         <Button asChild variant="secondary">
           <Link href="/products">All products</Link>
         </Button>
+      </Container>
+
+      <Container id="enquiry" className="grid scroll-mt-28 gap-8 pb-[var(--section-y)] lg:grid-cols-[0.9fr_1.1fr]">
+        <div>
+          <Heading variant="h2">Enquire about {product.name}.</Heading>
+          <Text className="mt-4">
+            Tell us about quantities, delivery location, and programme. The business development team will respond shortly.
+          </Text>
+        </div>
+        <ProductEnquiryForm productSlug={product.slug} productName={product.name} />
       </Container>
     </>
   );

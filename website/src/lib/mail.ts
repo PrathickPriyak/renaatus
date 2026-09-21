@@ -2,6 +2,7 @@ import "server-only";
 
 import { env, requireEnv } from "@/lib/env/server";
 import { AppError } from "@/lib/errors";
+import { logger } from "@/lib/logger";
 
 export type MailConfig = {
   apiKey: string;
@@ -21,4 +22,42 @@ export function getMailConfig(): MailConfig {
     apiKey: requireEnv("RESEND_API_KEY"),
     notifyEmail: requireEnv("ENQUIRY_NOTIFY_EMAIL"),
   };
+}
+
+export type EnquiryMailPayload = {
+  to: string[];
+  subject: string;
+  text: string;
+};
+
+export async function sendEnquiryMail(payload: EnquiryMailPayload): Promise<void> {
+  if (!isMailConfigured()) {
+    logger.info("enquiry_mail_skipped", { reason: "unconfigured", subject: payload.subject });
+    return;
+  }
+
+  const config = getMailConfig();
+  const recipients = [...new Set(payload.to.filter(Boolean))];
+  if (recipients.length === 0) {
+    return;
+  }
+
+  const response = await fetch("https://api.resend.com/emails", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${config.apiKey}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      from: `Renaatus <${config.notifyEmail}>`,
+      to: recipients,
+      subject: payload.subject,
+      text: payload.text,
+    }),
+  });
+
+  if (!response.ok) {
+    const detail = await response.text();
+    logger.warn("enquiry_mail_failed", { status: response.status, detail: detail.slice(0, 200) });
+  }
 }

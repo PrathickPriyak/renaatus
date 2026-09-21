@@ -58,9 +58,14 @@ export default function ProductsPage() {
               </li>
             ))}
           </ul>
-          <Button asChild className="mt-10">
-            <Link href={`/products/${product.slug}`}>View product</Link>
-          </Button>
+          <div className="mt-10 flex flex-wrap gap-3">
+            <Button asChild>
+              <Link href={`/products/${product.slug}`}>View product</Link>
+            </Button>
+            <Button asChild variant="secondary">
+              <Link href={`/products/${product.slug}#enquiry`}>Enquire</Link>
+            </Button>
+          </div>
         </Reveal>
       </Container>
     </>

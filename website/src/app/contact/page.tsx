@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { ContactForm, PageHero } from "@/components/marketing";
+import { PageHero } from "@/components/marketing";
+import { ContactEnquiryForm } from "@/components/forms/ContactEnquiryForm";
 import { offices } from "@/lib/content";
 
 export const metadata: Metadata = {
@@ -20,7 +21,7 @@ export default function ContactPage() {
       <section className="mx-auto grid max-w-7xl gap-12 px-5 py-20 lg:grid-cols-[0.85fr_1.15fr] md:px-8">
         <div className="space-y-8">
           {offices.map((office) => (
-            <article key={office.region} className="rounded-3xl border border-white/10 bg-panel p-7">
+            <article key={office.region} className="rounded-sm border border-line bg-panel p-7">
               <p className="kicker">{office.role}</p>
               <h2 className="font-display mt-2 text-3xl">{office.region}</h2>
               <p className="mt-4 text-sm leading-7 text-muted">{office.address}</p>
@@ -35,7 +36,7 @@ export default function ContactPage() {
             </article>
           ))}
         </div>
-        <ContactForm />
+        <ContactEnquiryForm sourcePath="/contact" />
       </section>
     </>
   );
