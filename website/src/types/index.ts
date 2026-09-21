@@ -1,6 +1,4 @@
-export type Result<T, E = string> =
-  | { ok: true; data: T }
-  | { ok: false; error: E };
+export type Result<T, E = string> = { ok: true; data: T } | { ok: false; error: E };
 
 export type ActionResult<T> =
   | { ok: true; data: T }
@@ -18,3 +16,11 @@ export type EnquiryFormState = {
 };
 
 export const initialEnquiryFormState: EnquiryFormState = { status: "idle" };
+
+export type LoginFormState = {
+  status: "idle" | "error";
+  message?: string;
+  fieldErrors?: Record<string, string>;
+};
+
+export const initialLoginFormState: LoginFormState = { status: "idle" };
