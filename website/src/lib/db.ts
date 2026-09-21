@@ -27,11 +27,20 @@ function createPrismaClient(): PrismaClient {
   });
 }
 
+/**
+ * Server-only Prisma Client. Browser bundles cannot import this module.
+ * Credentials are read from process.env on the server — never NEXT_PUBLIC_*.
+ */
 export function getDb(): PrismaClient {
   if (!globalForPrisma.prisma) {
     globalForPrisma.prisma = createPrismaClient();
   }
   return globalForPrisma.prisma;
+}
+
+export async function checkDatabaseConnection(): Promise<void> {
+  const db = getDb();
+  await db.$queryRaw`SELECT 1`;
 }
 
 export type DatabaseClient = PrismaClient;

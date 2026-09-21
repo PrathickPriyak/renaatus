@@ -13,6 +13,7 @@ export const serverEnvSchema = publicEnvSchema.extend({
   NODE_ENV: nodeEnvSchema,
   APP_ENV: appEnvSchema,
   LOG_LEVEL: logLevelSchema.optional(),
+  // Server-only. Never expose via NEXT_PUBLIC_* or client bundles.
   DATABASE_URL: z.string().min(1).optional(),
   DIRECT_URL: z.string().min(1).optional(),
   AUTH_SECRET: z.string().min(1).optional(),

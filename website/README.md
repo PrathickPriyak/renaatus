@@ -28,13 +28,21 @@ The app runs at [http://localhost:3000](http://localhost:3000). `npm run sync-as
 | `npm run check` | Lint + typecheck |
 | `npm run format` | Prettier write |
 | `npm run db:generate` | Generate Prisma Client |
-| `npm run db:migrate` | Create/apply migrations (needs `DATABASE_URL`) |
-| `npm run db:deploy` | Apply migrations in production |
+| `npm run db:validate` | Validate `prisma/schema.prisma` |
+| `npm run db:migrate` | Create/apply development migrations (needs `DATABASE_URL`) |
+| `npm run db:deploy` | Apply pending migrations without reset (use this in production) |
+| `npm run db:status` | Show migration status |
+| `npm run db:check` | Ping PostgreSQL through Prisma |
+| `npm run db:seed` | Development-only seed (refuses production) |
 | `npm run db:studio` | Prisma Studio |
+
+Do not run `prisma migrate reset` or `prisma db push --force-reset` against a shared or production database.
 
 ## Environment
 
-See `.env.example`. Required for database work: `DATABASE_URL` (and `DIRECT_URL` for Neon migrations). Other services are optional until those features are wired.
+See `.env.example`. Database credentials (`DATABASE_URL`, `DIRECT_URL`) are server-side only — never `NEXT_PUBLIC_*`, never committed. Neon: pooled URL in `DATABASE_URL`, direct URL in `DIRECT_URL` for migrations. Other services are optional until those features are wired.
+
+Development seed inserts the approved journal stories (CMRL Central Tower and SAP go-live), a News category, tags, an editor user without a password, and the Renacon product. It will not run when `APP_ENV` or `NODE_ENV` is `production`.
 
 ## Conventions
 
