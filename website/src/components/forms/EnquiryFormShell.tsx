@@ -29,6 +29,7 @@ export function EnquiryFormShell({
 }: EnquiryFormShellProps) {
   const [state, formAction, pending] = useActionState(action, initialEnquiryFormState);
   const formRef = useRef<HTMLFormElement>(null);
+  const hasFieldErrors = Boolean(state.fieldErrors && Object.keys(state.fieldErrors).length > 0);
 
   useEffect(() => {
     if (state.status === "success") {
@@ -53,7 +54,7 @@ export function EnquiryFormShell({
       {children(state, pending)}
       <TurnstileField />
 
-      {state.status === "error" && state.message ? (
+      {state.status === "error" && state.message && !hasFieldErrors ? (
         <p className="text-caption text-danger" role="alert">
           {state.message}
         </p>
