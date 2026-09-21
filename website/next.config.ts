@@ -12,7 +12,7 @@ const nextConfig: NextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
   allowedDevOrigins: ["127.0.0.1", "localhost"],
-  serverExternalPackages: ["@prisma/client", "pg"],
+  serverExternalPackages: ["@prisma/client", "pg", "exceljs", "argon2"],
   experimental: {
     serverActions: {
       bodySizeLimit: "6mb",
@@ -27,7 +27,11 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       { source: "/realty", destination: "/projects?type=realty", permanent: false },
-      { source: "/infrastructure", destination: "/projects?type=infrastructure", permanent: false },
+      {
+        source: "/infrastructure",
+        destination: "/projects?type=infrastructure",
+        permanent: false,
+      },
       { source: "/blog", destination: "/journal", permanent: false },
     ];
   },

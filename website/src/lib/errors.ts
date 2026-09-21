@@ -35,6 +35,13 @@ export class UnauthorizedError extends AppError {
   }
 }
 
+export class ForbiddenError extends AppError {
+  constructor(message = "Forbidden") {
+    super(message, "FORBIDDEN", 403, true);
+    this.name = "ForbiddenError";
+  }
+}
+
 export class NotFoundError extends AppError {
   constructor(resource = "Resource") {
     super(`${resource} not found`, "NOT_FOUND", 404, true);

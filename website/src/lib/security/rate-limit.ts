@@ -7,6 +7,11 @@ export const ENQUIRY_RATE_LIMIT = {
   windowMs: 10 * 60 * 1000,
 } as const;
 
+export const LOGIN_RATE_LIMIT = {
+  limit: 5,
+  windowMs: 15 * 60 * 1000,
+} as const;
+
 type RateLimitOptions = {
   limit: number;
   windowMs: number;
@@ -43,7 +48,10 @@ export async function consumeMemoryRateLimit(
   current.count += 1;
 }
 
-async function consumeUpstashRateLimit(key: string, options: RateLimitOptions): Promise<void> {
+async function consumeUpstashRateLimit(
+  key: string,
+  options: RateLimitOptions,
+): Promise<void> {
   const url = process.env.UPSTASH_REDIS_REST_URL;
   const token = process.env.UPSTASH_REDIS_REST_TOKEN;
   if (!url || !token) {
@@ -90,10 +98,28 @@ export async function consumeEnquiryRateLimits(input: {
   const ipKey = `enquiry:ip:${hashClientIp(input.ip)}`;
   const emailKey = `enquiry:email:${input.email.trim().toLowerCase()}`;
 
-  const consume = process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN
-    ? consumeUpstashRateLimit
-    : consumeMemoryRateLimit;
+  const consume =
+    process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN
+      ? consumeUpstashRateLimit
+      : consumeMemoryRateLimit;
 
   await consume(ipKey, options);
   await consume(emailKey, options);
+}
+
+export async function consumeLoginRateLimit(input: {
+  ip: string;
+  now?: () => number;
+}): Promise<void> {
+  const options: RateLimitOptions = {
+    limit: LOGIN_RATE_LIMIT.limit,
+    windowMs: LOGIN_RATE_LIMIT.windowMs,
+    now: input.now,
+  };
+  const key = `login:ip:${hashClientIp(input.ip)}`;
+  const consume =
+    process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN
+      ? consumeUpstashRateLimit
+      : consumeMemoryRateLimit;
+  await consume(key, options);
 }
