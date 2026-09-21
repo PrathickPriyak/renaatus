@@ -26,8 +26,8 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
           Sign in
         </Heading>
         <Text variant="muted" className="mt-4">
-          Enquiry export is available to authorised administrators only. PostgreSQL
-          remains the source of truth; spreadsheets are downloads, not records.
+          Staff access is limited to authorised administrators. PostgreSQL remains the
+          source of truth for enquiries and journal entries.
         </Text>
         <div className="border-line bg-panel/80 mt-10 rounded-sm border p-6 md:p-8">
           <LoginForm nextPath={nextPath} />

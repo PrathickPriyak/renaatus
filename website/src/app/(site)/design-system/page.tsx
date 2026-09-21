@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import { ModalDemo } from "@/app/design-system/modal-demo";
+import { ModalDemo } from "./modal-demo";
 import {
   Badge,
   Button,
