@@ -12,7 +12,18 @@ export function HomeHero() {
   return (
     <section className="grain relative isolate min-h-[100dvh] overflow-hidden">
       <HeroMedia />
-      <div className="from-ink/40 via-ink/25 to-ink absolute inset-0 bg-gradient-to-b" />
+      <div
+        className="from-ink via-ink/75 to-ink/45 md:via-ink/50 md:to-ink/30 absolute inset-0 bg-gradient-to-t"
+        aria-hidden
+      />
+      <div
+        className="from-ink/80 via-ink/25 absolute inset-0 hidden bg-gradient-to-r to-transparent md:block"
+        aria-hidden
+      />
+      <div
+        className="from-ink via-ink/85 absolute inset-x-0 bottom-0 h-[72%] bg-gradient-to-t to-transparent md:hidden"
+        aria-hidden
+      />
       <Container className="relative flex min-h-[100dvh] flex-col justify-end pt-[calc(var(--header-height)+2rem)] pb-16 md:pb-20">
         <Reveal>
           <Eyebrow>Renaatus Projects</Eyebrow>
@@ -25,11 +36,11 @@ export function HomeHero() {
             Half a century of trust across India, Maldives, and Mauritius —
             infrastructure, luxury residences, and green building materials.
           </Text>
-          <div className="mt-10 flex flex-wrap gap-3">
-            <Button asChild size="lg">
+          <div className="mt-10 flex w-full max-w-md flex-col gap-3 sm:max-w-none sm:flex-row sm:flex-wrap">
+            <Button asChild size="lg" className="w-full sm:w-auto">
               <Link href="/projects?type=realty">Explore residences</Link>
             </Button>
-            <Button asChild size="lg" variant="secondary">
+            <Button asChild size="lg" variant="secondary" className="w-full sm:w-auto">
               <Link href="/projects?type=infrastructure">View infrastructure</Link>
             </Button>
           </div>

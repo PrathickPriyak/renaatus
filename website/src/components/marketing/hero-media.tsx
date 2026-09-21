@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useReducedMotion } from "framer-motion";
 
 const DESKTOP_POSTER = "/assets/images/banners/infrastructure.jpg";
-const MOBILE_POSTER = "/assets/images/banners/coming-soon-mobile.jpg";
+const MOBILE_POSTER = "/assets/images/realty/maldives/irumathi-exterior.png";
 
 export function HeroMedia() {
   const reduced = useReducedMotion();
@@ -26,7 +26,7 @@ export function HeroMedia() {
           fill
           priority
           sizes="100vw"
-          className="object-cover md:hidden"
+          className="object-cover object-[center_35%] md:hidden"
         />
       </div>
     );
@@ -34,7 +34,7 @@ export function HeroMedia() {
 
   return (
     <video
-      className="absolute inset-0 h-full w-full object-cover"
+      className="absolute inset-0 h-full w-full object-cover object-[center_18%] md:object-center"
       autoPlay
       muted
       loop

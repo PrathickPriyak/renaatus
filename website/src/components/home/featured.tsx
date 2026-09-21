@@ -86,7 +86,7 @@ export function HomeFeatured() {
                     alt={item.title}
                     fill
                     className="object-cover"
-                    sizes="(max-width: 1024px) 100vw, 60vw"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 42vw"
                   />
                   <div className="from-ink via-ink/20 absolute inset-0 bg-gradient-to-t to-transparent" />
                   <div className="absolute inset-x-0 bottom-0 p-6 md:p-8">

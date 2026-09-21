@@ -21,13 +21,13 @@ export function HomeStory() {
           alt=""
           fill
           className="object-cover object-center"
-          sizes="100vw"
+          sizes="(max-width: 1920px) 100vw, 1920px"
         />
       </ParallaxMedia>
       <div className="from-ink via-ink/70 to-ink/35 absolute inset-0 bg-gradient-to-t" />
       <Container className="relative flex min-h-[min(40rem,92dvh)] flex-col justify-end pt-24 pb-16 md:pb-20">
         <Reveal className="max-w-3xl">
-          <Eyebrow>In the skyline</Eyebrow>
+          <Eyebrow>Chennai Central Tower</Eyebrow>
           <Heading variant="h2" className="mt-4">
             {story.title}
           </Heading>
