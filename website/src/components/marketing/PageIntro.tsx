@@ -11,13 +11,20 @@ type PageIntroProps = {
   title: string;
   copy: string;
   children?: ReactNode;
+  breadcrumbItems?: { href: string; label: string }[];
 };
 
-export function PageIntro({ eyebrow, title, copy, children }: PageIntroProps) {
+export function PageIntro({
+  eyebrow,
+  title,
+  copy,
+  children,
+  breadcrumbItems,
+}: PageIntroProps) {
   return (
     <section className="pt-[calc(var(--header-height)+2.75rem)] pb-4">
       <Container>
-        <Breadcrumb className="mb-10" />
+        <Breadcrumb className="mb-10" items={breadcrumbItems} />
         <Eyebrow>{eyebrow}</Eyebrow>
         <Heading variant="h1" className="mt-4 max-w-4xl">
           {title}

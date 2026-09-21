@@ -398,32 +398,38 @@ export const industries = [
     title: "Aviation",
     works: "Rajahmundry Domestic Airport; GAN International Airport.",
     image: "/assets/images/infrastructure/india/rajahmundry-airport.jpg",
+    featuredSlug: "rajahmundry-domestic-airport",
   },
   {
     title: "Healthcare and campuses",
     works:
       "JIPMER Karaikal; Tiruppur Medical College and Hospital; IGMH; NIT-E Karaikal.",
     image: "/assets/images/infrastructure/india/jipmer-karaikal.jpg",
+    featuredSlug: "jipmer-karaikal",
   },
   {
     title: "Water and irrigation",
     works: "GA Canal; Rajavaikal, Kumarapalayam; Mettur East Bank Canal, Salem.",
     image: "/assets/images/infrastructure/india/ga-canal.jpg",
+    featuredSlug: "ga-canal-irrigation-infrastructure",
   },
   {
     title: "Transport",
     works: "SH-95 Mohanur; Perungalathur Grade Separator; Pollachi–Podanur ROB.",
     image: "/assets/images/infrastructure/india/perungalathur-grade-separator.jpg",
+    featuredSlug: "perungalathur-grade-separator",
   },
   {
     title: "Civic and justice",
     works: "Supreme Court of Mauritius.",
     image: "/assets/images/infrastructure/mauritius/supreme-court.jpg",
+    featuredSlug: "supreme-court-of-mauritius",
   },
   {
     title: "Residential",
     works: "Maldives residences, social housing, and Vilankurichi, Coimbatore.",
     image: "/assets/images/realty/maldives/irumathi-exterior.png",
+    featuredSlug: "renaatus-irumathi",
   },
 ] as const;
 

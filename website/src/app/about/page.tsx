@@ -1,13 +1,26 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import Link from "next/link";
 import { PageHero } from "@/components/marketing";
-import { leadership } from "@/lib/content";
+import { HoverMedia } from "@/components/marketing/hover-media";
+import { Button } from "@/design-system/components/button";
+import { Reveal } from "@/design-system/components/reveal";
+import { Section } from "@/design-system/components/section";
+import { Text } from "@/design-system/components/text";
+import { company, founderLetter, leadership, timeline } from "@/lib/content";
 
 export const metadata: Metadata = {
   title: "About",
   description:
-    "The story of Renaatus — vision, mission, and the people leading a 50-year construction legacy.",
+    "The story of Renaatus — vision, mission, leadership, and a 50-year construction legacy across India, the Maldives, and Mauritius.",
 };
+
+const aboutStills = [
+  "/assets/images/about/grid-1.png",
+  "/assets/images/about/grid-2.png",
+  "/assets/images/about/grid-3.png",
+  "/assets/images/about/grid-4.png",
+] as const;
 
 export default function AboutPage() {
   return (
@@ -19,66 +32,118 @@ export default function AboutPage() {
         image="/assets/images/about/about-renaatus.jpg"
       />
 
-      <section className="mx-auto grid max-w-7xl gap-8 px-5 py-20 md:grid-cols-2 md:px-8">
-        <article className="rounded-3xl border border-white/10 bg-panel p-8 md:p-12">
-          <p className="kicker">Vision</p>
-          <h2 className="font-display mt-4 text-3xl md:text-4xl">Inspiring, purposeful spaces for all</h2>
-          <p className="mt-5 text-base leading-8 text-cream/80">
-            To create a world where everyone has access to inspiring and purposeful spaces. Every square foot holds the power to shape dreams, build communities, and transform lives.
-          </p>
-        </article>
-        <article className="rounded-3xl border border-white/10 bg-panel p-8 md:p-12">
-          <p className="kicker">Mission</p>
-          <h2 className="font-display mt-4 text-3xl md:text-4xl">Integrity, innovation, sustainability</h2>
-          <p className="mt-5 text-base leading-8 text-cream/80">
-            Driven by the vision of developing one million square feet, we are committed to meaningful, accessible, high-quality spaces — ensuring every square foot we develop serves a greater purpose.
-          </p>
-        </article>
-      </section>
+      <Section
+        tone="soft"
+        eyebrow="Purpose"
+        title="Vision and mission."
+        intro="Drawn from the group’s published statement of purpose — not a rewritten manifesto."
+      >
+        <div className="bg-line grid gap-px md:grid-cols-2">
+          <Reveal>
+            <article className="bg-ink-soft h-full p-7 md:p-10">
+              <h2 className="font-display text-h3 text-cream">{company.visionTitle}</h2>
+              <Text className="mt-4">{company.vision}</Text>
+            </article>
+          </Reveal>
+          <Reveal transition={{ delay: 0.06 }}>
+            <article className="bg-ink-soft h-full p-7 md:p-10">
+              <h2 className="font-display text-h3 text-cream">{company.missionTitle}</h2>
+              <Text className="mt-4">{company.mission}</Text>
+            </article>
+          </Reveal>
+        </div>
+      </Section>
 
-      <section className="bg-ink-soft py-20">
-        <div className="mx-auto max-w-7xl px-5 md:px-8">
-          <p className="kicker">The group</p>
-          <h2 className="font-display mt-4 text-4xl md:text-5xl">Four ways we show up</h2>
-          <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {[
-              { src: "/assets/images/about/grid-1.png", label: "Projects" },
-              { src: "/assets/images/about/grid-2.png", label: "People" },
-              { src: "/assets/images/about/grid-3.png", label: "Places" },
-              { src: "/assets/images/about/grid-4.png", label: "Purpose" },
-            ].map((item) => (
-              <div key={item.label} className="media-frame aspect-[4/5] rounded-2xl">
-                <Image src={item.src} alt={item.label} fill className="object-cover" sizes="300px" />
-              </div>
-            ))}
+      <Section eyebrow="From the founder’s desk" title="A letter from the Chairman.">
+        <div className="grid items-start gap-12 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:gap-20">
+          <HoverMedia className="mx-auto aspect-[4/5] w-full max-w-md lg:mx-0 lg:max-w-none">
+            <Image
+              src={founderLetter.image}
+              alt={`${founderLetter.name}, ${founderLetter.role}`}
+              fill
+              className="object-cover object-top"
+              sizes="(max-width: 1024px) 90vw, 420px"
+            />
+          </HoverMedia>
+          <div>
+            <div className="space-y-5">
+              {founderLetter.paragraphs.map((paragraph) => (
+                <Text key={paragraph.slice(0, 32)}>{paragraph}</Text>
+              ))}
+            </div>
+            <p className="font-display text-cream mt-8 text-xl">{founderLetter.name}</p>
+            <p className="text-eyebrow text-brass mt-1 tracking-[0.2em] uppercase">
+              {founderLetter.role}
+            </p>
           </div>
         </div>
-      </section>
+      </Section>
 
-      <section className="mx-auto max-w-7xl px-5 py-20 md:px-8">
-        <p className="kicker">Key people</p>
-        <h2 className="font-display mt-4 text-4xl md:text-5xl">Leadership</h2>
-        <div className="mt-12 grid gap-10 lg:grid-cols-2">
+      <Section tone="soft" eyebrow="Since our inception" title="A timeline of ambition.">
+        <ol className="bg-line grid gap-px sm:grid-cols-2 lg:grid-cols-4">
+          {timeline.map((item, index) => (
+            <Reveal key={item.year} transition={{ delay: index * 0.04 }}>
+              <li className="bg-ink-soft h-full p-7">
+                <p className="font-display text-h2 text-brass">{item.year}</p>
+                <h3 className="text-h4 text-cream mt-4 font-medium">{item.title}</h3>
+                <Text className="mt-3">{item.copy}</Text>
+              </li>
+            </Reveal>
+          ))}
+        </ol>
+      </Section>
+
+      <Section eyebrow="The group" title="Places and people already in the work.">
+        <div className="bg-line grid gap-px sm:grid-cols-2 lg:grid-cols-4">
+          {aboutStills.map((src) => (
+            <HoverMedia key={src} className="aspect-[4/5]">
+              <Image
+                src={src}
+                alt=""
+                fill
+                className="object-cover"
+                sizes="(max-width: 1024px) 50vw, 25vw"
+              />
+            </HoverMedia>
+          ))}
+        </div>
+      </Section>
+
+      <Section
+        tone="soft"
+        eyebrow="Key people"
+        title="Leadership."
+        intro="Only leaders with confirmed names, roles, and biographies are listed here."
+      >
+        <div className="grid gap-10 lg:grid-cols-2">
           {leadership.map((person) => (
-            <article key={person.name} className="grid gap-6 rounded-3xl border border-white/10 bg-panel p-6 md:grid-cols-[200px_1fr] md:p-8">
-              <div className="media-frame mx-auto aspect-[3/4] w-full max-w-[220px] rounded-2xl bg-black">
+            <article
+              key={person.name}
+              className="grid gap-6 md:grid-cols-[12.5rem_minmax(0,1fr)] md:items-start"
+            >
+              <HoverMedia className="aspect-[3/4] w-full max-w-[13rem]">
                 <Image
                   src={person.image}
-                  alt={person.name}
+                  alt={`${person.name}, ${person.role}`}
                   fill
                   className="object-cover object-top"
-                  sizes="220px"
+                  sizes="200px"
                 />
-              </div>
-              <div className="flex flex-col justify-center">
-                <p className="kicker">{person.role}</p>
-                <h3 className="font-display mt-2 text-3xl">{person.name}</h3>
-                <p className="mt-4 text-sm leading-7 text-muted">{person.bio}</p>
+              </HoverMedia>
+              <div>
+                <p className="text-eyebrow text-brass tracking-[0.24em] uppercase">
+                  {person.role}
+                </p>
+                <h3 className="font-display text-h3 text-cream mt-2">{person.name}</h3>
+                <Text className="mt-4">{person.bio}</Text>
               </div>
             </article>
           ))}
         </div>
-      </section>
+        <Button asChild variant="secondary" className="mt-12">
+          <Link href="/why-renaatus">Why Renaatus</Link>
+        </Button>
+      </Section>
     </>
   );
 }

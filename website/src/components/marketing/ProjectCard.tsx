@@ -1,4 +1,6 @@
 import Image from "next/image";
+import Link from "next/link";
+import { HoverMedia } from "@/components/marketing/hover-media";
 
 type ProjectCardProps = {
   title: string;
@@ -10,31 +12,39 @@ type ProjectCardProps = {
 
 export function ProjectCard({ title, meta, copy, image, href }: ProjectCardProps) {
   const inner = (
-    <article className="group lift media-frame aspect-[4/5] rounded-2xl">
-      <Image
-        src={image}
-        alt={title}
-        fill
-        className="object-cover transition duration-700 group-hover:scale-105"
-        sizes="(max-width: 768px) 100vw, 33vw"
-      />
-      <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent" />
-      <div className="absolute inset-x-0 bottom-0 p-6">
-        {meta ? <p className="kicker mb-2">{meta}</p> : null}
-        <h3 className="font-display text-2xl leading-tight">{title}</h3>
-        {copy ? <p className="mt-2 line-clamp-3 text-sm leading-6 text-cream/80">{copy}</p> : null}
-      </div>
+    <article className="group block">
+      <HoverMedia className="aspect-[4/5]">
+        <Image
+          src={image}
+          alt={title}
+          fill
+          className="object-cover"
+          sizes="(max-width: 768px) 100vw, 33vw"
+        />
+        <div className="from-ink via-ink/25 absolute inset-0 bg-gradient-to-t to-transparent" />
+        <div className="absolute inset-x-0 bottom-0 p-6">
+          {meta ? (
+            <p className="text-eyebrow text-brass tracking-[0.24em] uppercase">{meta}</p>
+          ) : null}
+          <h3 className="font-display text-h3 text-cream mt-2 leading-tight">{title}</h3>
+          {copy ? (
+            <p className="text-cream/80 mt-2 line-clamp-3 text-sm leading-6">{copy}</p>
+          ) : null}
+        </div>
+      </HoverMedia>
     </article>
   );
 
-  if (href) {
-    const external = href.startsWith("http");
+  if (!href) return inner;
+
+  const external = href.startsWith("http");
+  if (external) {
     return (
-      <a href={href} target={external ? "_blank" : undefined} rel={external ? "noreferrer" : undefined}>
+      <a href={href} target="_blank" rel="noopener noreferrer">
         {inner}
       </a>
     );
   }
 
-  return inner;
+  return <Link href={href}>{inner}</Link>;
 }
