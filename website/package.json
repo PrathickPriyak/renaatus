@@ -20,6 +20,9 @@
     "db:migrate": "prisma migrate dev",
     "db:deploy": "prisma migrate deploy",
     "db:status": "prisma migrate status",
+    "db:validate": "prisma validate",
+    "db:check": "tsx prisma/check-connection.ts",
+    "db:seed": "prisma db seed",
     "db:studio": "prisma studio"
   },
   "engines": {
@@ -57,6 +60,7 @@
     "prettier-plugin-tailwindcss": "^0.8.1",
     "prisma": "^7.10.0",
     "tailwindcss": "^4",
+    "tsx": "^4.23.15",
     "typescript": "^5"
   }
 }

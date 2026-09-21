@@ -1,5 +1,7 @@
 import { blankToUndefined, publicEnvSchema, type PublicEnv } from "@/lib/env/schema";
 
+// Public env is limited to NEXT_PUBLIC_* keys. Database credentials stay on the server.
+
 function readPublicEnv(): PublicEnv {
   const parsed = publicEnvSchema.safeParse({
     NEXT_PUBLIC_APP_URL:

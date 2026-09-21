@@ -1,5 +1,9 @@
-// Production schema for PostgreSQL.
+// Production PostgreSQL schema.
 // Connection URL lives in prisma.config.ts (CLI) and DATABASE_URL (runtime).
+// Never put credentials in this file or in client bundles.
+//
+// Roles are an enum on User (SUPER_ADMIN / EDITOR / VIEWER), not a Role table.
+// Contact, product, project, and career submissions share Enquiry, keyed by kind.
 
 generator client {
   provider = "prisma-client"
@@ -69,7 +73,10 @@ model User {
   accounts Account[]
   sessions Session[]
   posts    Post[]
+  media    Media[]    @relation("MediaCreatedBy")
   audits   AuditLog[]
+
+  @@index([role])
 }
 
 model Account {
@@ -121,27 +128,36 @@ model Media {
   alt         String?
   visibility  MediaVisibility @default(PUBLIC)
   createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @default(now()) @updatedAt
   createdById String?
+  createdBy   User?           @relation("MediaCreatedBy", fields: [createdById], references: [id], onDelete: SetNull)
 
   featuredPosts    Post[]          @relation("PostFeatured")
   featuredProjects Project[]       @relation("ProjectCover")
   featuredProducts Product[]       @relation("ProductCover")
   projectImages    ProjectImage[]
   resumes          Enquiry[]       @relation("EnquiryResume")
+
+  @@index([createdById])
+  @@index([visibility])
 }
 
 model Category {
-  id    String @id @default(cuid())
-  name  String
-  slug  String @unique
-  posts Post[]
+  id        String   @id @default(cuid())
+  name      String
+  slug      String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+  posts     Post[]
 }
 
 model Tag {
-  id    String    @id @default(cuid())
-  name  String
-  slug  String    @unique
-  posts PostTag[]
+  id        String    @id @default(cuid())
+  name      String
+  slug      String    @unique
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @default(now()) @updatedAt
+  posts     PostTag[]
 }
 
 model Post {
@@ -157,15 +173,17 @@ model Post {
   createdAt       DateTime   @default(now())
   updatedAt       DateTime   @updatedAt
   authorId        String
-  author          User       @relation(fields: [authorId], references: [id])
+  author          User       @relation(fields: [authorId], references: [id], onDelete: Restrict)
   categoryId      String?
-  category        Category?  @relation(fields: [categoryId], references: [id])
+  category        Category?  @relation(fields: [categoryId], references: [id], onDelete: SetNull)
   featuredImageId String?
-  featuredImage   Media?     @relation("PostFeatured", fields: [featuredImageId], references: [id])
+  featuredImage   Media?     @relation("PostFeatured", fields: [featuredImageId], references: [id], onDelete: SetNull)
   tags            PostTag[]
 
   @@index([status, publishedAt])
   @@index([authorId])
+  @@index([categoryId])
+  @@index([featuredImageId])
 }
 
 model PostTag {
@@ -175,6 +193,7 @@ model PostTag {
   tag    Tag    @relation(fields: [tagId], references: [id], onDelete: Cascade)
 
   @@id([postId, tagId])
+  @@index([tagId])
 }
 
 model Product {
@@ -187,10 +206,13 @@ model Product {
   seoTitle       String?
   seoDescription String?
   coverId        String?
-  cover          Media?    @relation("ProductCover", fields: [coverId], references: [id])
+  cover          Media?    @relation("ProductCover", fields: [coverId], references: [id], onDelete: SetNull)
   enquiries      Enquiry[]
   createdAt      DateTime  @default(now())
   updatedAt      DateTime  @updatedAt
+
+  @@index([coverId])
+  @@index([published])
 }
 
 model Project {
@@ -206,7 +228,7 @@ model Project {
   body      Json?
   published Boolean        @default(false)
   coverId   String?
-  cover     Media?         @relation("ProjectCover", fields: [coverId], references: [id])
+  cover     Media?         @relation("ProjectCover", fields: [coverId], references: [id], onDelete: SetNull)
   images    ProjectImage[]
   enquiries Enquiry[]
   createdAt DateTime       @default(now())
@@ -214,6 +236,7 @@ model Project {
 
   @@index([type, published])
   @@index([industry, published])
+  @@index([coverId])
 }
 
 model ProjectImage {
@@ -222,9 +245,10 @@ model ProjectImage {
   mediaId   String
   sortOrder Int     @default(0)
   project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
-  media     Media   @relation(fields: [mediaId], references: [id])
+  media     Media   @relation(fields: [mediaId], references: [id], onDelete: Restrict)
 
   @@index([projectId, sortOrder])
+  @@index([mediaId])
 }
 
 model Enquiry {
@@ -241,23 +265,26 @@ model Enquiry {
   ipHash     String?
 
   productId String?
-  product   Product? @relation(fields: [productId], references: [id])
+  product   Product? @relation(fields: [productId], references: [id], onDelete: SetNull)
   projectId String?
-  project   Project? @relation(fields: [projectId], references: [id])
+  project   Project? @relation(fields: [projectId], references: [id], onDelete: SetNull)
   resumeId  String?
-  resume    Media?   @relation("EnquiryResume", fields: [resumeId], references: [id])
+  resume    Media?   @relation("EnquiryResume", fields: [resumeId], references: [id], onDelete: SetNull)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@index([kind, status, createdAt])
   @@index([email])
+  @@index([productId])
+  @@index([projectId])
+  @@index([resumeId])
 }
 
 model AuditLog {
   id         String   @id @default(cuid())
   userId     String?
-  user       User?    @relation(fields: [userId], references: [id])
+  user       User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
   action     String
   entityType String
   entityId   String?
@@ -267,4 +294,5 @@ model AuditLog {
 
   @@index([entityType, entityId])
   @@index([createdAt])
+  @@index([userId])
 }
