@@ -45,13 +45,13 @@ export default function HomePage() {
           </p>
           <div className="mt-10 flex flex-wrap gap-4">
             <Link
-              href="/realty"
+              href="/projects?type=realty"
               className="rounded-full bg-brand px-6 py-3 text-sm tracking-[0.14em] uppercase text-white hover:bg-brand-bright"
             >
               Explore residences
             </Link>
             <Link
-              href="/infrastructure"
+              href="/projects?type=infrastructure"
               className="rounded-full border border-white/20 px-6 py-3 text-sm tracking-[0.14em] uppercase hover:border-gold hover:text-gold"
             >
               View infrastructure

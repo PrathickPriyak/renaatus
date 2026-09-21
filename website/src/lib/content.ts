@@ -7,14 +7,7 @@ export const brand = {
   email: "bd@renaatus.com",
 };
 
-export const nav = [
-  { href: "/", label: "Home" },
-  { href: "/about", label: "About" },
-  { href: "/realty", label: "Realty" },
-  { href: "/infrastructure", label: "Infrastructure" },
-  { href: "/careers", label: "Careers" },
-  { href: "/contact", label: "Contact" },
-] as const;
+export { primaryNav as nav } from "@/lib/navigation";
 
 export const stats = [
   { value: "50+", label: "Years of construction expertise" },
@@ -25,21 +18,21 @@ export const stats = [
 
 export const verticals = [
   {
-    href: "/infrastructure",
+    href: "/projects?type=infrastructure",
     title: "Infrastructure",
     kicker: "EPC",
     image: "/assets/images/verticals/infrastructure.jpg",
     copy: "From airport terminals and Supreme Court offices to industrial corridors and medical campuses, we are trusted to bring ambitious public visions to life.",
   },
   {
-    href: "/realty",
+    href: "/projects?type=realty",
     title: "Realty",
     kicker: "Residences",
     image: "/assets/images/verticals/realty.jpg",
     copy: "A household name in the Maldives for ultra-luxury residences — timeless elegance, uncompromising quality, and homes that become landmarks.",
   },
   {
-    href: "/#renacon",
+    href: "/products",
     title: "AAC Blocks",
     kicker: "Renacon",
     image: "/assets/images/verticals/aac-blocks.jpg",
