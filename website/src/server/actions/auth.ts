@@ -11,14 +11,7 @@ import {
 } from "@/lib/auth/session";
 import { readClientIp } from "@/lib/security/ip";
 import { runAction } from "@/server/safe-action";
-
-export type LoginFormState = {
-  status: "idle" | "error";
-  message?: string;
-  fieldErrors?: Record<string, string>;
-};
-
-export const initialLoginFormState: LoginFormState = { status: "idle" };
+import type { LoginFormState } from "@/types";
 
 export async function signInStaff(
   _previous: LoginFormState,

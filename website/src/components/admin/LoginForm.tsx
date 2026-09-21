@@ -5,21 +5,15 @@ import { Button } from "@/design-system/components/button";
 import { Field } from "@/design-system/components/field";
 import { Input } from "@/design-system/components/input";
 import { Spinner } from "@/design-system/components/loading";
-import {
-  initialLoginFormState,
-  signInStaff,
-  type LoginFormState,
-} from "@/server/actions/auth";
+import { signInStaff } from "@/server/actions/auth";
+import { initialLoginFormState } from "@/types";
 
 type LoginFormProps = {
   nextPath: string;
 };
 
 export function LoginForm({ nextPath }: LoginFormProps) {
-  const [state, action, pending] = useActionState(
-    signInStaff,
-    initialLoginFormState as LoginFormState,
-  );
+  const [state, action, pending] = useActionState(signInStaff, initialLoginFormState);
 
   return (
     <form action={action} noValidate className="grid gap-5" aria-busy={pending}>
