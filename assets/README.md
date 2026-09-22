@@ -12,4 +12,4 @@ assets/
 └── fonts/        Licensed brand type
 ```
 
-The Next.js app copies this tree into `website/public/assets` on `npm run dev` and `npm run build`.
+The Next.js app copies **referenced** files from this tree into `website/public/assets` on `npm run dev` and `npm run build`. Fonts, icons, documents, and unused loop videos stay local and are gitignored — do not commit the 5 GB SharePoint dump or private PDFs.

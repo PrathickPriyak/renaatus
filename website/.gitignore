@@ -40,6 +40,17 @@ yarn-error.log*
 .env
 .env.*
 !.env.example
+.envrc
+*.key
+*.p8
+
+# Private resume objects written in development (never R2)
+.uploads/
+
+# Local dumps
+*.dump
+*.sqlite
+*.sqlite3
 
 # vercel
 .vercel
