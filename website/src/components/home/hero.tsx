@@ -58,7 +58,7 @@ export function HomeHero() {
           style={{ opacity: chromeOpacity, y: chromeY }}
         >
           <motion.p
-            className="font-display text-cream text-[clamp(2.35rem,5.5vw,4.25rem)] leading-[0.94] tracking-[-0.025em]"
+            className="font-display text-cream text-[clamp(1.85rem,7vw,4.25rem)] leading-[0.94] tracking-[-0.025em]"
             initial={motionSafe(reduced, { opacity: 0, y: 22 })}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: duration.slow, ease: easePremium, delay: 1.1 }}
@@ -67,7 +67,7 @@ export function HomeHero() {
           </motion.p>
 
           <motion.p
-            className="text-cream/90 mt-3 max-w-lg text-[clamp(0.98rem,1.7vw,1.2rem)] leading-snug font-light tracking-wide md:mt-4"
+            className="text-cream/90 mt-2.5 max-w-lg text-[clamp(0.95rem,1.7vw,1.2rem)] leading-snug font-light tracking-wide md:mt-4"
             initial={motionSafe(reduced, { opacity: 0, y: 16 })}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: duration.base, ease: easePremium, delay: 1.35 }}
@@ -77,7 +77,7 @@ export function HomeHero() {
           </motion.p>
 
           <motion.div
-            className="mt-7 flex w-full max-w-md flex-col gap-3 sm:mt-8 sm:max-w-none sm:flex-row"
+            className="mt-6 flex w-full max-w-md flex-col gap-3 sm:mt-8 sm:max-w-none sm:flex-row"
             initial={motionSafe(reduced, { opacity: 0, y: 14 })}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: duration.base, ease: easePremium, delay: 1.55 }}
