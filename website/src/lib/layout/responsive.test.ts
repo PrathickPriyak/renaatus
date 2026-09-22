@@ -38,7 +38,14 @@ describe("responsive layout contracts", () => {
     assert.match(chips, /min-h-11/);
     const projects = readSrc("src/app/(site)/projects/page.tsx");
     const infra = readSrc("src/components/marketing/InfrastructureGrid.tsx");
+    const blog = readSrc("src/app/(site)/blog/page.tsx");
     assert.match(projects, /filterChipClass/);
     assert.match(infra, /filterChipClass/);
+    assert.match(blog, /filterChipClass/);
+  });
+
+  it("keeps the brand lockup tall enough to tap", () => {
+    const logo = readSrc("src/design-system/components/logo.tsx");
+    assert.match(logo, /inline-flex min-h-11 items-center gap-3/);
   });
 });

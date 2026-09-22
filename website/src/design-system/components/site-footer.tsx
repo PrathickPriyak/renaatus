@@ -28,7 +28,7 @@ export function SiteFooter({
     <footer className="border-t border-line bg-ink-soft">
       <Container className="grid gap-14 py-20 sm:grid-cols-2 lg:grid-cols-4 [&>*]:min-w-0">
         <div>
-          <Link href="/" aria-label="Renaatus home">
+          <Link href="/" aria-label="Renaatus home" className="inline-flex min-h-11 items-center">
             <BrandLockup />
           </Link>
           <Text variant="muted" className="mt-6 max-w-xs">
@@ -96,7 +96,7 @@ export function SiteFooter({
               </Text>
               <a
                 href={`mailto:${headquarters.email}`}
-                className="mt-3 block min-h-11 text-sm text-cream transition-colors duration-200 hover:text-brass"
+                className="mt-3 block min-h-11 break-all text-sm text-cream transition-colors duration-200 hover:text-brass"
               >
                 {headquarters.email}
               </a>
@@ -115,7 +115,7 @@ export function SiteFooter({
               <li key={office.region}>
                 <a
                   href={`mailto:${office.email}`}
-                  className="block min-h-11 py-2 text-sm text-cream transition-colors duration-200 hover:text-brass"
+                  className="block min-h-11 py-2 text-sm break-all text-cream transition-colors duration-200 hover:text-brass"
                 >
                   {office.region} · {office.email}
                 </a>

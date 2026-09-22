@@ -18,22 +18,25 @@ export function Breadcrumb({ className, items }: BreadcrumbProps) {
 
   return (
     <nav aria-label="Breadcrumb" className={cn("text-caption text-cream/70", className)}>
-      <ol className="flex flex-wrap items-center gap-2">
+      <ol className="flex flex-wrap items-center gap-x-2 gap-y-1">
         {crumbs.map((crumb, index) => {
           const last = index === crumbs.length - 1;
           return (
-            <li key={crumb.href} className="flex items-center gap-2">
+            <li key={crumb.href} className="flex min-w-0 items-center gap-2">
               {index > 0 ? (
                 <span aria-hidden className="text-cream/35">
                   /
                 </span>
               ) : null}
               {last ? (
-                <span aria-current="page" className="text-cream">
+                <span aria-current="page" className="text-cream break-words">
                   {crumb.label}
                 </span>
               ) : (
-                <Link href={crumb.href} className="transition-colors duration-200 hover:text-brass">
+                <Link
+                  href={crumb.href}
+                  className="inline-flex min-h-11 items-center break-words transition-colors duration-200 hover:text-brass"
+                >
                   {crumb.label}
                 </Link>
               )}

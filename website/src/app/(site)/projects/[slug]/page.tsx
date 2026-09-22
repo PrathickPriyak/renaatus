@@ -85,15 +85,15 @@ export default async function ProjectDetailPage({ params }: PageProps) {
             </Text>
           )}
         </div>
-        <div className="flex flex-col gap-3 lg:items-end lg:justify-end">
+        <div className="flex w-full max-w-md flex-col gap-3 sm:max-w-none sm:flex-row lg:items-end lg:justify-end">
           {project.externalHref ? (
-            <Button asChild>
+            <Button asChild className="w-full sm:w-auto">
               <a href={project.externalHref} target="_blank" rel="noopener noreferrer">
                 Project site
               </a>
             </Button>
           ) : null}
-          <Button asChild variant="secondary">
+          <Button asChild variant="secondary" className="w-full sm:w-auto">
             <Link href="/contact">Enquire</Link>
           </Button>
         </div>

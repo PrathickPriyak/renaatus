@@ -29,7 +29,7 @@ export default function ContactPage() {
               <p className="mt-4 text-sm leading-7 text-muted">{office.address}</p>
               <a
                 href={`mailto:${office.email}`}
-                className="mt-4 block min-h-11 text-gold hover:underline"
+                className="text-gold mt-4 block min-h-11 break-all hover:underline"
               >
                 {office.email}
               </a>

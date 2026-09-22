@@ -31,7 +31,7 @@ export function BlogShare({ title, url }: BlogShareProps) {
           href={shareHref}
           target="_blank"
           rel="noopener noreferrer"
-          className="text-caption text-brass tracking-[0.12em] uppercase"
+          className="text-caption text-brass inline-flex min-h-11 items-center tracking-[0.12em] uppercase"
         >
           {linkedIn.label}
         </a>
@@ -41,7 +41,7 @@ export function BlogShare({ title, url }: BlogShareProps) {
         onClick={() => {
           void copyLink();
         }}
-        className="text-caption text-cream/80 hover:text-cream tracking-[0.12em] uppercase"
+        className="text-caption text-cream/80 hover:text-cream inline-flex min-h-11 items-center tracking-[0.12em] uppercase"
         aria-label={`Copy link to ${title}`}
       >
         {copied ? "Copied" : "Copy link"}

@@ -35,7 +35,7 @@ export function BlogCard({ post, featured = false }: BlogCardProps) {
         {meta ? (
           <p className="text-eyebrow text-brass tracking-[0.24em] uppercase">{meta}</p>
         ) : null}
-        <h2 className={cn("font-display text-cream mt-3", featured ? "text-h2" : "text-h3")}>
+        <h2 className={cn("font-display text-cream mt-3 break-words", featured ? "text-h2" : "text-h3")}>
           <Link href={post.href} className="transition-colors hover:text-brass">
             {post.title}
           </Link>
@@ -43,7 +43,7 @@ export function BlogCard({ post, featured = false }: BlogCardProps) {
         <p className="mt-3 max-w-prose text-body text-cream-muted">{post.excerpt}</p>
         <Link
           href={post.href}
-          className="text-caption text-brass mt-5 inline-block tracking-[0.12em] uppercase"
+          className="text-caption text-brass mt-5 inline-flex min-h-11 items-center tracking-[0.12em] uppercase"
         >
           Read note
         </Link>

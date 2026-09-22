@@ -68,7 +68,7 @@ export function SiteHeader({
         <Container className="grid h-full grid-cols-[1fr_auto] items-center lg:grid-cols-[auto_1fr_auto] lg:gap-8">
           <Link
             href="/"
-            className="relative z-50 w-fit"
+            className="relative z-50 inline-flex min-h-11 w-fit items-center"
             aria-label="Renaatus home"
             onClick={() => setOpen(false)}
           >

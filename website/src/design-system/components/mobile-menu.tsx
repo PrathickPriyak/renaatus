@@ -166,7 +166,7 @@ export function MobileMenu({
             </div>
           ) : null}
 
-          <Button asChild className="mt-auto w-fit">
+          <Button asChild className="mt-auto w-full sm:w-fit">
             <Link href={cta.href} onClick={() => onOpenChange(false)}>
               {cta.label}
             </Link>

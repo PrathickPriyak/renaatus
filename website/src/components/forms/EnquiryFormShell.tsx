@@ -66,7 +66,7 @@ export function EnquiryFormShell({
         </p>
       ) : null}
 
-      <Button type="submit" disabled={pending} className="justify-self-start">
+      <Button type="submit" disabled={pending} className="w-full justify-self-start sm:w-auto">
         {pending ? (
           <span className="inline-flex items-center gap-2">
             <Spinner className="gap-0 [&_span:last-child]:sr-only" label={pendingLabel} />

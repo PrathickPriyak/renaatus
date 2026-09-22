@@ -14,6 +14,9 @@ describe("keyboard access on public chrome", () => {
     const header = readSrc("src/design-system/components/site-header.tsx");
     assert.match(header, /Skip to content/);
     assert.match(header, /focus:fixed/);
+    const layout = readSrc("src/app/(site)/layout.tsx");
+    assert.match(layout, /id="main-content"/);
+    assert.match(layout, /tabIndex=\{-1\}/);
   });
 
   it("returns keyboard focus to the menu button when the overlay closes", () => {

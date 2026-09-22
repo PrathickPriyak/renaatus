@@ -7,9 +7,9 @@ import { Container } from "@/design-system/components/container";
 import { firstSearchParam } from "@/lib/admin/search-params";
 import { getPublicBlogListing } from "@/lib/blog/public";
 import { getDb } from "@/lib/db";
+import { filterChipClass } from "@/lib/layout/chips";
 import { pageMetadataFromSeo } from "@/lib/seo/metadata";
 import { publicSeo } from "@/lib/seo/pages";
-import { cn } from "@/lib/utils";
 
 export const revalidate = 300;
 
@@ -48,12 +48,7 @@ export default async function BlogIndexPage({ searchParams }: PageProps) {
               <Link
                 href="/blog"
                 aria-current={!category ? "page" : undefined}
-                className={cn(
-                  "h-9 border px-4 text-[0.65rem] tracking-[0.18em] uppercase transition-colors duration-200",
-                  !category
-                    ? "border-brass text-brass"
-                    : "border-line text-cream/80 hover:border-cream/40 hover:text-cream",
-                )}
+                className={filterChipClass(!category)}
               >
                 All
               </Link>
@@ -65,12 +60,7 @@ export default async function BlogIndexPage({ searchParams }: PageProps) {
                     key={item.slug}
                     href={q ? `${href}&q=${encodeURIComponent(q)}` : href}
                     aria-current={active ? "page" : undefined}
-                    className={cn(
-                      "h-9 border px-4 text-[0.65rem] tracking-[0.18em] uppercase transition-colors duration-200",
-                      active
-                        ? "border-brass text-brass"
-                        : "border-line text-cream/80 hover:border-cream/40 hover:text-cream",
-                    )}
+                    className={filterChipClass(active)}
                   >
                     {item.name}
                   </Link>

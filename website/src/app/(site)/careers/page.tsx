@@ -119,11 +119,14 @@ export default function CareersPage() {
               ))}
             </ul>
 
-            <div className="mt-10 flex flex-col gap-3">
+            <div className="mt-10 flex flex-col gap-1">
               {peopleContacts.map((contact) => (
                 <p key={contact.email} className="text-sm">
-                  {contact.label}:{" "}
-                  <a className="text-brass hover:underline" href={`mailto:${contact.email}`}>
+                  <span className="text-cream-muted">{contact.label}: </span>
+                  <a
+                    className="text-brass inline-flex min-h-11 items-center break-all hover:underline"
+                    href={`mailto:${contact.email}`}
+                  >
                     {contact.email}
                   </a>
                 </p>

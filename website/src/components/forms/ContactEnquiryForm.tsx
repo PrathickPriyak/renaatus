@@ -47,7 +47,7 @@ function ContactFields({
 
   return (
     <>
-      <div className="grid gap-5 md:grid-cols-2">
+      <div className="grid min-w-0 gap-5 md:grid-cols-2 md:[&>*]:min-w-0">
         <Field label="Name" htmlFor="contact-name" error={state.fieldErrors?.name}>
           <Input
             name="name"
