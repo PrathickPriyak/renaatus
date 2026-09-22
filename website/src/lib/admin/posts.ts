@@ -490,7 +490,7 @@ export async function deleteJournalPost(
   db: PrismaClient,
   actor: Actor | null,
   postId: string,
-): Promise<void> {
+): Promise<{ slug: string }> {
   const staff = requireBlogEditor(actor);
   const existing = await db.post.findUnique({
     where: { id: postId },
@@ -508,4 +508,5 @@ export async function deleteJournalPost(
     entityId: existing.id,
     metadata: { slug: existing.slug },
   });
+  return { slug: existing.slug };
 }

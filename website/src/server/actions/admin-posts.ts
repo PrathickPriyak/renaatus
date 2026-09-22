@@ -107,13 +107,13 @@ export async function deleteJournalPostAction(formData: FormData): Promise<void>
     if (!postId) {
       throw new ValidationError("Missing journal entry.");
     }
-    await deleteJournalPost(getDb(), actor, postId);
+    return deleteJournalPost(getDb(), actor, postId);
   });
 
   if (!result.ok) {
     redirect(`/admin/blog/${postId}/edit`);
   }
 
-  revalidateBlog();
+  revalidateBlog(result.data.slug);
   redirect("/admin/blog");
 }

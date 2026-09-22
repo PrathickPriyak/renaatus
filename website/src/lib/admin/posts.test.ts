@@ -4,6 +4,7 @@ import { loadPrismaEnv } from "../../../prisma/load-env";
 import { createCliPrismaClient, readDatabaseUrl } from "../../../prisma/cli-client";
 import {
   createJournalPost,
+  deleteJournalPost,
   listJournalPosts,
   updateJournalPost,
 } from "@/lib/admin/posts";
@@ -54,6 +55,19 @@ describe("admin cms", () => {
       await db.user.deleteMany({ where: { id: { in: userIds } } });
     }
     await db.$disconnect();
+  });
+
+  it("returns the deleted slug so public journal pages can be revalidated", async () => {
+    const created = await createJournalPost(db, editor, {
+      title: `Admin delete ${stamp}`,
+      slug: `admin-delete-${stamp}`,
+      excerpt: "A draft that will be deleted.",
+      body: "Body text stored as structured JSON.",
+      status: "DRAFT",
+    });
+    const deleted = await deleteJournalPost(db, editor, created.id);
+    assert.equal(deleted.slug, `admin-delete-${stamp}`);
+    assert.equal(await db.post.findUnique({ where: { id: created.id } }), null);
   });
 
   it("lets editors create and update a draft post", async () => {
