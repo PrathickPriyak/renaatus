@@ -21,7 +21,7 @@ export default function ServicesPage() {
         path="/services"
         eyebrow="Services"
         title="Manufacturer and builder in one group."
-        copy="Three lines of work — infrastructure as EPC, residences, and Renacon AAC — drawn from what the company already delivers. Further service lines are CONTENT_REQUIRED."
+        copy="Three lines of work drawn from what the company already delivers: infrastructure as EPC, luxury residences, and Renacon AAC manufacturing."
       />
 
       <Section>

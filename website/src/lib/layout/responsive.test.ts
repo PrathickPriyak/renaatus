@@ -12,7 +12,7 @@ function readSrc(relativePath: string): string {
 describe("responsive layout contracts", () => {
   it("shrinks display type on 320px screens without lowering the desktop max", () => {
     const css = readSrc("src/app/globals.css");
-    assert.match(css, /--text-display:\s*clamp\(2\.35rem,\s*5\.8vw,\s*5\.25rem\)/);
+    assert.match(css, /--text-display:\s*clamp\(2\.75rem,\s*6\.5vw,\s*5\.75rem\)/);
     assert.match(css, /overflow-wrap:\s*anywhere/);
   });
 

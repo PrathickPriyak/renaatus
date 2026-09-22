@@ -47,6 +47,7 @@ function infraEntry(project: InfraProject): CatalogProject {
     kind: "infrastructure",
     name: project.name,
     image: project.image,
+    copy: project.copy,
     country: project.country,
     year: project.year,
     gallery: project.gallery ?? [project.image],
@@ -93,10 +94,10 @@ export function projectHref(slug: string): string {
 
 export function projectMeta(project: CatalogProject): string {
   if (project.kind === "realty") {
-    return project.location ?? "CONTENT_REQUIRED";
+    return project.location ?? "Location on request";
   }
   const parts = [project.country, project.year].filter(Boolean);
-  return parts.length > 0 ? parts.join(" · ") : "CONTENT_REQUIRED";
+  return parts.length > 0 ? parts.join(" · ") : "Delivered project";
 }
 
 export function projectSeoDescription(project: CatalogProject): string {
@@ -105,8 +106,5 @@ export function projectSeoDescription(project: CatalogProject): string {
   }
   const meta = projectMeta(project);
   const kindLabel = project.kind === "realty" ? "residence" : "infrastructure project";
-  if (meta && meta !== "CONTENT_REQUIRED") {
-    return `${project.name} is a Renaatus ${kindLabel} — ${meta}.`;
-  }
-  return `${project.name} is a Renaatus ${kindLabel}.`;
+  return `${project.name} is a Renaatus ${kindLabel} — ${meta}.`;
 }

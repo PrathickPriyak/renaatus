@@ -22,8 +22,8 @@ export default function ProductsPage() {
       <PageIntro
         path="/products"
         eyebrow="Products"
-        title="CONTENT_REQUIRED"
-        copy="CONTENT_REQUIRED"
+        title="Renacon AAC blocks"
+        copy="Product details will appear here once the Renacon catalogue entry is available."
       />
     );
   }
@@ -34,7 +34,7 @@ export default function ProductsPage() {
         path="/products"
         eyebrow="Products"
         title="Renacon AAC blocks."
-        copy="The published catalogue today is one line: autoclaved aerated concrete from the group that also builds. Further SKUs are CONTENT_REQUIRED until classified."
+        copy="The published product line today is Renacon autoclaved aerated concrete — South India’s leading AAC brand from the group that also builds."
       />
 
       <Container className="grid gap-12 pb-[var(--section-y)] lg:grid-cols-2 lg:items-center">

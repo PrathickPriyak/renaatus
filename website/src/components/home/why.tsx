@@ -13,16 +13,19 @@ export function HomeWhy() {
       title="Manufacturer and builder."
       intro="Site experience and AAC manufacturing in the same group — across India, the Maldives, and Mauritius."
     >
-      <div className="bg-line grid gap-px md:grid-cols-2">
+      <div className="grid gap-4 md:grid-cols-2 lg:gap-5">
         {pillars.map((item, index) => (
           <Reveal key={item.title} transition={{ delay: index * 0.05 }}>
-            <article className="bg-ink-soft h-full p-7 md:p-10">
-              <h3 className="font-display text-h3 text-cream">{item.title}</h3>
+            <article className="border-line/80 bg-ink h-full border p-8 md:p-10">
+              <p className="text-brass font-display text-3xl leading-none opacity-50">
+                {String(index + 1).padStart(2, "0")}
+              </p>
+              <h3 className="font-display text-h3 text-cream mt-6">{item.title}</h3>
               <Text className="mt-4">{item.copy}</Text>
-              <ul className="text-cream/80 mt-6 space-y-2 text-sm">
+              <ul className="text-cream/75 mt-8 space-y-3 text-sm leading-6">
                 {item.points.map((point) => (
                   <li key={point} className="flex gap-3">
-                    <span className="bg-brass mt-2 h-px w-3 shrink-0" aria-hidden />
+                    <span className="bg-brass mt-2.5 h-px w-4 shrink-0" aria-hidden />
                     {point}
                   </li>
                 ))}
@@ -31,7 +34,7 @@ export function HomeWhy() {
           </Reveal>
         ))}
       </div>
-      <div className="mt-12">
+      <div className="mt-14">
         <Button asChild variant="secondary">
           <Link href="/why-renaatus">Why Renaatus</Link>
         </Button>

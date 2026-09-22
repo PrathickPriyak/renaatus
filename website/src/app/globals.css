@@ -30,11 +30,11 @@
   --ring: var(--brand);
   --radius: 2px;
   --gutter: clamp(1.25rem, 4vw, 3rem);
-  --section-y: clamp(4.5rem, 9vw, 8rem);
+  --section-y: clamp(5.5rem, 11vw, 9.5rem);
   --container: 80rem;
   --container-narrow: 42rem;
-  --container-wide: 90rem;
-  --header-height: 4.75rem;
+  --container-wide: 92rem;
+  --header-height: 5rem;
 }
 
 @theme inline {
@@ -72,12 +72,12 @@
   --radius-xl: 4px;
   --font-sans: var(--font-outfit);
   --font-display: var(--font-candara);
-  --text-display: clamp(2.35rem, 5.8vw, 5.25rem);
-  --text-display--line-height: 1.04;
-  --text-h1: clamp(2.25rem, 4.2vw, 3.75rem);
-  --text-h1--line-height: 1.08;
-  --text-h2: clamp(1.75rem, 3vw, 2.5rem);
-  --text-h2--line-height: 1.15;
+  --text-display: clamp(2.75rem, 6.5vw, 5.75rem);
+  --text-display--line-height: 1.02;
+  --text-h1: clamp(2.35rem, 4.4vw, 3.9rem);
+  --text-h1--line-height: 1.06;
+  --text-h2: clamp(1.85rem, 3.1vw, 2.75rem);
+  --text-h2--line-height: 1.12;
   --text-h3: clamp(1.25rem, 2vw, 1.625rem);
   --text-h3--line-height: 1.25;
   --text-h4: 1.125rem;
@@ -174,7 +174,7 @@ body {
 @media (hover: hover) and (pointer: fine) {
   .media-zoom:hover img,
   .media-zoom:hover video {
-    transform: scale(1.04);
+    transform: scale(1.055);
   }
 }
 

@@ -78,12 +78,11 @@ export default async function ProjectDetailPage({ params }: PageProps) {
           <p className="text-eyebrow text-brass tracking-[0.24em] uppercase">
             {projectMeta(project)}
           </p>
-          {project.copy ? null : (
-            <Text className="mt-6">
-              Project narrative beyond the name, location, and photography is
-              CONTENT_REQUIRED.
+          {project.copy ? (
+            <Text variant="lead" className="mt-6 max-w-2xl">
+              {project.copy}
             </Text>
-          )}
+          ) : null}
         </div>
         <div className="flex w-full max-w-md flex-col gap-3 sm:max-w-none sm:flex-row lg:items-end lg:justify-end">
           {project.externalHref ? (

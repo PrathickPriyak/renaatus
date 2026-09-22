@@ -39,7 +39,7 @@ export function Section({
     >
       <Container width={width}>
         {hasHeader ? (
-          <header className="mb-12 max-w-3xl md:mb-16">
+          <header className="mb-14 max-w-3xl md:mb-20">
             {header ?? (
               <>
                 {eyebrow ? <Eyebrow>{eyebrow}</Eyebrow> : null}
