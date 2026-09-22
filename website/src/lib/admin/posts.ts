@@ -100,7 +100,7 @@ export type AdminJournalEditorOptions = {
   images: AdminJournalImageOption[];
 };
 
-const postSelect = {
+const listPostSelect = {
   id: true,
   title: true,
   slug: true,
@@ -110,7 +110,6 @@ const postSelect = {
   publishedAt: true,
   createdAt: true,
   updatedAt: true,
-  body: true,
   seoTitle: true,
   seoDescription: true,
   canonicalUrl: true,
@@ -126,7 +125,17 @@ const postSelect = {
   },
 } as const;
 
+const postSelect = {
+  ...listPostSelect,
+  body: true,
+} as const;
+
 type SelectedPost = Prisma.PostGetPayload<{ select: typeof postSelect }>;
+type ListedPost = Prisma.PostGetPayload<{ select: typeof listPostSelect }>;
+
+function toAdminJournalListItem(post: ListedPost): AdminJournalPost {
+  return toAdminJournalPost({ ...post, body: [] });
+}
 
 function toAdminJournalPost(post: SelectedPost): AdminJournalPost {
   const tags = post.tags.map((row) => row.tag);
@@ -301,9 +310,9 @@ export async function listJournalPosts(
   const posts = await db.post.findMany({
     orderBy: [{ updatedAt: "desc" }, { id: "desc" }],
     take: 100,
-    select: postSelect,
+    select: listPostSelect,
   });
-  return posts.map(toAdminJournalPost);
+  return posts.map(toAdminJournalListItem);
 }
 
 export async function getJournalPost(

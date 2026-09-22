@@ -15,6 +15,8 @@ import { CtaBand } from "@/design-system";
 import { pageMetadataFromSeo } from "@/lib/seo/metadata";
 import { publicSeo } from "@/lib/seo/pages";
 
+export const revalidate = 300;
+
 export const metadata: Metadata = pageMetadataFromSeo(publicSeo.home);
 
 export default function HomePage() {

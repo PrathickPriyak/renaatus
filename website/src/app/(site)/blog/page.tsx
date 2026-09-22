@@ -11,6 +11,8 @@ import { pageMetadataFromSeo } from "@/lib/seo/metadata";
 import { publicSeo } from "@/lib/seo/pages";
 import { cn } from "@/lib/utils";
 
+export const revalidate = 300;
+
 type PageProps = {
   searchParams: Promise<{ q?: string | string[]; category?: string | string[] }>;
 };

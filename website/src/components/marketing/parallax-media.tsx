@@ -36,7 +36,7 @@ export function ParallaxMedia({ children, className }: ParallaxMediaProps) {
     <div ref={ref} className={cn("relative overflow-hidden", className)}>
       <motion.div
         style={{ y }}
-        className="absolute inset-x-0 -top-[8%] h-[116%] will-change-transform"
+        className="absolute inset-x-0 -top-[8%] h-[116%]"
       >
         {children}
       </motion.div>

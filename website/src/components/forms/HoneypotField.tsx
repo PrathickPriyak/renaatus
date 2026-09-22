@@ -1,5 +1,3 @@
-"use client";
-
 export function HoneypotField() {
   return (
     <div className="absolute -left-[10000px] h-px w-px overflow-hidden" aria-hidden="true">

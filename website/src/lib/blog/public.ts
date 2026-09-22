@@ -48,12 +48,16 @@ export type PublicBlogFilters = {
   category?: string;
 };
 
-const publishedInclude = {
+const cardInclude = {
   author: { select: { name: true } },
   category: { select: { name: true, slug: true } },
   featuredImage: {
     select: { key: true, bucket: true, alt: true, visibility: true },
   },
+} as const;
+
+const publishedInclude = {
+  ...cardInclude,
   ogImage: {
     select: { key: true, bucket: true, alt: true, visibility: true },
   },
@@ -64,6 +68,7 @@ const publishedInclude = {
   },
 } as const;
 
+type CardRow = Prisma.PostGetPayload<{ include: typeof cardInclude }>;
 type PublishedRow = Prisma.PostGetPayload<{ include: typeof publishedInclude }>;
 
 function mediaImage(
@@ -117,7 +122,7 @@ export function formatBlogDate(value: Date): string {
   }).format(value);
 }
 
-function toCard(post: PublishedRow): PublicBlogCard {
+function toCard(post: CardRow): PublicBlogCard {
   return {
     id: post.id,
     title: post.title,
@@ -171,9 +176,22 @@ export async function listPublishedBlogs(
 ): Promise<PublicBlogCard[]> {
   const posts = await db.post.findMany({
     where: publishedWhere(filters),
-    include: publishedInclude,
+    include: cardInclude,
     orderBy: [{ publishedAt: "desc" }, { createdAt: "desc" }],
     take: 50,
+  });
+  return posts.map(toCard);
+}
+
+export async function listHomeJournalPosts(
+  db: PrismaClient,
+  take = 2,
+): Promise<PublicBlogCard[]> {
+  const posts = await db.post.findMany({
+    where: { status: "PUBLISHED" },
+    include: cardInclude,
+    orderBy: [{ featured: "desc" }, { publishedAt: "desc" }, { createdAt: "desc" }],
+    take,
   });
   return posts.map(toCard);
 }
@@ -182,24 +200,20 @@ export async function listPublishedBlogCategories(
   db: PrismaClient,
 ): Promise<PublicBlogCategory[]> {
   const categories = await db.category.findMany({
+    where: { posts: { some: { status: "PUBLISHED" } } },
     orderBy: { name: "asc" },
     select: {
       name: true,
       slug: true,
-      posts: {
-        where: { status: "PUBLISHED" },
-        select: { id: true },
-      },
+      _count: { select: { posts: { where: { status: "PUBLISHED" } } } },
     },
   });
 
-  return categories
-    .map((category) => ({
-      name: category.name,
-      slug: category.slug,
-      count: category.posts.length,
-    }))
-    .filter((category) => category.count > 0);
+  return categories.map((category) => ({
+    name: category.name,
+    slug: category.slug,
+    count: category._count.posts,
+  }));
 }
 
 export async function getPublicBlogListing(
@@ -237,7 +251,7 @@ export async function getFeaturedPublishedBlog(
 ): Promise<PublicBlogCard | null> {
   const featured = await db.post.findFirst({
     where: { status: "PUBLISHED", featured: true },
-    include: publishedInclude,
+    include: cardInclude,
     orderBy: [{ publishedAt: "desc" }, { createdAt: "desc" }],
   });
   if (featured) {
@@ -246,7 +260,7 @@ export async function getFeaturedPublishedBlog(
 
   const latest = await db.post.findFirst({
     where: { status: "PUBLISHED" },
-    include: publishedInclude,
+    include: cardInclude,
     orderBy: [{ publishedAt: "desc" }, { createdAt: "desc" }],
   });
   return latest ? toCard(latest) : null;
@@ -275,7 +289,7 @@ export async function listRelatedPublishedBlogs(
         categoryId: current.categoryId,
         id: { not: current.id },
       },
-      include: publishedInclude,
+      include: cardInclude,
       orderBy: [{ publishedAt: "desc" }, { createdAt: "desc" }],
       take: limit,
     });
@@ -291,7 +305,7 @@ export async function listRelatedPublishedBlogs(
         status: "PUBLISHED",
         id: { notIn: [...seen] },
       },
-      include: publishedInclude,
+      include: cardInclude,
       orderBy: [{ publishedAt: "desc" }, { createdAt: "desc" }],
       take: limit - related.length,
     });

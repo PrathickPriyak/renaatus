@@ -5,13 +5,11 @@ import { Button } from "@/design-system/components/button";
 import { Section } from "@/design-system/components/section";
 import { Reveal } from "@/design-system/components/reveal";
 import { Text } from "@/design-system/components/text";
-import { compact } from "@/lib/utils";
 import { getDb } from "@/lib/db";
-import { getPublicBlogListing } from "@/lib/blog/public";
+import { listHomeJournalPosts } from "@/lib/blog/public";
 
 export async function HomeJournal() {
-  const listing = await getPublicBlogListing(getDb(), {});
-  const posts = compact([listing.featured, ...listing.latest]).slice(0, 2);
+  const posts = await listHomeJournalPosts(getDb(), 2);
   if (posts.length === 0) {
     return null;
   }

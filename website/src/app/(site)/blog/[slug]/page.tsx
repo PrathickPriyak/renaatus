@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { cache } from "react";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { BlogCard } from "@/components/blog/BlogCard";
@@ -11,19 +12,29 @@ import { CtaBand } from "@/design-system/components/cta-band";
 import { Eyebrow } from "@/design-system/components/eyebrow";
 import { Heading } from "@/design-system/components/heading";
 import { Rule } from "@/design-system/components/rule";
-import { formatBlogDate, getPublishedBlog, listRelatedPublishedBlogs } from "@/lib/blog/public";
+import { formatBlogDate, getPublishedBlog, listPublishedBlogs, listRelatedPublishedBlogs } from "@/lib/blog/public";
 import { getDb } from "@/lib/db";
+import { HERO_IMAGE_QUALITY } from "@/lib/performance/hero-media";
 import { articleJsonLd, breadcrumbJsonLd } from "@/lib/seo/json-ld";
 import { pageMetadata } from "@/lib/seo/metadata";
 import { publicSeo } from "@/lib/seo/pages";
+
+export const revalidate = 300;
 
 type PageProps = {
   params: Promise<{ slug: string }>;
 };
 
+export async function generateStaticParams() {
+  const posts = await listPublishedBlogs(getDb());
+  return posts.map((post) => ({ slug: post.slug }));
+}
+
+const loadPublishedBlog = cache((slug: string) => getPublishedBlog(getDb(), slug));
+
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
-  const post = await getPublishedBlog(getDb(), slug);
+  const post = await loadPublishedBlog(slug);
   if (!post) {
     return pageMetadata({
       path: `/blog/${slug}`,
@@ -52,13 +63,12 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function BlogDetailPage({ params }: PageProps) {
   const { slug } = await params;
-  const db = getDb();
-  const post = await getPublishedBlog(db, slug);
+  const post = await loadPublishedBlog(slug);
   if (!post) {
     notFound();
   }
 
-  const related = await listRelatedPublishedBlogs(db, post.slug, 3);
+  const related = await listRelatedPublishedBlogs(getDb(), post.slug, 3);
   const dateLabel = post.publishedAt ? formatBlogDate(post.publishedAt) : null;
 
   const crumbs = [
@@ -89,6 +99,7 @@ export default async function BlogDetailPage({ params }: PageProps) {
               alt={post.image.alt || post.title}
               fill
               priority
+              quality={HERO_IMAGE_QUALITY}
               className="object-cover"
               sizes="100vw"
             />
