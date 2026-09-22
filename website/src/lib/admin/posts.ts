@@ -429,13 +429,13 @@ export async function updateJournalPost(
   db: PrismaClient,
   actor: Actor | null,
   input: JournalPostInput & { postId: string },
-): Promise<AdminJournalPost> {
+): Promise<AdminJournalPost & { previousSlug: string }> {
   const staff = requireBlogEditor(actor);
   const data = parseInput(input);
 
   const existing = await db.post.findUnique({
     where: { id: input.postId },
-    select: { id: true, publishedAt: true },
+    select: { id: true, publishedAt: true, slug: true },
   });
   if (!existing) {
     throw new NotFoundError("Journal post");
@@ -483,14 +483,14 @@ export async function updateJournalPost(
     metadata: { status: updated.status, slug: updated.slug },
   });
 
-  return toAdminJournalPost(updated);
+  return { ...toAdminJournalPost(updated), previousSlug: existing.slug };
 }
 
 export async function deleteJournalPost(
   db: PrismaClient,
   actor: Actor | null,
   postId: string,
-): Promise<void> {
+): Promise<{ slug: string }> {
   const staff = requireBlogEditor(actor);
   const existing = await db.post.findUnique({
     where: { id: postId },
@@ -508,4 +508,5 @@ export async function deleteJournalPost(
     entityId: existing.id,
     metadata: { slug: existing.slug },
   });
+  return { slug: existing.slug };
 }
