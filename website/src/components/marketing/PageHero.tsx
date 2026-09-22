@@ -32,18 +32,20 @@ export function PageHero({
   const crumbs = breadcrumbItems ?? (path ? crumbsForPath(path) : undefined);
 
   return (
-    <section className="grain relative isolate min-h-[min(36rem,72dvh)] overflow-hidden">
+    <section className="grain relative isolate min-h-[min(36rem,72dvh)]">
       {crumbs && crumbs.length >= 2 ? <JsonLd data={breadcrumbJsonLd(crumbs)} /> : null}
-      <Image
-        src={image}
-        alt={imageAlt ?? title}
-        fill
-        priority
-        quality={HERO_IMAGE_QUALITY}
-        className="object-cover"
-        sizes="100vw"
-      />
-      <div className="from-ink via-ink/70 to-ink/35 absolute inset-0 bg-gradient-to-t" />
+      <div className="absolute inset-0 overflow-hidden">
+        <Image
+          src={image}
+          alt={imageAlt ?? title}
+          fill
+          priority
+          quality={HERO_IMAGE_QUALITY}
+          className="object-cover"
+          sizes="100vw"
+        />
+        <div className="from-ink via-ink/70 to-ink/35 absolute inset-0 bg-gradient-to-t" />
+      </div>
       <Container className="relative flex min-h-[min(36rem,72dvh)] flex-col justify-end pt-[calc(var(--header-height)+2rem)] pb-16">
         <Breadcrumb className="mb-8" items={crumbs} />
         <Eyebrow>{eyebrow}</Eyebrow>

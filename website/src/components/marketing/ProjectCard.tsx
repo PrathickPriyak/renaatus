@@ -22,11 +22,11 @@ export function ProjectCard({ title, meta, copy, image, href }: ProjectCardProps
           sizes="(max-width: 768px) 100vw, 33vw"
         />
         <div className="from-ink via-ink/25 absolute inset-0 bg-gradient-to-t to-transparent" />
-        <div className="absolute inset-x-0 bottom-0 p-6">
+        <div className="absolute inset-x-0 bottom-0 p-5 sm:p-6">
           {meta ? (
-            <p className="text-eyebrow text-brass tracking-[0.24em] uppercase">{meta}</p>
+            <p className="text-eyebrow text-brass tracking-[0.24em] uppercase break-words">{meta}</p>
           ) : null}
-          <h3 className="font-display text-h3 text-cream mt-2 leading-tight">{title}</h3>
+          <h3 className="font-display text-h3 text-cream mt-2 leading-tight break-words">{title}</h3>
           {copy ? (
             <p className="text-cream/80 mt-2 line-clamp-3 text-sm leading-6">{copy}</p>
           ) : null}

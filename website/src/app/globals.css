@@ -72,7 +72,7 @@
   --radius-xl: 4px;
   --font-sans: var(--font-outfit);
   --font-display: var(--font-candara);
-  --text-display: clamp(2.75rem, 5.8vw, 5.25rem);
+  --text-display: clamp(2.35rem, 5.8vw, 5.25rem);
   --text-display--line-height: 1.04;
   --text-h1: clamp(2.25rem, 4.2vw, 3.75rem);
   --text-h1--line-height: 1.08;
@@ -99,6 +99,7 @@
 html {
   scroll-behavior: smooth;
   scroll-padding-top: var(--header-height);
+  overflow-wrap: anywhere;
 }
 
 body {
@@ -106,6 +107,7 @@ body {
   color: var(--cream);
   font-family: var(--font-outfit), "Segoe UI", sans-serif;
   min-height: 100%;
+  overflow-wrap: anywhere;
 }
 
 ::selection {

@@ -92,17 +92,19 @@ export default async function BlogDetailPage({ params }: PageProps) {
       />
       <JsonLd data={breadcrumbJsonLd(crumbs)} />
       <article>
-        <section className="grain relative isolate min-h-[min(36rem,72dvh)] overflow-hidden">
+        <section className="grain relative isolate min-h-[min(36rem,72dvh)]">
           {post.image ? (
-            <Image
-              src={post.image.src}
-              alt={post.image.alt || post.title}
-              fill
-              priority
-              quality={HERO_IMAGE_QUALITY}
-              className="object-cover"
-              sizes="100vw"
-            />
+            <div className="absolute inset-0 overflow-hidden">
+              <Image
+                src={post.image.src}
+                alt={post.image.alt || post.title}
+                fill
+                priority
+                quality={HERO_IMAGE_QUALITY}
+                className="object-cover"
+                sizes="100vw"
+              />
+            </div>
           ) : null}
           <div className="from-ink via-ink/70 to-ink/35 absolute inset-0 bg-gradient-to-t" />
           <Container className="relative flex min-h-[min(36rem,72dvh)] flex-col justify-end pt-[calc(var(--header-height)+2rem)] pb-16">

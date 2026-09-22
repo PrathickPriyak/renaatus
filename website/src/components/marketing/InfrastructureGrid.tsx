@@ -3,7 +3,7 @@
 import { useMemo, useState } from "react";
 import { ProjectCard } from "@/components/marketing/ProjectCard";
 import { catalogProjects, projectHref, projectMeta } from "@/lib/catalog";
-import { cn } from "@/lib/utils";
+import { filterChipClass } from "@/lib/layout/chips";
 
 const filters = ["All", "India", "Maldives", "Mauritius"] as const;
 type Filter = (typeof filters)[number];
@@ -19,22 +19,16 @@ export function InfrastructureGrid() {
 
   return (
     <div>
-      <div className="flex flex-wrap gap-3" role="tablist" aria-label="Filter by country">
+      <div className="flex flex-wrap gap-3" role="group" aria-label="Filter by country">
         {filters.map((item) => {
           const active = item === filter;
           return (
             <button
               key={item}
               type="button"
-              role="tab"
-              aria-selected={active}
+              aria-pressed={active}
               onClick={() => setFilter(item)}
-              className={cn(
-                "h-9 border px-4 text-[0.65rem] tracking-[0.18em] uppercase transition-colors duration-200",
-                active
-                  ? "border-brass text-brass"
-                  : "border-line text-cream/80 hover:border-cream/40 hover:text-cream",
-              )}
+              className={filterChipClass(active)}
             >
               {item}
             </button>

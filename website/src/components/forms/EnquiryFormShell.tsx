@@ -45,7 +45,7 @@ export function EnquiryFormShell({
       noValidate
       aria-busy={pending}
       className={cn(
-        "relative grid gap-5 rounded-sm border border-line bg-panel/80 p-6 md:p-8",
+        "relative min-w-0 grid gap-5 rounded-sm border border-line bg-panel/80 p-5 md:p-8",
         className,
       )}
     >

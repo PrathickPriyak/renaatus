@@ -17,9 +17,9 @@ const buttonVariants = cva(
         brass: "bg-brass text-ink hover:bg-cream",
       },
       size: {
-        sm: "h-9 px-4 text-[0.65rem]",
-        md: "h-11 px-6 text-[0.7rem]",
-        lg: "h-12 px-8 text-[0.72rem]",
+        sm: "min-h-11 h-11 px-4 text-[0.65rem]",
+        md: "min-h-11 h-11 px-6 text-[0.7rem]",
+        lg: "min-h-12 h-12 px-8 text-[0.72rem]",
       },
     },
     defaultVariants: {

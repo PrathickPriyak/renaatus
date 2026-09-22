@@ -18,17 +18,19 @@ export async function HomeStory() {
   }
 
   return (
-    <section className="grain relative isolate min-h-[min(40rem,92dvh)] overflow-hidden">
+    <section className="grain relative isolate min-h-[min(40rem,92dvh)]">
       {story.image ? (
-        <ParallaxMedia className="absolute inset-0">
-          <Image
-            src={story.image.src}
-            alt={story.image.alt || story.title}
-            fill
-            className="object-cover object-center"
-            sizes="(max-width: 1920px) 100vw, 1920px"
-          />
-        </ParallaxMedia>
+        <div className="absolute inset-0 overflow-hidden">
+          <ParallaxMedia className="absolute inset-0">
+            <Image
+              src={story.image.src}
+              alt={story.image.alt || story.title}
+              fill
+              className="object-cover object-center"
+              sizes="(max-width: 1920px) 100vw, 1920px"
+            />
+          </ParallaxMedia>
+        </div>
       ) : null}
       <div className="from-ink via-ink/70 to-ink/35 absolute inset-0 bg-gradient-to-t" />
       <Container className="relative flex min-h-[min(40rem,92dvh)] flex-col justify-end pt-24 pb-16 md:pb-20">

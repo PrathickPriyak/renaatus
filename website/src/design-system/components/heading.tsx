@@ -5,11 +5,11 @@ import { cn } from "@/lib/utils";
 const headingVariants = cva("text-balance text-cream", {
   variants: {
     variant: {
-      display: "font-display text-display tracking-[-0.02em]",
-      h1: "font-display text-h1 tracking-[-0.015em]",
-      h2: "font-display text-h2 tracking-[-0.01em]",
-      h3: "font-sans text-h3 font-medium tracking-tight",
-      h4: "font-sans text-h4 font-medium tracking-tight",
+      display: "font-display text-display tracking-[-0.02em] break-words",
+      h1: "font-display text-h1 tracking-[-0.015em] break-words",
+      h2: "font-display text-h2 tracking-[-0.01em] break-words",
+      h3: "font-sans text-h3 font-medium tracking-tight break-words",
+      h4: "font-sans text-h4 font-medium tracking-tight break-words",
     },
   },
   defaultVariants: {

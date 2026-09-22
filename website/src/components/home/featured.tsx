@@ -89,11 +89,11 @@ export function HomeFeatured() {
                     sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 42vw"
                   />
                   <div className="from-ink via-ink/20 absolute inset-0 bg-gradient-to-t to-transparent" />
-                  <div className="absolute inset-x-0 bottom-0 p-6 md:p-8">
-                    <p className="text-eyebrow text-brass tracking-[0.24em] uppercase">
+                  <div className="absolute inset-x-0 bottom-0 p-5 md:p-8">
+                    <p className="text-eyebrow text-brass tracking-[0.24em] uppercase break-words">
                       {item.meta}
                     </p>
-                    <h3 className="font-display text-h3 text-cream mt-3">{item.title}</h3>
+                    <h3 className="font-display text-h3 text-cream mt-3 break-words">{item.title}</h3>
                   </div>
                 </HoverMedia>
               </Link>
