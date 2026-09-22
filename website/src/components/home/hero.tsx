@@ -24,17 +24,17 @@ export function HomeHero() {
   const mediaScale = useTransform(
     scrollYProgress,
     [0, 1],
-    reduced ? [1, 1] : [1, 1.08],
+    reduced ? [1, 1] : [1, 1.06],
   );
   const chromeOpacity = useTransform(
     scrollYProgress,
-    [0, 0.55],
+    [0, 0.5],
     reduced ? [1, 1] : [1, 0],
   );
   const chromeY = useTransform(
     scrollYProgress,
-    [0, 0.55],
-    reduced ? [0, 0] : [0, 36],
+    [0, 0.5],
+    reduced ? [0, 0] : [0, 28],
   );
 
   return (
@@ -45,53 +45,42 @@ export function HomeHero() {
       <div className="absolute inset-0 overflow-hidden" aria-hidden>
         <motion.div className="absolute inset-0" style={{ scale: mediaScale }}>
           <HeroMedia />
-          {/* Soft edges — keep the video center readable for kit typography */}
-          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_85%_70%_at_50%_42%,transparent_0%,rgba(7,9,14,0.28)_62%,rgba(7,9,14,0.78)_100%)]" />
-          <div className="pointer-events-none absolute inset-x-0 top-0 h-[28%] bg-[linear-gradient(180deg,rgba(7,9,14,0.72)_0%,transparent_100%)]" />
-          <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[48%] bg-[linear-gradient(0deg,rgba(7,9,14,0.96)_0%,rgba(7,9,14,0.55)_42%,transparent_100%)]" />
-          <div className="pointer-events-none absolute inset-y-0 left-0 hidden w-[22%] bg-[linear-gradient(90deg,rgba(7,9,14,0.45)_0%,transparent_100%)] md:block" />
+          {/* Keep the video center clear for burned-in kit typography */}
+          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_90%_65%_at_50%_38%,transparent_0%,transparent_48%,rgba(7,9,14,0.35)_78%,rgba(7,9,14,0.82)_100%)]" />
+          <div className="pointer-events-none absolute inset-x-0 top-0 h-[22%] bg-[linear-gradient(180deg,rgba(7,9,14,0.78)_0%,transparent_100%)]" />
+          <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[34%] bg-[linear-gradient(0deg,rgba(7,9,14,0.97)_0%,rgba(7,9,14,0.62)_55%,transparent_100%)]" />
         </motion.div>
       </div>
 
-      <Container className="relative flex min-h-[100dvh] flex-col justify-end pt-[calc(var(--header-height)+2.5rem)] pb-16 md:pb-20">
+      <Container className="relative flex min-h-[100dvh] flex-col justify-end pt-[calc(var(--header-height)+1.5rem)] pb-14 md:pb-16">
         <motion.div
-          className="max-w-3xl"
+          className="max-w-2xl"
           style={{ opacity: chromeOpacity, y: chromeY }}
         >
           <motion.p
-            className="font-display text-cream text-[clamp(3rem,10vw,7.25rem)] leading-[0.9] tracking-[-0.03em]"
-            initial={motionSafe(reduced, { opacity: 0, y: 28 })}
+            className="font-display text-cream text-[clamp(2.35rem,5.5vw,4.25rem)] leading-[0.94] tracking-[-0.025em]"
+            initial={motionSafe(reduced, { opacity: 0, y: 22 })}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: duration.slow, ease: easePremium, delay: 0.35 }}
+            transition={{ duration: duration.slow, ease: easePremium, delay: 1.1 }}
           >
             {brand.name}
           </motion.p>
 
           <motion.p
-            className="text-cream/90 mt-5 max-w-xl text-[clamp(1.05rem,2.1vw,1.35rem)] leading-relaxed font-light tracking-wide md:mt-7"
-            initial={motionSafe(reduced, { opacity: 0, y: 20 })}
+            className="text-cream/90 mt-3 max-w-lg text-[clamp(0.98rem,1.7vw,1.2rem)] leading-snug font-light tracking-wide md:mt-4"
+            initial={motionSafe(reduced, { opacity: 0, y: 16 })}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: duration.slow, ease: easePremium, delay: 0.55 }}
+            transition={{ duration: duration.base, ease: easePremium, delay: 1.35 }}
           >
             We build more than structures.
             <span className="text-brass"> We build futures.</span>
           </motion.p>
 
-          <motion.p
-            className="text-cream-muted mt-4 max-w-md text-sm leading-6 md:text-[0.95rem] md:leading-7"
-            initial={motionSafe(reduced, { opacity: 0, y: 16 })}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: duration.base, ease: easePremium, delay: 0.7 }}
-          >
-            Half a century of construction trust across India, the Maldives, and
-            Mauritius — infrastructure, luxury residences, and Renacon AAC.
-          </motion.p>
-
           <motion.div
-            className="mt-8 flex w-full max-w-lg flex-col gap-3 sm:mt-10 sm:max-w-none sm:flex-row"
-            initial={motionSafe(reduced, { opacity: 0, y: 16 })}
+            className="mt-7 flex w-full max-w-md flex-col gap-3 sm:mt-8 sm:max-w-none sm:flex-row"
+            initial={motionSafe(reduced, { opacity: 0, y: 14 })}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: duration.base, ease: easePremium, delay: 0.85 }}
+            transition={{ duration: duration.base, ease: easePremium, delay: 1.55 }}
           >
             <Button
               asChild
@@ -120,7 +109,7 @@ export function HomeHero() {
             className="text-cream-muted flex flex-col items-center gap-2 text-[0.65rem] tracking-[0.32em] uppercase"
             initial={motionSafe(reduced, { opacity: 0 })}
             animate={{ opacity: 1 }}
-            transition={{ delay: 1.2, duration: duration.base }}
+            transition={{ delay: 2, duration: duration.base }}
           >
             <span className="hero-scroll-line bg-brass/85 relative h-11 w-px overflow-hidden">
               <span className="hero-scroll-glint absolute inset-x-0 top-0 h-1/3 bg-cream/90" />
