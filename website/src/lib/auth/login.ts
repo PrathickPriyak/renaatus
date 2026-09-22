@@ -26,10 +26,15 @@ export function safeAdminNextPath(value: string | null | undefined): string {
   if (next.startsWith("//") || next.includes("://") || next.includes("\\")) {
     return "/admin";
   }
+  if (next !== "/admin" && !next.startsWith("/admin/")) {
+    return "/admin";
+  }
   return next;
 }
 
 const INVALID_CREDENTIALS = "Invalid email or password.";
+const DUMMY_PASSWORD_HASH =
+  "$argon2id$v=19$m=65536,p=4,t=3$T6Nx+JJK7amyClSXC3+JLQ$8eo0/Th6Bbk25zLubcxXVtZWZ5BMajEZTUbsJfic0Qg";
 
 export async function authenticateStaff(
   db: PrismaClient,
@@ -40,9 +45,8 @@ export async function authenticateStaff(
     now?: () => number;
   },
 ): Promise<{ actor: Actor; token: string; expires: Date }> {
-  await consumeLoginRateLimit({ ip: input.ip, now: input.now });
-
   const email = input.email.trim().toLowerCase();
+  await consumeLoginRateLimit({ ip: input.ip, email, now: input.now });
   const user = await db.user.findUnique({
     where: { email },
     select: {
@@ -55,6 +59,7 @@ export async function authenticateStaff(
   });
 
   if (!user?.passwordHash) {
+    await verifyPassword(DUMMY_PASSWORD_HASH, input.password);
     throw new UnauthorizedError(INVALID_CREDENTIALS);
   }
 

@@ -6,6 +6,7 @@ import {
   breadcrumbJsonLd,
   organizationJsonLd,
   productJsonLd,
+  serializeJsonLd,
   serviceListJsonLd,
   websiteJsonLd,
 } from "@/lib/seo/json-ld";
@@ -69,5 +70,13 @@ describe("structured data", () => {
     const items = json.itemListElement as Array<{ item: { "@type": string } }>;
     assert.equal(items.length, 3);
     assert.ok(items.every((entry) => entry.item["@type"] === "Service"));
+  });
+
+  it("escapes script-breaking characters in JSON-LD", () => {
+    const html = serializeJsonLd({
+      headline: "</script><script>alert(1)</script>",
+    });
+    assert.equal(html.includes("</script>"), false);
+    assert.match(html, /\\u003c/);
   });
 });

@@ -4,13 +4,6 @@ import { SESSION_COOKIE_NAME } from "@/lib/auth/constants";
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  if (
-    pathname === "/admin/enquiries/export" ||
-    pathname.startsWith("/admin/enquiries/export/")
-  ) {
-    return NextResponse.next();
-  }
-
   if (!pathname.startsWith("/admin")) {
     return NextResponse.next();
   }

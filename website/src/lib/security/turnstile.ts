@@ -1,4 +1,5 @@
 import { AppError, ValidationError } from "@/lib/errors";
+import { isProductionRuntime } from "@/lib/env/runtime";
 import { logger } from "@/lib/logger";
 
 const VERIFY_URL = "https://challenges.cloudflare.com/turnstile/v0/siteverify";
@@ -9,6 +10,9 @@ export async function verifyTurnstileToken(input: {
 }): Promise<void> {
   const secret = process.env.TURNSTILE_SECRET_KEY;
   if (!secret) {
+    if (isProductionRuntime()) {
+      throw new AppError("Unable to verify this request.", "TURNSTILE_UNAVAILABLE", 503, true);
+    }
     return;
   }
 

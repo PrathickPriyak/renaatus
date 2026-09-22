@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import type { JournalBlock, JournalDoc, TextNode } from "@/lib/admin/journal-body";
+import { safeHref } from "@/lib/admin/journal-body";
 import { Text } from "@/design-system/components/text";
 
 function isExternalHref(href: string): boolean {
@@ -21,7 +22,10 @@ function InlineText({ nodes }: { nodes?: TextNode[] }) {
           content = <strong>{content}</strong>;
         }
         if (link && link.type === "link") {
-          const href = link.attrs.href;
+          const href = safeHref(link.attrs.href);
+          if (!href) {
+            return <span key={`${node.text}-${index}`}>{content}</span>;
+          }
           return (
             <a
               key={`${href}-${index}`}

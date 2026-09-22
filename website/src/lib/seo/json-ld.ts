@@ -6,6 +6,10 @@ import { absoluteUrl } from "@/lib/seo/url";
 
 export type JsonLdRecord = Record<string, unknown>;
 
+export function serializeJsonLd(data: unknown): string {
+  return JSON.stringify(data).replace(/</g, "\\u003c");
+}
+
 function headquarters() {
   return offices.find((office) => office.role === "Headquarters") ?? offices[0];
 }

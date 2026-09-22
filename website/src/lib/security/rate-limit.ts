@@ -1,4 +1,5 @@
-import { RateLimitError } from "@/lib/errors";
+import { AppError, RateLimitError } from "@/lib/errors";
+import { isProductionRuntime } from "@/lib/env/runtime";
 import { logger } from "@/lib/logger";
 import { hashClientIp } from "@/lib/security/ip";
 
@@ -55,6 +56,14 @@ async function consumeUpstashRateLimit(
   const url = process.env.UPSTASH_REDIS_REST_URL;
   const token = process.env.UPSTASH_REDIS_REST_TOKEN;
   if (!url || !token) {
+    if (isProductionRuntime()) {
+      throw new AppError(
+        "A required service is not configured.",
+        "ENV_MISSING",
+        503,
+        false,
+      );
+    }
     await consumeMemoryRateLimit(key, options);
     return;
   }
@@ -74,6 +83,9 @@ async function consumeUpstashRateLimit(
 
   if (!response.ok) {
     logger.warn("rate_limit_upstash_failed", { status: response.status });
+    if (isProductionRuntime()) {
+      throw new AppError("A required service is not configured.", "ENV_MISSING", 503, false);
+    }
     await consumeMemoryRateLimit(key, options);
     return;
   }
@@ -103,12 +115,17 @@ export async function consumeEnquiryRateLimits(input: {
       ? consumeUpstashRateLimit
       : consumeMemoryRateLimit;
 
+  if (isProductionRuntime() && consume === consumeMemoryRateLimit) {
+    throw new AppError("A required service is not configured.", "ENV_MISSING", 503, false);
+  }
+
   await consume(ipKey, options);
   await consume(emailKey, options);
 }
 
 export async function consumeLoginRateLimit(input: {
   ip: string;
+  email?: string;
   now?: () => number;
 }): Promise<void> {
   const options: RateLimitOptions = {
@@ -116,10 +133,16 @@ export async function consumeLoginRateLimit(input: {
     windowMs: LOGIN_RATE_LIMIT.windowMs,
     now: input.now,
   };
-  const key = `login:ip:${hashClientIp(input.ip)}`;
+  const ipKey = `login:ip:${hashClientIp(input.ip)}`;
   const consume =
     process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN
       ? consumeUpstashRateLimit
       : consumeMemoryRateLimit;
-  await consume(key, options);
+  if (isProductionRuntime() && consume === consumeMemoryRateLimit) {
+    throw new AppError("A required service is not configured.", "ENV_MISSING", 503, false);
+  }
+  await consume(ipKey, options);
+  if (input.email) {
+    await consume(`login:email:${input.email.trim().toLowerCase()}`, options);
+  }
 }

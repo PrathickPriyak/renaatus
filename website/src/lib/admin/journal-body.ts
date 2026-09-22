@@ -54,6 +54,73 @@ function isSafeHref(href: string): boolean {
   }
 }
 
+export function safeHref(href: string): string | null {
+  const trimmed = href.trim();
+  return isSafeHref(trimmed) ? trimmed : null;
+}
+
+function sanitizeMarks(marks?: TextMark[]): TextMark[] | undefined {
+  if (!marks) {
+    return undefined;
+  }
+  const next: TextMark[] = [];
+  for (const mark of marks) {
+    if (mark.type !== "link") {
+      next.push(mark);
+      continue;
+    }
+    const href = safeHref(mark.attrs.href);
+    if (href) {
+      next.push({ type: "link", attrs: { href } });
+    }
+  }
+  return next.length > 0 ? next : undefined;
+}
+
+function sanitizeTextNodes(nodes?: TextNode[]): TextNode[] | undefined {
+  if (!nodes) {
+    return undefined;
+  }
+  return nodes.map((node) => ({
+    ...node,
+    text: typeof node.text === "string" ? node.text : "",
+    marks: sanitizeMarks(node.marks),
+  }));
+}
+
+function sanitizeBlock(block: JournalBlock): JournalBlock {
+  if (block.type === "bulletList") {
+    return {
+      type: "bulletList",
+      content: (block.content ?? []).map((item) => ({
+        type: "listItem",
+        content: (item.content ?? []).map((paragraph) => ({
+          type: "paragraph" as const,
+          content: sanitizeTextNodes(paragraph.content),
+        })),
+      })),
+    };
+  }
+  if (block.type === "heading") {
+    return {
+      type: "heading",
+      attrs: { level: block.attrs?.level === 2 ? 2 : block.attrs?.level === 3 ? 3 : 1 },
+      content: sanitizeTextNodes(block.content),
+    };
+  }
+  return {
+    type: "paragraph",
+    content: sanitizeTextNodes(block.content),
+  };
+}
+
+function sanitizeJournalDoc(doc: JournalDoc): JournalDoc {
+  return {
+    type: "doc",
+    content: Array.isArray(doc.content) ? doc.content.map((block) => sanitizeBlock(block)) : [],
+  };
+}
+
 function parseInline(text: string): TextNode[] {
   const nodes: TextNode[] = [];
   const pattern = /\[([^\]]+)\]\(([^)]+)\)|\*\*([^*]+)\*\*/g;
@@ -239,7 +306,7 @@ export function asJournalDoc(body: unknown): JournalDoc {
   if (body && typeof body === "object" && "type" in body && "content" in body) {
     const doc = body as JournalDoc;
     if (doc.type === "doc" && Array.isArray(doc.content)) {
-      return doc;
+      return sanitizeJournalDoc(doc);
     }
   }
   if (typeof body === "string") {
