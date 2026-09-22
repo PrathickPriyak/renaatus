@@ -11,7 +11,11 @@ type BlogFiltersProps = {
 
 export function BlogFilters({ q, category, categories }: BlogFiltersProps) {
   return (
-    <form method="get" action="/blog" className="grid gap-3 sm:grid-cols-[minmax(0,1fr)_12rem_auto]">
+    <form
+      method="get"
+      action="/blog"
+      className="grid min-w-0 gap-3 sm:grid-cols-[minmax(0,1fr)_minmax(0,12rem)_auto]"
+    >
       <label className="sr-only" htmlFor="blog-search">
         Search journal
       </label>
@@ -33,7 +37,7 @@ export function BlogFilters({ q, category, categories }: BlogFiltersProps) {
           </option>
         ))}
       </Select>
-      <Button type="submit" variant="secondary">
+      <Button type="submit" variant="secondary" className="w-full sm:w-auto">
         Filter
       </Button>
     </form>

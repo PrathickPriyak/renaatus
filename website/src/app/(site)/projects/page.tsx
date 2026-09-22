@@ -3,9 +3,9 @@ import Link from "next/link";
 import { InfrastructureGrid, PageIntro, ProjectCard } from "@/components/marketing";
 import { Container } from "@/design-system/components/container";
 import { catalogProjects, projectHref, projectMeta } from "@/lib/catalog";
+import { filterChipClass } from "@/lib/layout/chips";
 import { pageMetadataFromSeo } from "@/lib/seo/metadata";
 import { publicSeo } from "@/lib/seo/pages";
-import { cn } from "@/lib/utils";
 
 const filters = [
   { href: "/projects", label: "All work", type: undefined },
@@ -75,12 +75,7 @@ export default async function ProjectsPage({ searchParams }: PageProps) {
                 key={filter.href}
                 href={filter.href}
                 aria-current={active ? "page" : undefined}
-                className={cn(
-                  "h-9 border px-4 text-[0.65rem] tracking-[0.18em] uppercase transition-colors duration-200",
-                  active
-                    ? "border-brass text-brass"
-                    : "border-line text-cream/80 hover:border-cream/40 hover:text-cream",
-                )}
+                className={filterChipClass(active)}
               >
                 {filter.label}
               </Link>

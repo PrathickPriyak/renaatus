@@ -45,7 +45,7 @@ export function EnquiryFormShell({
       noValidate
       aria-busy={pending}
       className={cn(
-        "relative grid gap-5 rounded-sm border border-line bg-panel/80 p-6 md:p-8",
+        "relative min-w-0 grid gap-5 rounded-sm border border-line bg-panel/80 p-5 md:p-8",
         className,
       )}
     >
@@ -66,7 +66,7 @@ export function EnquiryFormShell({
         </p>
       ) : null}
 
-      <Button type="submit" disabled={pending} className="justify-self-start">
+      <Button type="submit" disabled={pending} className="w-full justify-self-start sm:w-auto">
         {pending ? (
           <span className="inline-flex items-center gap-2">
             <Spinner className="gap-0 [&_span:last-child]:sr-only" label={pendingLabel} />

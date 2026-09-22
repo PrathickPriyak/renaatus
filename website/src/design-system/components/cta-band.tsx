@@ -28,17 +28,17 @@ export function CtaBand({
       <Container className="flex flex-col gap-8 py-[var(--section-y)] lg:flex-row lg:items-end lg:justify-between">
         <div className="max-w-2xl">
           <Eyebrow>{eyebrow}</Eyebrow>
-          <h2 className="font-display mt-4 text-h1 text-cream">{title}</h2>
+          <h2 className="font-display mt-4 text-h1 text-cream break-words">{title}</h2>
           <Text variant="lead" className="mt-5">
             {copy}
           </Text>
         </div>
-        <div className="flex flex-wrap gap-3">
-          <Button asChild>
+        <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:flex-wrap">
+          <Button asChild className="w-full sm:w-auto">
             <Link href={primary.href}>{primary.label}</Link>
           </Button>
           {secondary ? (
-            <Button asChild variant="secondary">
+            <Button asChild variant="secondary" className="w-full sm:w-auto">
               <Link href={secondary.href}>{secondary.label}</Link>
             </Button>
           ) : null}

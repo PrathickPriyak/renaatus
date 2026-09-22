@@ -47,7 +47,7 @@ export function BrandLockup({
   priority?: boolean;
 }) {
   return (
-    <span className={cn("inline-flex items-center gap-3", className)}>
+    <span className={cn("inline-flex min-h-11 items-center gap-3", className)}>
       <BrandMark priority={priority} />
       <BrandWordmark priority={priority} decorative />
     </span>

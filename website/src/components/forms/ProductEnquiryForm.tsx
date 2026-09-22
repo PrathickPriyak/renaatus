@@ -64,7 +64,7 @@ function ProductFields({
       <p className="text-caption text-cream-muted">
         Product: <span className="text-cream">{productName}</span>
       </p>
-      <div className="grid gap-5 md:grid-cols-2">
+      <div className="grid min-w-0 gap-5 md:grid-cols-2 md:[&>*]:min-w-0">
         <Field label="Name" htmlFor="product-name" error={state.fieldErrors?.name}>
           <Input
             name="name"

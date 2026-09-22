@@ -10,20 +10,13 @@ import { HeroMedia } from "@/components/marketing/hero-media";
 
 export function HomeHero() {
   return (
-    <section className="grain relative isolate min-h-[100dvh] overflow-hidden">
-      <HeroMedia />
-      <div
-        className="from-ink via-ink/75 to-ink/45 md:via-ink/50 md:to-ink/30 absolute inset-0 bg-gradient-to-t"
-        aria-hidden
-      />
-      <div
-        className="from-ink/80 via-ink/25 absolute inset-0 hidden bg-gradient-to-r to-transparent md:block"
-        aria-hidden
-      />
-      <div
-        className="from-ink via-ink/85 absolute inset-x-0 bottom-0 h-[72%] bg-gradient-to-t to-transparent md:hidden"
-        aria-hidden
-      />
+    <section className="grain relative isolate min-h-[100dvh]">
+      <div className="absolute inset-0 overflow-hidden" aria-hidden>
+        <HeroMedia />
+        <div className="from-ink via-ink/75 to-ink/45 md:via-ink/50 md:to-ink/30 absolute inset-0 bg-gradient-to-t" />
+        <div className="from-ink/80 via-ink/25 absolute inset-0 hidden bg-gradient-to-r to-transparent md:block" />
+        <div className="from-ink via-ink/85 absolute inset-x-0 bottom-0 h-[72%] bg-gradient-to-t to-transparent md:hidden" />
+      </div>
       <Container className="relative flex min-h-[100dvh] flex-col justify-end pt-[calc(var(--header-height)+2rem)] pb-16 md:pb-20">
         <Reveal>
           <Eyebrow>Renaatus Projects</Eyebrow>

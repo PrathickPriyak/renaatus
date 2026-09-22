@@ -92,7 +92,10 @@ export default async function ProductDetailPage({ params }: PageProps) {
         </Button>
       </Container>
 
-      <Container id="enquiry" className="grid scroll-mt-28 gap-8 pb-[var(--section-y)] lg:grid-cols-[0.9fr_1.1fr]">
+      <Container
+        id="enquiry"
+        className="grid min-w-0 scroll-mt-28 gap-8 pb-[var(--section-y)] lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)]"
+      >
         <div>
           <Heading variant="h2">Enquire about {product.name}.</Heading>
           <Text className="mt-4">

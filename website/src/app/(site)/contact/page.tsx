@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { PageHero } from "@/components/marketing";
 import { ContactEnquiryForm } from "@/components/forms/ContactEnquiryForm";
+import { Container } from "@/design-system/components/container";
 import { pageMetadataFromSeo } from "@/lib/seo/metadata";
 import { publicSeo } from "@/lib/seo/pages";
 import { offices } from "@/lib/content";
@@ -19,18 +20,24 @@ export default function ContactPage() {
         imageAlt="Contact Renaatus"
       />
 
-      <section className="mx-auto grid max-w-7xl gap-12 px-5 py-20 lg:grid-cols-[0.85fr_1.15fr] md:px-8">
+      <Container className="grid min-w-0 gap-12 py-20 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)]">
         <div className="space-y-8">
           {offices.map((office) => (
-            <article key={office.region} className="rounded-sm border border-line bg-panel p-7">
+            <article key={office.region} className="rounded-sm border border-line bg-panel p-6 md:p-7">
               <p className="kicker">{office.role}</p>
-              <h2 className="font-display mt-2 text-3xl">{office.region}</h2>
+              <h2 className="font-display mt-2 text-3xl break-words">{office.region}</h2>
               <p className="mt-4 text-sm leading-7 text-muted">{office.address}</p>
-              <a href={`mailto:${office.email}`} className="mt-4 block text-gold hover:underline">
+              <a
+                href={`mailto:${office.email}`}
+                className="text-gold mt-4 block min-h-11 break-all hover:underline"
+              >
                 {office.email}
               </a>
               {office.phone ? (
-                <a href={`tel:${office.phone.replace(/\s/g, "")}`} className="mt-1 block text-sm">
+                <a
+                  href={`tel:${office.phone.replace(/\s/g, "")}`}
+                  className="mt-1 block min-h-11 text-sm"
+                >
                   {office.phone}
                 </a>
               ) : null}
@@ -38,7 +45,7 @@ export default function ContactPage() {
           ))}
         </div>
         <ContactEnquiryForm sourcePath="/contact" />
-      </section>
+      </Container>
     </>
   );
 }

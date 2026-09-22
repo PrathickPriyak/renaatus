@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useId, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import { BrandLockup } from "@/design-system/components/logo";
 import { Button } from "@/design-system/components/button";
 import { Container } from "@/design-system/components/container";
@@ -33,6 +33,7 @@ export function SiteHeader({
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const menuId = useId();
+  const buttonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 16);
@@ -54,7 +55,7 @@ export function SiteHeader({
     <>
       <a
         href="#main-content"
-        className="sr-only focus:not-sr-only focus:absolute focus:top-3 focus:left-3 focus:z-[80] focus:bg-ink focus:px-4 focus:py-2 focus:text-sm focus:text-cream"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[80] focus:bg-ink focus:px-4 focus:py-2 focus:text-sm focus:text-cream"
       >
         Skip to content
       </a>
@@ -67,7 +68,7 @@ export function SiteHeader({
         <Container className="grid h-full grid-cols-[1fr_auto] items-center lg:grid-cols-[auto_1fr_auto] lg:gap-8">
           <Link
             href="/"
-            className="relative z-50 w-fit"
+            className="relative z-50 inline-flex min-h-11 w-fit items-center"
             aria-label="Renaatus home"
             onClick={() => setOpen(false)}
           >
@@ -86,6 +87,7 @@ export function SiteHeader({
             ) : null}
 
             <MobileMenuButton
+              ref={buttonRef}
               open={open}
               controlsId={menuId}
               onToggle={() => setOpen((value) => !value)}
@@ -101,6 +103,7 @@ export function SiteHeader({
         items={items}
         secondary={secondary}
         cta={cta}
+        buttonRef={buttonRef}
       />
     </>
   );
