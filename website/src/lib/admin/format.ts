@@ -31,6 +31,7 @@ const ACTION_LABELS: Record<string, string> = {
   "enquiry.export": "Enquiries exported",
   "post.create": "Journal entry created",
   "post.update": "Journal entry updated",
+  "post.delete": "Journal entry deleted",
 };
 
 export function formatAdminDateTime(value: Date): string {

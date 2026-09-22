@@ -31,7 +31,7 @@ export const headerCta = {
 export const secondaryNav = [
   { href: "/why-renaatus", label: "Why Renaatus", match: "exact" },
   { href: "/industries", label: "Industries", match: "exact" },
-  { href: "/journal", label: "Journal", match: "prefix" },
+  { href: "/blog", label: "Journal", match: "prefix" },
 ] as const satisfies readonly NavLink[];
 
 export const footerExploreNav = [
@@ -39,7 +39,7 @@ export const footerExploreNav = [
   { href: "/products", label: "Products" },
   { href: "/services", label: "Services" },
   { href: "/industries", label: "Industries" },
-  { href: "/journal", label: "Journal" },
+  { href: "/blog", label: "Journal" },
 ] as const satisfies readonly NavLink[];
 
 export const footerCompanyNav = [
@@ -71,6 +71,7 @@ export const routeLabels: Record<string, string> = {
   "/products": "Products",
   "/services": "Services",
   "/industries": "Industries",
+  "/blog": "Journal",
   "/journal": "Journal",
   "/contact": "Contact",
   "/careers": "Careers",
@@ -83,7 +84,7 @@ export const routeLabels: Record<string, string> = {
 export const prototypeRedirects = [
   { source: "/realty", destination: "/projects?type=realty" },
   { source: "/infrastructure", destination: "/projects?type=infrastructure" },
-  { source: "/blog", destination: "/journal" },
+  { source: "/journal", destination: "/blog" },
 ] as const;
 
 const CTA_HIDDEN = new Set(["/", "/contact", "/careers", "/privacy", "/terms", "/cookies"]);

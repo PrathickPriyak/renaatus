@@ -157,19 +157,6 @@ export const testimonials = [
   },
 ] as const;
 
-export const news = [
-  {
-    title: "Partnering with CMRL on Chennai Central Tower",
-    image: "/assets/images/news/cmrl-tower.png",
-    copy: "Renaatus is proud to partner with Chennai Metro Rail Limited for the iconic Chennai Central Tower — a 119-metre landmark that will reshape the city’s skyline.",
-  },
-  {
-    title: "Renaatus goes live with SAP",
-    image: "/assets/images/news/sap-live.jpg",
-    copy: "A new era of operational excellence: streamlined operations, data-driven decisions, and future-ready scale — powered by our people.",
-  },
-] as const;
-
 export const leadership = [
   {
     name: "Selvasundaram",

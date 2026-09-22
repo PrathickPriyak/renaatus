@@ -8,35 +8,41 @@ import { Heading } from "@/design-system/components/heading";
 import { Reveal } from "@/design-system/components/reveal";
 import { Rule } from "@/design-system/components/rule";
 import { Text } from "@/design-system/components/text";
-import { news } from "@/lib/content";
+import { getDb } from "@/lib/db";
+import { getFeaturedPublishedBlog } from "@/lib/blog/public";
 
-const story = news[0];
+export async function HomeStory() {
+  const story = await getFeaturedPublishedBlog(getDb());
+  if (!story) {
+    return null;
+  }
 
-export function HomeStory() {
   return (
     <section className="grain relative isolate min-h-[min(40rem,92dvh)] overflow-hidden">
-      <ParallaxMedia className="absolute inset-0">
-        <Image
-          src={story.image}
-          alt=""
-          fill
-          className="object-cover object-center"
-          sizes="(max-width: 1920px) 100vw, 1920px"
-        />
-      </ParallaxMedia>
+      {story.image ? (
+        <ParallaxMedia className="absolute inset-0">
+          <Image
+            src={story.image.src}
+            alt={story.image.alt || story.title}
+            fill
+            className="object-cover object-center"
+            sizes="(max-width: 1920px) 100vw, 1920px"
+          />
+        </ParallaxMedia>
+      ) : null}
       <div className="from-ink via-ink/70 to-ink/35 absolute inset-0 bg-gradient-to-t" />
       <Container className="relative flex min-h-[min(40rem,92dvh)] flex-col justify-end pt-24 pb-16 md:pb-20">
         <Reveal className="max-w-3xl">
-          <Eyebrow>Chennai Central Tower</Eyebrow>
+          <Eyebrow>{story.category?.name ?? "Journal"}</Eyebrow>
           <Heading variant="h2" className="mt-4">
             {story.title}
           </Heading>
           <Rule className="mt-6" />
           <Text variant="lead" className="mt-6">
-            {story.copy}
+            {story.excerpt}
           </Text>
           <Button asChild className="mt-10">
-            <Link href="/journal">Read the journal</Link>
+            <Link href={story.href}>Read the journal</Link>
           </Button>
         </Reveal>
       </Container>
