@@ -1,7 +1,6 @@
 "use client";
 
 import * as Dialog from "@radix-ui/react-dialog";
-import { X } from "lucide-react";
 import type { ReactNode } from "react";
 import { Heading } from "@/design-system/components/heading";
 import { Text } from "@/design-system/components/text";
@@ -51,7 +50,15 @@ export function Modal({
               className="grid size-9 shrink-0 place-items-center text-cream/70 transition-colors hover:text-cream"
               aria-label="Close"
             >
-              <X className="size-4" />
+              <svg viewBox="0 0 24 24" className="size-4" aria-hidden>
+                <path
+                  d="M18 6 6 18M6 6l12 12"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                />
+              </svg>
             </Dialog.Close>
           </div>
           {children ? <div className="mt-8">{children}</div> : null}

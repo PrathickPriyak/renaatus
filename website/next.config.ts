@@ -1,4 +1,8 @@
 import type { NextConfig } from "next";
+import {
+  IMAGE_OPTIMIZATION_CACHE_TTL_SECONDS,
+  PUBLIC_ASSET_CACHE_CONTROL,
+} from "./src/lib/performance/cache-headers";
 
 const securityHeaders = [
   { key: "X-Content-Type-Options", value: "nosniff" },
@@ -39,6 +43,9 @@ const nextConfig: NextConfig = {
     },
   },
   images: {
+    formats: ["image/avif", "image/webp"],
+    qualities: [75, 85],
+    minimumCacheTTL: IMAGE_OPTIMIZATION_CACHE_TTL_SECONDS,
     remotePatterns: [
       { protocol: "https", hostname: "*.r2.dev" },
       { protocol: "https", hostname: "*.cloudflarestorage.com" },
@@ -71,6 +78,10 @@ const nextConfig: NextConfig = {
       { source: "/private/:path*", headers: privateRobots },
       { source: "/design-system", headers: privateRobots },
       { source: "/design-system/:path*", headers: privateRobots },
+      {
+        source: "/assets/:path*",
+        headers: [{ key: "Cache-Control", value: PUBLIC_ASSET_CACHE_CONTROL }],
+      },
     ];
   },
 };

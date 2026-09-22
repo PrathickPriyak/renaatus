@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import localFont from "next/font/local";
 import { Outfit } from "next/font/google";
-import { MotionProvider } from "@/components/motion/provider";
 import { publicSeo } from "@/lib/seo/pages";
 import { siteConfig } from "@/lib/site";
 import "./globals.css";
@@ -11,6 +10,8 @@ const outfit = Outfit({
   subsets: ["latin"],
   variable: "--font-outfit",
   display: "swap",
+  preload: true,
+  adjustFontFallback: true,
 });
 
 const candara = localFont({
@@ -20,6 +21,8 @@ const candara = localFont({
   ],
   variable: "--font-candara",
   display: "swap",
+  preload: true,
+  adjustFontFallback: "Arial",
 });
 
 export const metadata: Metadata = {
@@ -40,7 +43,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" className={`${outfit.variable} ${candara.variable} h-full`}>
       <body className="bg-ink text-cream flex min-h-full flex-col antialiased">
-        <MotionProvider>{children}</MotionProvider>
+        {children}
       </body>
     </html>
   );

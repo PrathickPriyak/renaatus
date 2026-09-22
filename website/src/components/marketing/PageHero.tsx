@@ -8,6 +8,7 @@ import { Text } from "@/design-system/components/text";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { breadcrumbJsonLd } from "@/lib/seo/json-ld";
 import { crumbsForPath } from "@/lib/navigation";
+import { HERO_IMAGE_QUALITY } from "@/lib/performance/hero-media";
 
 type PageHeroProps = {
   eyebrow: string;
@@ -38,6 +39,7 @@ export function PageHero({
         alt={imageAlt ?? title}
         fill
         priority
+        quality={HERO_IMAGE_QUALITY}
         className="object-cover"
         sizes="100vw"
       />

@@ -11,6 +11,7 @@ import {
   getFeaturedPublishedBlog,
   getPublishedBlog,
   getPublicBlogListing,
+  listHomeJournalPosts,
   listRelatedPublishedBlogs,
   publicBlogCanonical,
 } from "@/lib/blog/public";
@@ -151,6 +152,16 @@ describe("public blog cms", () => {
       await db.user.deleteMany({ where: { id: { in: userIds } } });
     }
     await db.$disconnect();
+  });
+
+  it("loads at most two homepage journal cards from a lean query", async () => {
+    const posts = await listHomeJournalPosts(db, 2);
+    assert.ok(posts.length <= 2);
+    assert.ok(posts.some((post) => post.slug === `featured-tower-${stamp}`));
+    assert.equal(
+      posts.some((post) => post.slug === `hidden-draft-${stamp}`),
+      false,
+    );
   });
 
   it("lists only published posts and promotes the featured entry", async () => {
