@@ -12,14 +12,10 @@ import {
   HomeWhy,
 } from "@/components/home";
 import { CtaBand } from "@/design-system";
-import { siteConfig } from "@/lib/site";
+import { pageMetadataFromSeo } from "@/lib/seo/metadata";
+import { publicSeo } from "@/lib/seo/pages";
 
-export const metadata: Metadata = {
-  title: {
-    absolute: "Renaatus | Building foundations across borders",
-  },
-  description: siteConfig.description,
-};
+export const metadata: Metadata = pageMetadataFromSeo(publicSeo.home);
 
 export default function HomePage() {
   return (

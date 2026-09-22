@@ -5,18 +5,20 @@ import { PageIntro } from "@/components/marketing";
 import { HoverMedia } from "@/components/marketing/hover-media";
 import { Reveal } from "@/design-system/components/reveal";
 import { Section } from "@/design-system/components/section";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { serviceListJsonLd } from "@/lib/seo/json-ld";
+import { pageMetadataFromSeo } from "@/lib/seo/metadata";
+import { publicSeo } from "@/lib/seo/pages";
 import { verticals } from "@/lib/content";
 
-export const metadata: Metadata = {
-  title: "Services",
-  description:
-    "EPC infrastructure, luxury residences, and Renacon AAC materials from Renaatus — three lines the group already delivers.",
-};
+export const metadata: Metadata = pageMetadataFromSeo(publicSeo.services);
 
 export default function ServicesPage() {
   return (
     <>
+      <JsonLd data={serviceListJsonLd()} />
       <PageIntro
+        path="/services"
         eyebrow="Services"
         title="Manufacturer and builder in one group."
         copy="Three lines of work — infrastructure as EPC, residences, and Renacon AAC — drawn from what the company already delivers. Further service lines are CONTENT_REQUIRED."

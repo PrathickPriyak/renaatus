@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 import localFont from "next/font/local";
 import { Outfit } from "next/font/google";
 import { MotionProvider } from "@/components/motion/provider";
+import { publicSeo } from "@/lib/seo/pages";
 import { siteConfig } from "@/lib/site";
 import "./globals.css";
 
@@ -23,14 +24,14 @@ const candara = localFont({
 
 export const metadata: Metadata = {
   title: {
-    default: "Renaatus | Building foundations across borders",
+    default: publicSeo.home.title,
     template: "%s | Renaatus",
   },
-  description: siteConfig.description,
+  description: publicSeo.home.description,
   metadataBase: new URL(siteConfig.url),
   openGraph: {
-    title: "Renaatus",
-    description: "Infrastructure, luxury realty, and Renacon AAC blocks.",
+    siteName: "Renaatus",
+    locale: "en_IN",
     type: "website",
   },
 };

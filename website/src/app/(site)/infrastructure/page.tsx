@@ -1,29 +1,16 @@
 import type { Metadata } from "next";
-import { InfrastructureGrid, PageHero } from "@/components/marketing";
+import { redirect } from "next/navigation";
+import { pageMetadata } from "@/lib/seo/metadata";
 
-export const metadata: Metadata = {
-  title: "Infrastructure",
+export const metadata: Metadata = pageMetadata({
+  path: "/infrastructure",
+  title: "Infrastructure archive",
   description:
-    "Airports, courts, hospitals, irrigation, and housing — Renaatus EPC projects across India, Maldives, and Mauritius.",
-};
+    "The Renaatus infrastructure portfolio now lives under Projects — airports, courts, hospitals, and civic works.",
+  index: false,
+  canonical: "/projects?type=infrastructure",
+});
 
 export default function InfrastructurePage() {
-  return (
-    <>
-      <PageHero
-        eyebrow="Infrastructure"
-        title="Trusted to deliver ambitious civic visions."
-        copy="Airport terminals, Supreme Court offices, industrial corridors, medical campuses, and social housing — built to last."
-        image="/assets/images/banners/infrastructure.jpg"
-      />
-
-      <section className="mx-auto max-w-7xl px-5 py-20 md:px-8">
-        <p className="kicker">Selected works</p>
-        <h2 className="font-display mt-4 mb-12 max-w-3xl text-4xl md:text-5xl">
-          Landmark projects across three countries
-        </h2>
-        <InfrastructureGrid />
-      </section>
-    </>
-  );
+  redirect("/projects?type=infrastructure");
 }

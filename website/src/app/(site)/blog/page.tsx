@@ -7,18 +7,15 @@ import { Container } from "@/design-system/components/container";
 import { firstSearchParam } from "@/lib/admin/search-params";
 import { getPublicBlogListing } from "@/lib/blog/public";
 import { getDb } from "@/lib/db";
-import { siteConfig } from "@/lib/site";
+import { pageMetadataFromSeo } from "@/lib/seo/metadata";
+import { publicSeo } from "@/lib/seo/pages";
 import { cn } from "@/lib/utils";
 
 type PageProps = {
   searchParams: Promise<{ q?: string | string[]; category?: string | string[] }>;
 };
 
-export const metadata: Metadata = {
-  title: "Journal",
-  description: "Published notes from Renaatus — civic partnerships, operations, and group news.",
-  alternates: { canonical: `${siteConfig.url.replace(/\/$/, "")}/blog` },
-};
+export const metadata: Metadata = pageMetadataFromSeo(publicSeo.blog);
 
 export default async function BlogIndexPage({ searchParams }: PageProps) {
   const params = await searchParams;
@@ -31,6 +28,7 @@ export default async function BlogIndexPage({ searchParams }: PageProps) {
   return (
     <>
       <PageIntro
+        path="/blog"
         eyebrow="Journal"
         title="From the group."
         copy="Published notes only. Drafts, unpublished entries, and archived pieces stay in the CMS."

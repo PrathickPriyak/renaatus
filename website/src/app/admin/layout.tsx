@@ -5,11 +5,15 @@ import { getCurrentActor } from "@/lib/auth/current-actor";
 import { canViewAdmin } from "@/lib/auth/permissions";
 import { adminNavItems } from "@/lib/admin/nav";
 import { humanizeRoleLabel } from "@/lib/admin/format";
+import { pageMetadata } from "@/lib/seo/metadata";
 import type { ReactNode } from "react";
 
-export const metadata: Metadata = {
-  robots: { index: false, follow: false },
-};
+export const metadata: Metadata = pageMetadata({
+  path: "/admin",
+  title: "Admin",
+  description: "Staff dashboard for authorised Renaatus administrators.",
+  index: false,
+});
 
 export const dynamic = "force-dynamic";
 

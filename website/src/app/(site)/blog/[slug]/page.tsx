@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { BlogCard } from "@/components/blog/BlogCard";
 import { BlogShare } from "@/components/blog/BlogShare";
 import { JournalBody } from "@/components/blog/JournalBody";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { Breadcrumb } from "@/design-system/components/breadcrumb";
 import { Container } from "@/design-system/components/container";
 import { CtaBand } from "@/design-system/components/cta-band";
@@ -12,6 +13,9 @@ import { Heading } from "@/design-system/components/heading";
 import { Rule } from "@/design-system/components/rule";
 import { formatBlogDate, getPublishedBlog, listRelatedPublishedBlogs } from "@/lib/blog/public";
 import { getDb } from "@/lib/db";
+import { articleJsonLd, breadcrumbJsonLd } from "@/lib/seo/json-ld";
+import { pageMetadata } from "@/lib/seo/metadata";
+import { publicSeo } from "@/lib/seo/pages";
 
 type PageProps = {
   params: Promise<{ slug: string }>;
@@ -21,23 +25,29 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const { slug } = await params;
   const post = await getPublishedBlog(getDb(), slug);
   if (!post) {
-    return { title: "Journal" };
+    return pageMetadata({
+      path: `/blog/${slug}`,
+      title: publicSeo.blog.title,
+      description: publicSeo.blog.description,
+      index: false,
+    });
   }
 
-  return {
+  return pageMetadata({
+    path: post.href,
     title: post.seoTitle,
     description: post.seoDescription,
-    alternates: { canonical: post.canonicalUrl },
-    openGraph: {
-      title: post.seoTitle,
-      description: post.seoDescription,
-      type: "article",
-      url: post.canonicalUrl,
-      images: post.ogImage
-        ? [{ url: post.ogImage.src, alt: post.ogImage.alt || post.title }]
+    canonical: post.canonicalUrl,
+    image: post.ogImage
+      ? { url: post.ogImage.src, alt: post.ogImage.alt || post.title }
+      : post.image
+        ? { url: post.image.src, alt: post.image.alt || post.title }
         : undefined,
-    },
-  };
+    type: "article",
+    publishedTime: post.publishedAt?.toISOString(),
+    modifiedTime: post.updatedAt.toISOString(),
+    authors: [post.authorName],
+  });
 }
 
 export default async function BlogDetailPage({ params }: PageProps) {
@@ -51,8 +61,26 @@ export default async function BlogDetailPage({ params }: PageProps) {
   const related = await listRelatedPublishedBlogs(db, post.slug, 3);
   const dateLabel = post.publishedAt ? formatBlogDate(post.publishedAt) : null;
 
+  const crumbs = [
+    { href: "/", label: "Home" },
+    { href: "/blog", label: "Journal" },
+    { href: post.href, label: post.title },
+  ];
+
   return (
     <>
+      <JsonLd
+        data={articleJsonLd({
+          headline: post.title,
+          description: post.seoDescription,
+          url: post.canonicalUrl,
+          image: post.ogImage?.src ?? post.image?.src,
+          datePublished: post.publishedAt?.toISOString() ?? null,
+          dateModified: post.updatedAt.toISOString(),
+          authorName: post.authorName,
+        })}
+      />
+      <JsonLd data={breadcrumbJsonLd(crumbs)} />
       <article>
         <section className="grain relative isolate min-h-[min(36rem,72dvh)] overflow-hidden">
           {post.image ? (
@@ -67,14 +95,7 @@ export default async function BlogDetailPage({ params }: PageProps) {
           ) : null}
           <div className="from-ink via-ink/70 to-ink/35 absolute inset-0 bg-gradient-to-t" />
           <Container className="relative flex min-h-[min(36rem,72dvh)] flex-col justify-end pt-[calc(var(--header-height)+2rem)] pb-16">
-            <Breadcrumb
-              className="mb-8"
-              items={[
-                { href: "/", label: "Home" },
-                { href: "/blog", label: "Journal" },
-                { href: post.href, label: post.title },
-              ]}
-            />
+            <Breadcrumb className="mb-8" items={crumbs} />
             <Eyebrow>{post.category?.name ?? "Journal"}</Eyebrow>
             <Heading variant="h1" className="mt-4 max-w-4xl">
               {post.title}

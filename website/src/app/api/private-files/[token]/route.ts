@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { getDb } from "@/lib/db";
+import { PRIVATE_ROBOTS_HEADER_VALUE } from "@/lib/seo/robots";
 import { loadPrivateDownload } from "@/lib/storage/private-download";
 
 function notFound(): NextResponse {
@@ -8,6 +9,7 @@ function notFound(): NextResponse {
     headers: {
       "Cache-Control": "private, no-store",
       "X-Content-Type-Options": "nosniff",
+      "X-Robots-Tag": PRIVATE_ROBOTS_HEADER_VALUE,
     },
   });
 }
@@ -53,6 +55,7 @@ export async function GET(
       "Content-Disposition": `attachment; filename="${attachmentFilename(file.filename)}"`,
       "Cache-Control": "private, no-store",
       "X-Content-Type-Options": "nosniff",
+      "X-Robots-Tag": PRIVATE_ROBOTS_HEADER_VALUE,
       "Content-Length": String(file.body.byteLength),
     },
   });

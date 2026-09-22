@@ -11,7 +11,7 @@ export function BrandMark({ className, size = 36, priority }: BrandMarkProps) {
   return (
     <Image
       src="/assets/logos/renaatus-mark.png"
-      alt=""
+      alt="Renaatus"
       width={size}
       height={size}
       priority={priority}
