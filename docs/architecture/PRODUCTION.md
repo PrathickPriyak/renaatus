@@ -392,10 +392,10 @@ flowchart LR
 ```
 
 1. **GitHub** — this repo; `main` protected; PRs required.  
-2. **Vercel** — root directory `website/`; preview deploys per PR; `prisma migrate deploy` on production build.  
-3. **Neon** — prod + preview branches (`vercel.json` / Neon integration).  
+2. **Vercel** — root directory `website/`; preview deploys per PR; `npm run build:vercel` runs `prisma migrate deploy` on each Vercel build. Full checklist: [`docs/vercel-production.md`](../vercel-production.md) (do not change DNS until that checklist is complete).  
+3. **Neon** — prod + preview branches (`website/vercel.json` / Neon integration).  
 4. **Cloudflare** — orange-cloud proxy to Vercel; TLS; WAF; R2 bucket `renaatus-web` (public images) + `renaatus-private` (resumes).  
-5. **DNS** — `www` + apex on Cloudflare.  
+5. **DNS** — `www` + apex on Cloudflare (**not** in the Vercel prep phase).  
 6. **Cron** — optional Vercel cron to close stale drafts; not required at launch.  
 7. **Observability** — Vercel Analytics + Resend dashboard + Neon insights.  
 8. **Go-live checklist** — legal MDX reviewed, Turnstile keys, first SUPER_ADMIN, seed projects/products from current `content.ts`, hero video on R2, disable blanket `sync-assets.sh` in production.

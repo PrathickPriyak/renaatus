@@ -21,7 +21,8 @@ The app runs at [http://localhost:3000](http://localhost:3000). `npm run sync-as
 | Command | Purpose |
 | --- | --- |
 | `npm run dev` | Local development server |
-| `npm run build` | Production build |
+| `npm run build` | Production build (generate Prisma Client + Next.js; no migrate) |
+| `npm run build:vercel` | Vercel build: sync assets, generate, `migrate deploy`, Next.js |
 | `npm start` | Serve the production build |
 | `npm run lint` | ESLint |
 | `npm run typecheck` | `tsc --noEmit` |
@@ -42,6 +43,8 @@ Do not run `prisma migrate reset` or `prisma db push --force-reset` against a sh
 ## Environment
 
 See `.env.example`. Database credentials (`DATABASE_URL`, `DIRECT_URL`) are server-side only — never `NEXT_PUBLIC_*`, never committed. Neon: pooled URL in `DATABASE_URL`, direct URL in `DIRECT_URL` for migrations. Other services are optional until those features are wired.
+
+Production Vercel settings and the env matrix live in `docs/vercel-production.md`. Do not put production secrets in this repo.
 
 Development seed inserts the approved journal stories (CMRL Central Tower and SAP go-live), a News category, tags, an editor user without a password, and the Renacon product. It will not run when `APP_ENV` or `NODE_ENV` is `production`.
 
