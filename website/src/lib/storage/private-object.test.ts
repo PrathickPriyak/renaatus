@@ -94,6 +94,36 @@ describe("private object storage", () => {
     }
   });
 
+  it("fails closed when NODE_ENV is production and APP_ENV is unset without R2", async () => {
+    const previousApp = process.env.APP_ENV;
+    const previousNode = process.env.NODE_ENV;
+    delete process.env.APP_ENV;
+    process.env.NODE_ENV = "production";
+    delete process.env.R2_ACCOUNT_ID;
+    delete process.env.R2_ACCESS_KEY_ID;
+    delete process.env.R2_SECRET_ACCESS_KEY;
+    delete process.env.R2_BUCKET_PRIVATE;
+
+    try {
+      await assert.rejects(
+        () =>
+          putPrivateObject({
+            key: `private/careers/2099/01/${randomUUID()}.pdf`,
+            body: new Uint8Array([1, 2, 3]),
+            mimeType: "application/pdf",
+          }),
+        (error: unknown) => error instanceof AppError && error.code === "STORAGE_UNAVAILABLE",
+      );
+    } finally {
+      if (previousApp === undefined) {
+        delete process.env.APP_ENV;
+      } else {
+        process.env.APP_ENV = previousApp;
+      }
+      process.env.NODE_ENV = previousNode;
+    }
+  });
+
   it("puts to R2 instead of local disk when private object storage is configured", async () => {
     const previous = {
       APP_ENV: process.env.APP_ENV,
