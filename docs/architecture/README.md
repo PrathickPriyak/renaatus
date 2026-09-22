@@ -1,5 +1,5 @@
 # Architecture
 
-Design only — see [PRODUCTION.md](./PRODUCTION.md).
+See [PRODUCTION.md](./PRODUCTION.md).
 
-Proposed Prisma schema: [schema.prisma](./schema.prisma) (not connected to the Next.js app yet).
+The live Prisma schema is [`website/prisma/schema.prisma`](../../website/prisma/schema.prisma). The copy in this folder is the design snapshot.

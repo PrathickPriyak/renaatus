@@ -1,14 +1,17 @@
 import type { Metadata } from "next";
+import type { ReactNode } from "react";
 import localFont from "next/font/local";
 import { Outfit } from "next/font/google";
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
+import { publicSeo } from "@/lib/seo/pages";
+import { siteConfig } from "@/lib/site";
 import "./globals.css";
 
 const outfit = Outfit({
   subsets: ["latin"],
   variable: "--font-outfit",
   display: "swap",
+  preload: true,
+  adjustFontFallback: true,
 });
 
 const candara = localFont({
@@ -18,30 +21,29 @@ const candara = localFont({
   ],
   variable: "--font-candara",
   display: "swap",
+  preload: true,
+  adjustFontFallback: "Arial",
 });
 
 export const metadata: Metadata = {
   title: {
-    default: "Renaatus | Building foundations across borders",
+    default: publicSeo.home.title,
     template: "%s | Renaatus",
   },
-  description:
-    "Renaatus Projects is a premier EPC, luxury realty, and AAC manufacturing group with a 50-year construction legacy across India, Maldives, and Mauritius.",
-  metadataBase: new URL("https://www.renaatus.com"),
+  description: publicSeo.home.description,
+  metadataBase: new URL(siteConfig.url),
   openGraph: {
-    title: "Renaatus",
-    description: "Infrastructure, luxury realty, and Renacon AAC blocks.",
+    siteName: "Renaatus",
+    locale: "en_IN",
     type: "website",
   },
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" className={`${outfit.variable} ${candara.variable} h-full`}>
-      <body className="min-h-full flex flex-col antialiased bg-ink text-cream">
-        <Header />
-        <main className="flex-1">{children}</main>
-        <Footer />
+      <body className="bg-ink text-cream flex min-h-full flex-col antialiased">
+        {children}
       </body>
     </html>
   );

@@ -7,14 +7,16 @@ export const brand = {
   email: "bd@renaatus.com",
 };
 
-export const nav = [
-  { href: "/", label: "Home" },
-  { href: "/about", label: "About" },
-  { href: "/realty", label: "Realty" },
-  { href: "/infrastructure", label: "Infrastructure" },
-  { href: "/careers", label: "Careers" },
-  { href: "/contact", label: "Contact" },
-] as const;
+export { primaryNav as nav } from "@/lib/navigation";
+
+export const company = {
+  visionTitle: "Inspiring, purposeful spaces for all",
+  vision:
+    "To create a world where everyone has access to inspiring and purposeful spaces. Every square foot holds the power to shape dreams, build communities, and transform lives.",
+  missionTitle: "Integrity, innovation, sustainability",
+  mission:
+    "Driven by the vision of developing one million square feet, we are committed to meaningful, accessible, high-quality spaces — ensuring every square foot we develop serves a greater purpose.",
+} as const;
 
 export const stats = [
   { value: "50+", label: "Years of construction expertise" },
@@ -25,21 +27,21 @@ export const stats = [
 
 export const verticals = [
   {
-    href: "/infrastructure",
+    href: "/projects?type=infrastructure",
     title: "Infrastructure",
     kicker: "EPC",
     image: "/assets/images/verticals/infrastructure.jpg",
     copy: "From airport terminals and Supreme Court offices to industrial corridors and medical campuses, we are trusted to bring ambitious public visions to life.",
   },
   {
-    href: "/realty",
+    href: "/projects?type=realty",
     title: "Realty",
     kicker: "Residences",
     image: "/assets/images/verticals/realty.jpg",
     copy: "A household name in the Maldives for ultra-luxury residences — timeless elegance, uncompromising quality, and homes that become landmarks.",
   },
   {
-    href: "/#renacon",
+    href: "/products",
     title: "AAC Blocks",
     kicker: "Renacon",
     image: "/assets/images/verticals/aac-blocks.jpg",
@@ -48,14 +50,46 @@ export const verticals = [
 ] as const;
 
 export const timeline = [
-  { year: "1970", title: "A construction legacy begins", copy: "Five decades of building expertise that still shape how we work today." },
-  { year: "1988", title: "RPP Construction", copy: "The group’s contracting roots take form." },
-  { year: "2006", title: "Renaatus Projects Pvt Ltd", copy: "A full-service EPC company is established in Chennai." },
-  { year: "2008", title: "RPP Ready Mix", copy: "Vertical integration extends into materials." },
-  { year: "2011", title: "First project in the Maldives", copy: "International delivery begins across the Indian Ocean." },
-  { year: "2012", title: "Renacon’s first factory, Arcot", copy: "AAC manufacturing starts, pairing builder and materials maker." },
-  { year: "2017", title: "First project in Mauritius", copy: "The footprint expands to a third country." },
-  { year: "2024", title: "Manufacturing in Saudi Arabia", copy: "The next chapter of global scale." },
+  {
+    year: "1970",
+    title: "A construction legacy begins",
+    copy: "Five decades of building expertise that still shape how we work today.",
+  },
+  {
+    year: "1988",
+    title: "RPP Construction",
+    copy: "The group’s contracting roots take form.",
+  },
+  {
+    year: "2006",
+    title: "Renaatus Projects Pvt Ltd",
+    copy: "A full-service EPC company is established in Chennai.",
+  },
+  {
+    year: "2008",
+    title: "RPP Ready Mix",
+    copy: "Vertical integration extends into materials.",
+  },
+  {
+    year: "2011",
+    title: "First project in the Maldives",
+    copy: "International delivery begins across the Indian Ocean.",
+  },
+  {
+    year: "2012",
+    title: "Renacon’s first factory, Arcot",
+    copy: "AAC manufacturing starts, pairing builder and materials maker.",
+  },
+  {
+    year: "2017",
+    title: "First project in Mauritius",
+    copy: "The footprint expands to a third country.",
+  },
+  {
+    year: "2024",
+    title: "Manufacturing in Saudi Arabia",
+    copy: "The next chapter of global scale.",
+  },
 ] as const;
 
 export const pillars = [
@@ -123,19 +157,6 @@ export const testimonials = [
   },
 ] as const;
 
-export const news = [
-  {
-    title: "Partnering with CMRL on Chennai Central Tower",
-    image: "/assets/images/news/cmrl-tower.png",
-    copy: "Renaatus is proud to partner with Chennai Metro Rail Limited for the iconic Chennai Central Tower — a 119-metre landmark that will reshape the city’s skyline.",
-  },
-  {
-    title: "Renaatus goes live with SAP",
-    image: "/assets/images/news/sap-live.jpg",
-    copy: "A new era of operational excellence: streamlined operations, data-driven decisions, and future-ready scale — powered by our people.",
-  },
-] as const;
-
 export const leadership = [
   {
     name: "Selvasundaram",
@@ -199,6 +220,7 @@ export type InfraProject = {
   year?: string;
   country: "India" | "Maldives" | "Mauritius";
   image: string;
+  copy: string;
   gallery?: string[];
 };
 
@@ -208,6 +230,7 @@ export const infrastructureProjects: InfraProject[] = [
     year: "2023",
     country: "India",
     image: "/assets/images/infrastructure/india/rajahmundry-airport.jpg",
+    copy: "Domestic airport works delivered in Rajahmundry, India — part of the group’s aviation EPC portfolio.",
     gallery: [
       "/assets/images/infrastructure/galleries/rajahmundry-airport/01.jpg",
       "/assets/images/infrastructure/galleries/rajahmundry-airport/02.jpg",
@@ -220,6 +243,7 @@ export const infrastructureProjects: InfraProject[] = [
     year: "2023",
     country: "India",
     image: "/assets/images/infrastructure/india/sh95-mohanur.jpg",
+    copy: "State highway upgradation on SH-95 at Mohanur, strengthening regional connectivity in Tamil Nadu.",
     gallery: [
       "/assets/images/infrastructure/galleries/sh95-mohanur/01.jpg",
       "/assets/images/infrastructure/galleries/sh95-mohanur/02.jpg",
@@ -232,6 +256,7 @@ export const infrastructureProjects: InfraProject[] = [
     year: "2021",
     country: "India",
     image: "/assets/images/infrastructure/india/nit-karaikal.jpg",
+    copy: "Campus infrastructure for NIT-E at Karaikal — institutional buildings delivered as EPC.",
     gallery: ["/assets/images/infrastructure/galleries/nit-karaikal/01.jpg"],
   },
   {
@@ -239,6 +264,7 @@ export const infrastructureProjects: InfraProject[] = [
     year: "2021",
     country: "India",
     image: "/assets/images/infrastructure/india/ga-canal.jpg",
+    copy: "Irrigation canal infrastructure supporting agricultural water systems in India.",
     gallery: [
       "/assets/images/infrastructure/galleries/ga-canal/01.jpg",
       "/assets/images/infrastructure/galleries/ga-canal/02.jpg",
@@ -252,6 +278,7 @@ export const infrastructureProjects: InfraProject[] = [
     year: "2021",
     country: "India",
     image: "/assets/images/infrastructure/india/tiruppur-medical-college.jpg",
+    copy: "Medical college and hospital campus works at Tiruppur — healthcare infrastructure for Tamil Nadu.",
     gallery: [
       "/assets/images/infrastructure/galleries/hospital-residential/01.jpg",
       "/assets/images/infrastructure/galleries/hospital-residential/02.jpg",
@@ -264,6 +291,7 @@ export const infrastructureProjects: InfraProject[] = [
     year: "2020",
     country: "India",
     image: "/assets/images/infrastructure/india/jipmer-karaikal.jpg",
+    copy: "Healthcare campus works for JIPMER at Karaikal, delivered within the group’s institutional EPC line.",
     gallery: [
       "/assets/images/infrastructure/galleries/jipmer-karaikal/01.jpg",
       "/assets/images/infrastructure/galleries/jipmer-karaikal/02.jpg",
@@ -278,51 +306,60 @@ export const infrastructureProjects: InfraProject[] = [
     year: "2020",
     country: "India",
     image: "/assets/images/infrastructure/india/rajavaikal-kumarapalayam.jpg",
+    copy: "Water and irrigation works at Rajavaikal, Kumarapalayam.",
   },
   {
     name: "Mettur East Bank Canal, Salem",
     year: "2019",
     country: "India",
     image: "/assets/images/infrastructure/india/mettur-east-bank-canal.jpg",
+    copy: "East Bank Canal works at Mettur, Salem — irrigation infrastructure in Tamil Nadu.",
   },
   {
     name: "Perungalathur Grade Separator",
     year: "2019",
     country: "India",
     image: "/assets/images/infrastructure/india/perungalathur-grade-separator.jpg",
+    copy: "Grade separator infrastructure at Perungalathur improving urban traffic movement.",
   },
   {
     name: "ROB and pedestrian subway, Pollachi–Podanur",
     year: "2019",
     country: "India",
     image: "/assets/images/infrastructure/india/pollachi-podanur-rob.jpg",
+    copy: "Road-over-bridge and pedestrian subway on the Pollachi–Podanur corridor.",
   },
   {
     name: "Renaatus Social Housing",
     country: "Maldives",
     image: "/assets/images/infrastructure/maldives/social-housing.jpg",
+    copy: "Social housing delivery in the Maldives, extending the group’s residential construction craft.",
   },
   {
     name: "GAN International Airport",
     country: "Maldives",
     image: "/assets/images/infrastructure/maldives/gan-international-airport.jpg",
+    copy: "Airport infrastructure at GAN International Airport in the Maldives.",
   },
   {
     name: "India–Maldives Friendship Forum",
     year: "2011",
     country: "Maldives",
     image: "/assets/images/infrastructure/maldives/imff.jpg",
+    copy: "Civic works for the India–Maldives Friendship Forum — an early international delivery milestone.",
   },
   {
     name: "IGMH",
     year: "2013",
     country: "Maldives",
     image: "/assets/images/infrastructure/maldives/igmh.jpg",
+    copy: "Healthcare infrastructure works for IGMH in the Maldives.",
   },
   {
     name: "Supreme Court of Mauritius",
     country: "Mauritius",
     image: "/assets/images/infrastructure/mauritius/supreme-court.jpg",
+    copy: "Civic infrastructure for the Supreme Court of Mauritius — institutional delivery in Port Louis.",
   },
 ];
 
@@ -338,14 +375,16 @@ export const offices: Office[] = [
   {
     region: "India",
     role: "Headquarters",
-    address: "139, VIBGYOR, 2nd Floor, Kodambakkam High Road, Nungambakkam, Chennai 600034, Tamil Nadu, India.",
+    address:
+      "139, VIBGYOR, 2nd Floor, Kodambakkam High Road, Nungambakkam, Chennai 600034, Tamil Nadu, India.",
     email: "bd@renaatus.com",
     phone: "+91 44 42654557",
   },
   {
     region: "Maldives",
     role: "Realty & projects",
-    address: "Renaatus Properties (Maldives) Pvt Ltd, 1st Floor, Blue Coral, Hulhumalé. Landmark: Opp. to Fahi Plaza.",
+    address:
+      "Renaatus Properties (Maldives) Pvt Ltd, 1st Floor, Blue Coral, Hulhumalé. Landmark: Opp. to Fahi Plaza.",
     email: "maldives@renaatus.com",
     phone: "+960 9755777",
   },
@@ -357,10 +396,59 @@ export const offices: Office[] = [
   },
 ];
 
+export const industries = [
+  {
+    title: "Aviation",
+    works: "Rajahmundry Domestic Airport; GAN International Airport.",
+    image: "/assets/images/infrastructure/india/rajahmundry-airport.jpg",
+    featuredSlug: "rajahmundry-domestic-airport",
+  },
+  {
+    title: "Healthcare and campuses",
+    works:
+      "JIPMER Karaikal; Tiruppur Medical College and Hospital; IGMH; NIT-E Karaikal.",
+    image: "/assets/images/infrastructure/india/jipmer-karaikal.jpg",
+    featuredSlug: "jipmer-karaikal",
+  },
+  {
+    title: "Water and irrigation",
+    works: "GA Canal; Rajavaikal, Kumarapalayam; Mettur East Bank Canal, Salem.",
+    image: "/assets/images/infrastructure/india/ga-canal.jpg",
+    featuredSlug: "ga-canal-irrigation-infrastructure",
+  },
+  {
+    title: "Transport",
+    works: "SH-95 Mohanur; Perungalathur Grade Separator; Pollachi–Podanur ROB.",
+    image: "/assets/images/infrastructure/india/perungalathur-grade-separator.jpg",
+    featuredSlug: "perungalathur-grade-separator",
+  },
+  {
+    title: "Civic and justice",
+    works: "Supreme Court of Mauritius.",
+    image: "/assets/images/infrastructure/mauritius/supreme-court.jpg",
+    featuredSlug: "supreme-court-of-mauritius",
+  },
+  {
+    title: "Residential",
+    works: "Maldives residences, social housing, and Vilankurichi, Coimbatore.",
+    image: "/assets/images/realty/maldives/irumathi-exterior.png",
+    featuredSlug: "renaatus-irumathi",
+  },
+] as const;
+
 export const aacHighlights = [
-  { title: "Green by design", copy: "Fly-ash based AAC that reduces load, energy use, and construction time versus conventional brick." },
-  { title: "South India’s scale", copy: "Three plants — Arcot, Perundurai, and Tirunelveli SIPCOT — covering the southern region." },
-  { title: "Certified quality", copy: "BIS-accredited, GreenPro certified, and IGBC member manufacturing with 5S Platinum discipline." },
+  {
+    title: "Green by design",
+    copy: "Fly-ash based AAC that reduces load, energy use, and construction time versus conventional brick.",
+  },
+  {
+    title: "South India’s scale",
+    copy: "Three plants — Arcot, Perundurai, and Tirunelveli SIPCOT — covering the southern region.",
+  },
+  {
+    title: "Certified quality",
+    copy: "BIS-accredited, GreenPro certified, and IGBC member manufacturing with 5S Platinum discipline.",
+  },
 ] as const;
 
 export const founderLetter = {

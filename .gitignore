@@ -1,5 +1,59 @@
 .DS_Store
+Thumbs.db
 *.log
+*.pem
+*.p12
+*.pfx
+*.tsbuildinfo
+*.swp
+*~
+
 node_modules
 .next
+out
+coverage
+.vercel
+dist
+build
+
+# Environment — never commit secrets
+.env
+.env.*
+!.env.example
+!**/.env.example
+
+# Credentials and private material
+credentials/
+**/credentials/
+*.credentials.json
+service-account*.json
+id_rsa
+id_dsa
+*.key
+*.p8
+.envrc
+
+# Local/generated media copies and private resume objects
 website/public/assets
+website/generated
+website/.uploads
+**/.uploads/
+
+# Local database dumps (Prisma migrations in website/prisma/migrations stay tracked)
+*.dump
+*.sqlite
+*.sqlite3
+
+# Unused brand-pack files: denied from public sync, too large for GitHub
+assets/fonts/
+assets/icons/
+assets/documents/*
+!assets/documents/.gitkeep
+assets/videos/hero-mobile.mp4
+assets/videos/about-loop.mp4
+assets/videos/loading.mp4
+
+# Temporary
+tmp/
+temp/
+*.tmp

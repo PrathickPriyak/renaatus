@@ -1,0 +1,305 @@
+// Production PostgreSQL schema.
+// Connection URL lives in prisma.config.ts (CLI) and DATABASE_URL (runtime).
+// Never put credentials in this file or in client bundles.
+//
+// Roles are an enum on User (SUPER_ADMIN / EDITOR / VIEWER), not a Role table.
+// Contact, product, project, and career submissions share Enquiry, keyed by kind.
+
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  SUPER_ADMIN
+  EDITOR
+  VIEWER
+}
+
+enum EnquiryKind {
+  CONTACT
+  PRODUCT
+  PROJECT
+  CAREER
+}
+
+enum EnquiryStatus {
+  NEW
+  IN_PROGRESS
+  CLOSED
+}
+
+enum PostStatus {
+  DRAFT
+  PUBLISHED
+  UNPUBLISHED
+  ARCHIVED
+}
+
+enum ProjectType {
+  REALTY
+  INFRASTRUCTURE
+}
+
+enum Industry {
+  AVIATION
+  HEALTHCARE
+  WATER
+  TRANSPORT
+  CIVIC
+  RESIDENTIAL
+}
+
+enum MediaVisibility {
+  PUBLIC
+  PRIVATE
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String
+  email         String    @unique
+  emailVerified DateTime?
+  image         String?
+  passwordHash  String?
+  role          Role      @default(VIEWER)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  accounts Account[]
+  sessions Session[]
+  posts    Post[]
+  media    Media[]    @relation("MediaCreatedBy")
+  audits   AuditLog[]
+
+  @@index([role])
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@index([userId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model Media {
+  id          String          @id @default(cuid())
+  key         String          @unique
+  bucket      String
+  filename    String
+  mimeType    String
+  byteSize    Int
+  width       Int?
+  height      Int?
+  alt         String?
+  visibility  MediaVisibility @default(PUBLIC)
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @default(now()) @updatedAt
+  createdById String?
+  createdBy   User?           @relation("MediaCreatedBy", fields: [createdById], references: [id], onDelete: SetNull)
+
+  featuredPosts    Post[]          @relation("PostFeatured")
+  ogPosts          Post[]          @relation("PostOg")
+  featuredProjects Project[]       @relation("ProjectCover")
+  featuredProducts Product[]       @relation("ProductCover")
+  projectImages    ProjectImage[]
+  resumes          Enquiry[]       @relation("EnquiryResume")
+
+  @@index([createdById])
+  @@index([visibility])
+}
+
+model Category {
+  id        String   @id @default(cuid())
+  name      String
+  slug      String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+  posts     Post[]
+}
+
+model Tag {
+  id        String    @id @default(cuid())
+  name      String
+  slug      String    @unique
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @default(now()) @updatedAt
+  posts     PostTag[]
+}
+
+model Post {
+  id              String     @id @default(cuid())
+  title           String
+  slug            String     @unique
+  excerpt         String     @db.Text
+  body            Json
+  status          PostStatus @default(DRAFT)
+  featured        Boolean    @default(false)
+  seoTitle        String?
+  seoDescription  String?
+  canonicalUrl    String?
+  publishedAt     DateTime?
+  createdAt       DateTime   @default(now())
+  updatedAt       DateTime   @updatedAt
+  authorId        String
+  author          User       @relation(fields: [authorId], references: [id], onDelete: Restrict)
+  categoryId      String?
+  category        Category?  @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  featuredImageId String?
+  featuredImage   Media?     @relation("PostFeatured", fields: [featuredImageId], references: [id], onDelete: SetNull)
+  ogImageId       String?
+  ogImage         Media?     @relation("PostOg", fields: [ogImageId], references: [id], onDelete: SetNull)
+  tags            PostTag[]
+
+  @@index([status, publishedAt])
+  @@index([featured, status, publishedAt])
+  @@index([authorId])
+  @@index([categoryId])
+  @@index([featuredImageId])
+  @@index([ogImageId])
+}
+
+model PostTag {
+  postId String
+  tagId  String
+  post   Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
+  tag    Tag    @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@id([postId, tagId])
+  @@index([tagId])
+}
+
+model Product {
+  id             String    @id @default(cuid())
+  name           String
+  slug           String    @unique
+  summary        String    @db.Text
+  body           Json?
+  published      Boolean   @default(false)
+  seoTitle       String?
+  seoDescription String?
+  coverId        String?
+  cover          Media?    @relation("ProductCover", fields: [coverId], references: [id], onDelete: SetNull)
+  enquiries      Enquiry[]
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  @@index([coverId])
+  @@index([published])
+}
+
+model Project {
+  id        String         @id @default(cuid())
+  name      String
+  slug      String         @unique
+  type      ProjectType
+  industry  Industry
+  country   String
+  location  String
+  year      Int?
+  summary   String         @db.Text
+  body      Json?
+  published Boolean        @default(false)
+  coverId   String?
+  cover     Media?         @relation("ProjectCover", fields: [coverId], references: [id], onDelete: SetNull)
+  images    ProjectImage[]
+  enquiries Enquiry[]
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
+
+  @@index([type, published])
+  @@index([industry, published])
+  @@index([coverId])
+}
+
+model ProjectImage {
+  id        String  @id @default(cuid())
+  projectId String
+  mediaId   String
+  sortOrder Int     @default(0)
+  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  media     Media   @relation(fields: [mediaId], references: [id], onDelete: Restrict)
+
+  @@index([projectId, sortOrder])
+  @@index([mediaId])
+}
+
+model Enquiry {
+  id         String        @id @default(cuid())
+  kind       EnquiryKind
+  status     EnquiryStatus @default(NEW)
+  name       String
+  email      String
+  phone      String?
+  subject    String?
+  message    String        @db.Text
+  office     String?
+  sourcePath String?
+  ipHash     String?
+
+  productId String?
+  product   Product? @relation(fields: [productId], references: [id], onDelete: SetNull)
+  projectId String?
+  project   Project? @relation(fields: [projectId], references: [id], onDelete: SetNull)
+  resumeId  String?
+  resume    Media?   @relation("EnquiryResume", fields: [resumeId], references: [id], onDelete: SetNull)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([kind, status, createdAt])
+  @@index([email])
+  @@index([productId])
+  @@index([projectId])
+  @@index([resumeId])
+}
+
+model AuditLog {
+  id         String   @id @default(cuid())
+  userId     String?
+  user       User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  action     String
+  entityType String
+  entityId   String?
+  metadata   Json?
+  ip         String?
+  createdAt  DateTime @default(now())
+
+  @@index([entityType, entityId])
+  @@index([createdAt])
+  @@index([userId])
+}
