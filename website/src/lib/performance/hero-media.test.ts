@@ -24,18 +24,14 @@ describe("hero media policy", () => {
     );
   });
 
-  it("autoplays a muted desktop hero only after the section is needed", () => {
+  it("keeps the branded hero loop off the marketing hero", () => {
     assert.equal(
       shouldAutoplayHeroVideo({ reducedMotion: false, isMobile: false }),
-      true,
-    );
-    assert.equal(
-      shouldAttachHeroVideoSource({ autoplay: true, inView: false }),
       false,
     );
     assert.equal(
-      shouldAttachHeroVideoSource({ autoplay: true, inView: true }),
-      true,
+      shouldAttachHeroVideoSource({ autoplay: false, inView: true }),
+      false,
     );
     assert.equal(heroVideoPreload(false), "none");
     assert.equal(heroVideoPreload(true), "metadata");

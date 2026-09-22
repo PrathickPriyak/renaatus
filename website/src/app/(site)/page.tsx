@@ -23,13 +23,13 @@ export default function HomePage() {
   return (
     <>
       <HomeHero />
+      <HomeStats />
       <HomeIntro />
       <HomeCapabilities />
-      <HomeSolutions />
       <HomeFeatured />
-      <HomeIndustries />
+      <HomeSolutions />
       <HomeWhy />
-      <HomeStats />
+      <HomeIndustries />
       <HomeStory />
       <HomeJournal />
       <CtaBand

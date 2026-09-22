@@ -24,8 +24,16 @@ export function CtaBand({
   className,
 }: CtaBandProps) {
   return (
-    <section className={cn("border-t border-line bg-ink", className)}>
-      <Container className="flex flex-col gap-8 py-[var(--section-y)] lg:flex-row lg:items-end lg:justify-between">
+    <section className={cn("relative overflow-hidden border-t border-line bg-ink", className)}>
+      <div
+        className="pointer-events-none absolute inset-0 opacity-40"
+        aria-hidden
+        style={{
+          background:
+            "radial-gradient(ellipse 60% 80% at 90% 50%, rgba(37,59,120,0.45), transparent 60%)",
+        }}
+      />
+      <Container className="relative flex flex-col gap-10 py-[var(--section-y)] lg:flex-row lg:items-end lg:justify-between">
         <div className="max-w-2xl">
           <Eyebrow>{eyebrow}</Eyebrow>
           <h2 className="font-display mt-4 text-h1 text-cream break-words">{title}</h2>

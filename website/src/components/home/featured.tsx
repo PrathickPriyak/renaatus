@@ -5,50 +5,41 @@ import { Button } from "@/design-system/components/button";
 import { Section } from "@/design-system/components/section";
 import { Reveal } from "@/design-system/components/reveal";
 import { infrastructureProjects, realtyProjects } from "@/lib/content";
+import { projectHref, slugify } from "@/lib/catalog";
 import { cn } from "@/lib/utils";
 
 function infra(name: string) {
   const project = infrastructureProjects.find((item) => item.name === name);
-  if (!project) {
-    return {
-      title: "CONTENT_REQUIRED",
-      meta: "CONTENT_REQUIRED",
-      image: "/assets/images/banners/infrastructure.jpg",
-      href: "/projects",
-    };
-  }
+  if (!project) return null;
   return {
     title: project.name,
     meta: `${project.country}${project.year ? ` · ${project.year}` : ""}`,
     image: project.image,
-    href: "/projects?type=infrastructure",
+    href: projectHref(slugify(project.name)),
+    copy: project.copy,
   };
 }
 
 function realty(name: string) {
   const project = realtyProjects.find((item) => item.name === name);
-  if (!project) {
-    return {
-      title: "CONTENT_REQUIRED",
-      meta: "CONTENT_REQUIRED",
-      image: "/assets/images/banners/realty.jpg",
-      href: "/projects",
-    };
-  }
+  if (!project) return null;
   return {
     title: project.name,
     meta: project.location,
     image: project.image,
-    href: project.href ?? "/projects?type=realty",
+    href: projectHref(slugify(project.name)),
+    copy: project.copy,
   };
 }
 
 const featured = [
-  { ...realty("Renaatus Irumathi"), span: "wide" as const },
-  { ...infra("Rajahmundry Domestic Airport"), span: "tall" as const },
-  { ...infra("Supreme Court of Mauritius"), span: "half" as const },
-  { ...realty("Renaatus Ithaa Muiy"), span: "half" as const },
-];
+  { item: realty("Renaatus Irumathi"), span: "wide" as const },
+  { item: infra("Rajahmundry Domestic Airport"), span: "tall" as const },
+  { item: infra("Supreme Court of Mauritius"), span: "half" as const },
+  { item: realty("Renaatus Ithaa Muiy"), span: "half" as const },
+].filter((entry): entry is { item: NonNullable<ReturnType<typeof realty>>; span: "wide" | "tall" | "half" } =>
+  Boolean(entry.item),
+);
 
 export function HomeFeatured() {
   return (
@@ -56,44 +47,45 @@ export function HomeFeatured() {
       tone="soft"
       eyebrow="Selected work"
       title="Places already on the ground."
-      intro="A short set from residences and civic works — not a catalogue, and not a promise of inventory."
+      intro="Residences and civic works delivered across the Indian Ocean — photographed where they stand."
+      width="wide"
     >
-      <div className="bg-line grid gap-px md:grid-cols-2 lg:grid-cols-12">
-        {featured.map((item, index) => {
-          const span =
-            item.span === "wide"
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-12 lg:gap-5">
+        {featured.map(({ item, span }, index) => {
+          const col =
+            span === "wide"
               ? "lg:col-span-8"
-              : item.span === "tall"
+              : span === "tall"
                 ? "lg:col-span-4"
                 : "lg:col-span-6";
-          const aspect = item.span === "wide" ? "aspect-[16/10]" : "aspect-[4/5]";
-          const external = item.href.startsWith("http");
+          const aspect = span === "wide" ? "aspect-[16/10]" : "aspect-[4/5]";
           return (
             <Reveal
               key={item.title}
-              className={cn("min-w-0", span)}
+              className={cn("min-w-0", col)}
               transition={{ delay: index * 0.05 }}
             >
-              <Link
-                href={item.href}
-                target={external ? "_blank" : undefined}
-                rel={external ? "noopener noreferrer" : undefined}
-                className="group bg-ink-soft block"
-              >
-                <HoverMedia className={aspect}>
+              <Link href={item.href} className="group block">
+                <HoverMedia className={cn(aspect, "rounded-sm")}>
                   <Image
                     src={item.image}
                     alt={item.title}
                     fill
                     className="object-cover"
                     sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 42vw"
+                    priority={index === 0}
                   />
-                  <div className="from-ink via-ink/20 absolute inset-0 bg-gradient-to-t to-transparent" />
-                  <div className="absolute inset-x-0 bottom-0 p-5 md:p-8">
-                    <p className="text-eyebrow text-brass tracking-[0.24em] uppercase break-words">
+                  <div className="absolute inset-0 bg-[linear-gradient(180deg,transparent_35%,rgba(7,9,14,0.88)_100%)]" />
+                  <div className="absolute inset-x-0 bottom-0 p-6 md:p-9">
+                    <p className="text-eyebrow text-brass tracking-[0.28em] uppercase">
                       {item.meta}
                     </p>
-                    <h3 className="font-display text-h3 text-cream mt-3 break-words">{item.title}</h3>
+                    <h3 className="font-display text-cream mt-3 text-[clamp(1.35rem,2.2vw,2rem)] leading-tight">
+                      {item.title}
+                    </h3>
+                    <p className="text-cream/75 mt-3 max-w-md text-sm leading-relaxed opacity-0 transition-opacity duration-500 group-hover:opacity-100 md:text-[0.95rem]">
+                      {item.copy}
+                    </p>
                   </div>
                 </HoverMedia>
               </Link>
@@ -101,9 +93,9 @@ export function HomeFeatured() {
           );
         })}
       </div>
-      <div className="mt-12">
+      <div className="mt-14">
         <Button asChild variant="secondary">
-          <Link href="/projects">All projects</Link>
+          <Link href="/projects">View all projects</Link>
         </Button>
       </div>
     </Section>

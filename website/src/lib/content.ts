@@ -220,6 +220,7 @@ export type InfraProject = {
   year?: string;
   country: "India" | "Maldives" | "Mauritius";
   image: string;
+  copy: string;
   gallery?: string[];
 };
 
@@ -229,6 +230,7 @@ export const infrastructureProjects: InfraProject[] = [
     year: "2023",
     country: "India",
     image: "/assets/images/infrastructure/india/rajahmundry-airport.jpg",
+    copy: "Domestic airport works delivered in Rajahmundry, India — part of the group’s aviation EPC portfolio.",
     gallery: [
       "/assets/images/infrastructure/galleries/rajahmundry-airport/01.jpg",
       "/assets/images/infrastructure/galleries/rajahmundry-airport/02.jpg",
@@ -241,6 +243,7 @@ export const infrastructureProjects: InfraProject[] = [
     year: "2023",
     country: "India",
     image: "/assets/images/infrastructure/india/sh95-mohanur.jpg",
+    copy: "State highway upgradation on SH-95 at Mohanur, strengthening regional connectivity in Tamil Nadu.",
     gallery: [
       "/assets/images/infrastructure/galleries/sh95-mohanur/01.jpg",
       "/assets/images/infrastructure/galleries/sh95-mohanur/02.jpg",
@@ -253,6 +256,7 @@ export const infrastructureProjects: InfraProject[] = [
     year: "2021",
     country: "India",
     image: "/assets/images/infrastructure/india/nit-karaikal.jpg",
+    copy: "Campus infrastructure for NIT-E at Karaikal — institutional buildings delivered as EPC.",
     gallery: ["/assets/images/infrastructure/galleries/nit-karaikal/01.jpg"],
   },
   {
@@ -260,6 +264,7 @@ export const infrastructureProjects: InfraProject[] = [
     year: "2021",
     country: "India",
     image: "/assets/images/infrastructure/india/ga-canal.jpg",
+    copy: "Irrigation canal infrastructure supporting agricultural water systems in India.",
     gallery: [
       "/assets/images/infrastructure/galleries/ga-canal/01.jpg",
       "/assets/images/infrastructure/galleries/ga-canal/02.jpg",
@@ -273,6 +278,7 @@ export const infrastructureProjects: InfraProject[] = [
     year: "2021",
     country: "India",
     image: "/assets/images/infrastructure/india/tiruppur-medical-college.jpg",
+    copy: "Medical college and hospital campus works at Tiruppur — healthcare infrastructure for Tamil Nadu.",
     gallery: [
       "/assets/images/infrastructure/galleries/hospital-residential/01.jpg",
       "/assets/images/infrastructure/galleries/hospital-residential/02.jpg",
@@ -285,6 +291,7 @@ export const infrastructureProjects: InfraProject[] = [
     year: "2020",
     country: "India",
     image: "/assets/images/infrastructure/india/jipmer-karaikal.jpg",
+    copy: "Healthcare campus works for JIPMER at Karaikal, delivered within the group’s institutional EPC line.",
     gallery: [
       "/assets/images/infrastructure/galleries/jipmer-karaikal/01.jpg",
       "/assets/images/infrastructure/galleries/jipmer-karaikal/02.jpg",
@@ -299,51 +306,60 @@ export const infrastructureProjects: InfraProject[] = [
     year: "2020",
     country: "India",
     image: "/assets/images/infrastructure/india/rajavaikal-kumarapalayam.jpg",
+    copy: "Water and irrigation works at Rajavaikal, Kumarapalayam.",
   },
   {
     name: "Mettur East Bank Canal, Salem",
     year: "2019",
     country: "India",
     image: "/assets/images/infrastructure/india/mettur-east-bank-canal.jpg",
+    copy: "East Bank Canal works at Mettur, Salem — irrigation infrastructure in Tamil Nadu.",
   },
   {
     name: "Perungalathur Grade Separator",
     year: "2019",
     country: "India",
     image: "/assets/images/infrastructure/india/perungalathur-grade-separator.jpg",
+    copy: "Grade separator infrastructure at Perungalathur improving urban traffic movement.",
   },
   {
     name: "ROB and pedestrian subway, Pollachi–Podanur",
     year: "2019",
     country: "India",
     image: "/assets/images/infrastructure/india/pollachi-podanur-rob.jpg",
+    copy: "Road-over-bridge and pedestrian subway on the Pollachi–Podanur corridor.",
   },
   {
     name: "Renaatus Social Housing",
     country: "Maldives",
     image: "/assets/images/infrastructure/maldives/social-housing.jpg",
+    copy: "Social housing delivery in the Maldives, extending the group’s residential construction craft.",
   },
   {
     name: "GAN International Airport",
     country: "Maldives",
     image: "/assets/images/infrastructure/maldives/gan-international-airport.jpg",
+    copy: "Airport infrastructure at GAN International Airport in the Maldives.",
   },
   {
     name: "India–Maldives Friendship Forum",
     year: "2011",
     country: "Maldives",
     image: "/assets/images/infrastructure/maldives/imff.jpg",
+    copy: "Civic works for the India–Maldives Friendship Forum — an early international delivery milestone.",
   },
   {
     name: "IGMH",
     year: "2013",
     country: "Maldives",
     image: "/assets/images/infrastructure/maldives/igmh.jpg",
+    copy: "Healthcare infrastructure works for IGMH in the Maldives.",
   },
   {
     name: "Supreme Court of Mauritius",
     country: "Mauritius",
     image: "/assets/images/infrastructure/mauritius/supreme-court.jpg",
+    copy: "Civic infrastructure for the Supreme Court of Mauritius — institutional delivery in Port Louis.",
   },
 ];
 

@@ -12,12 +12,13 @@ export function HomeCapabilities() {
       eyebrow="Capabilities"
       title="Three lines. One standard."
       intro="EPC infrastructure, luxury residences, and Renacon AAC — manufacturer and builder in the same group."
+      width="wide"
     >
-      <div className="bg-line grid gap-px lg:grid-cols-3">
+      <div className="grid gap-4 lg:grid-cols-3 lg:gap-5">
         {verticals.map((item, index) => (
           <Reveal key={item.title} transition={{ delay: index * 0.08 }}>
-            <Link href={item.href} className="group bg-ink-soft block">
-              <HoverMedia className="aspect-[4/5]">
+            <Link href={item.href} className="group block h-full">
+              <HoverMedia className="aspect-[3/4] rounded-sm">
                 <Image
                   src={item.image}
                   alt={item.title}
@@ -25,13 +26,15 @@ export function HomeCapabilities() {
                   className="object-cover"
                   sizes="(max-width: 1024px) 100vw, 33vw"
                 />
-                <div className="from-ink via-ink/25 absolute inset-0 bg-gradient-to-t to-transparent" />
-                <div className="absolute inset-x-0 bottom-0 p-6 md:p-8">
-                  <p className="text-eyebrow text-brass tracking-[0.24em] uppercase">
+                <div className="absolute inset-0 bg-[linear-gradient(180deg,transparent_30%,rgba(7,9,14,0.92)_100%)]" />
+                <div className="absolute inset-x-0 bottom-0 p-7 md:p-8">
+                  <p className="text-eyebrow text-brass tracking-[0.28em] uppercase">
                     {item.kicker}
                   </p>
-                  <h3 className="font-display text-h3 text-cream mt-3">{item.title}</h3>
-                  <p className="text-cream/80 mt-3 max-w-sm text-sm leading-6">
+                  <h3 className="font-display text-cream mt-3 text-[clamp(1.5rem,2vw,1.85rem)]">
+                    {item.title}
+                  </h3>
+                  <p className="text-cream/75 mt-4 max-w-sm text-sm leading-7">
                     {item.copy}
                   </p>
                 </div>
