@@ -12,7 +12,9 @@ import {
   getProjectBySlug,
   projectHref,
   projectMeta,
+  projectSeoDescription,
 } from "@/lib/catalog";
+import { pageMetadata } from "@/lib/seo/metadata";
 
 type PageProps = {
   params: Promise<{ slug: string }>;
@@ -27,11 +29,21 @@ export const dynamicParams = false;
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
   const project = getProjectBySlug(slug);
-  if (!project) return { title: "Project" };
-  return {
+  if (!project) {
+    return pageMetadata({
+      path: `/projects/${slug}`,
+      title: "Project",
+      description: "A Renaatus project.",
+      index: false,
+    });
+  }
+  return pageMetadata({
+    path: `/projects/${project.slug}`,
     title: project.name,
-    description: project.copy ?? `${project.name} — a Renaatus ${project.kind} project.`,
-  };
+    description: projectSeoDescription(project),
+    image: project.image,
+    imageAlt: project.name,
+  });
 }
 
 export default async function ProjectDetailPage({ params }: PageProps) {
@@ -48,10 +60,12 @@ export default async function ProjectDetailPage({ params }: PageProps) {
   return (
     <>
       <PageHero
+        path={`/projects/${project.slug}`}
         eyebrow={project.kind === "realty" ? "Residence" : "Infrastructure"}
         title={project.name}
         copy={project.copy ?? projectMeta(project)}
         image={project.image}
+        imageAlt={project.name}
         breadcrumbItems={[
           { href: "/", label: "Home" },
           { href: "/projects", label: "Projects" },
@@ -90,11 +104,11 @@ export default async function ProjectDetailPage({ params }: PageProps) {
           <Container>
             <h2 className="font-display text-h2 text-cream">On the ground.</h2>
             <div className="bg-line mt-10 grid gap-px sm:grid-cols-2">
-              {stills.map((src) => (
+              {stills.map((src, index) => (
                 <HoverMedia key={src} className="aspect-[4/3]">
                   <Image
                     src={src}
-                    alt=""
+                    alt={`${project.name} photography, still ${index + 1}`}
                     fill
                     className="object-cover"
                     sizes="(max-width: 768px) 100vw, 50vw"

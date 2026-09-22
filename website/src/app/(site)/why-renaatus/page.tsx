@@ -6,16 +6,16 @@ import { Text } from "@/design-system/components/text";
 import { Container } from "@/design-system/components/container";
 import { pillars, stats, testimonials } from "@/lib/content";
 
-export const metadata: Metadata = {
-  title: "Why Renaatus",
-  description:
-    "Manufacturer and builder — 50 years of construction expertise, a global footprint, and Renacon AAC in the same group.",
-};
+import { pageMetadataFromSeo } from "@/lib/seo/metadata";
+import { publicSeo } from "@/lib/seo/pages";
+
+export const metadata: Metadata = pageMetadataFromSeo(publicSeo.whyRenaatus);
 
 export default function WhyRenaatusPage() {
   return (
     <>
       <PageIntro
+        path="/why-renaatus"
         eyebrow="Why Renaatus"
         title="Manufacturer and builder."
         copy="The same group that makes Renacon AAC also delivers the work on site — across India, the Maldives, and Mauritius."

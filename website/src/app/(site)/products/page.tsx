@@ -9,24 +9,29 @@ import { Reveal } from "@/design-system/components/reveal";
 import { Text } from "@/design-system/components/text";
 import { getProductBySlug } from "@/lib/catalog";
 
-export const metadata: Metadata = {
-  title: "Products",
-  description:
-    "Renacon AAC blocks — South India’s autoclaved aerated concrete from Renaatus.",
-};
+import { pageMetadataFromSeo } from "@/lib/seo/metadata";
+import { publicSeo } from "@/lib/seo/pages";
+
+export const metadata: Metadata = pageMetadataFromSeo(publicSeo.products);
 
 export default function ProductsPage() {
   const product = getProductBySlug("renacon-aac-blocks");
 
   if (!product) {
     return (
-      <PageIntro eyebrow="Products" title="CONTENT_REQUIRED" copy="CONTENT_REQUIRED" />
+      <PageIntro
+        path="/products"
+        eyebrow="Products"
+        title="CONTENT_REQUIRED"
+        copy="CONTENT_REQUIRED"
+      />
     );
   }
 
   return (
     <>
       <PageIntro
+        path="/products"
         eyebrow="Products"
         title="Renacon AAC blocks."
         copy="The published catalogue today is one line: autoclaved aerated concrete from the group that also builds. Further SKUs are CONTENT_REQUIRED until classified."

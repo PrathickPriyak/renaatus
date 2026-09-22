@@ -1,21 +1,22 @@
 import type { Metadata } from "next";
 import { PageHero } from "@/components/marketing";
 import { ContactEnquiryForm } from "@/components/forms/ContactEnquiryForm";
+import { pageMetadataFromSeo } from "@/lib/seo/metadata";
+import { publicSeo } from "@/lib/seo/pages";
 import { offices } from "@/lib/content";
 
-export const metadata: Metadata = {
-  title: "Contact",
-  description: "Get in touch with Renaatus in Chennai, Maldives, and Mauritius.",
-};
+export const metadata: Metadata = pageMetadataFromSeo(publicSeo.contact);
 
 export default function ContactPage() {
   return (
     <>
       <PageHero
+        path="/contact"
         eyebrow="Contact"
         title="Let’s build something remarkable."
         copy="Got questions? We have answers. Reach the team that delivers infrastructure, residences, and materials."
         image="/assets/images/banners/contact.jpg"
+        imageAlt="Contact Renaatus"
       />
 
       <section className="mx-auto grid max-w-7xl gap-12 px-5 py-20 lg:grid-cols-[0.85fr_1.15fr] md:px-8">

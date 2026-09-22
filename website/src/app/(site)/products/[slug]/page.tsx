@@ -10,6 +10,9 @@ import { Container } from "@/design-system/components/container";
 import { Heading } from "@/design-system/components/heading";
 import { Text } from "@/design-system/components/text";
 import { getProductBySlug, products } from "@/lib/catalog";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { productJsonLd } from "@/lib/seo/json-ld";
+import { pageMetadata } from "@/lib/seo/metadata";
 
 type PageProps = {
   params: Promise<{ slug: string }>;
@@ -25,12 +28,15 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const { slug } = await params;
   const product = getProductBySlug(slug);
   if (!product) {
-    return { title: "Product" };
+    return { title: "Product", robots: { index: false, follow: false } };
   }
-  return {
+  return pageMetadata({
+    path: `/products/${product.slug}`,
     title: product.name,
     description: product.copy,
-  };
+    image: product.image,
+    imageAlt: product.name,
+  });
 }
 
 export default async function ProductDetailPage({ params }: PageProps) {
@@ -40,7 +46,9 @@ export default async function ProductDetailPage({ params }: PageProps) {
 
   return (
     <>
+      <JsonLd data={productJsonLd(product)} />
       <PageIntro
+        path={`/products/${product.slug}`}
         eyebrow={product.kicker}
         title={product.name}
         copy={product.copy}
@@ -61,11 +69,11 @@ export default async function ProductDetailPage({ params }: PageProps) {
           ))}
         </ul>
         <div className="bg-line grid grid-cols-2 gap-px">
-          {product.stills.map((src) => (
+          {product.stills.map((src, index) => (
             <HoverMedia key={src} className="aspect-square">
               <Image
                 src={src}
-                alt={`${product.name} still`}
+                alt={`${product.name} photography, still ${index + 1}`}
                 fill
                 className="object-cover"
                 sizes="(max-width: 1024px) 50vw, 25vw"

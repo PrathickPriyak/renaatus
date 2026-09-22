@@ -37,11 +37,20 @@ const nextConfig: NextConfig = {
     ];
   },
   async headers() {
+    const privateRobots = [{ key: "X-Robots-Tag", value: "noindex, nofollow" }];
     return [
       {
         source: "/:path*",
         headers: securityHeaders,
       },
+      { source: "/admin", headers: privateRobots },
+      { source: "/admin/:path*", headers: privateRobots },
+      { source: "/login", headers: privateRobots },
+      { source: "/api/:path*", headers: privateRobots },
+      { source: "/private", headers: privateRobots },
+      { source: "/private/:path*", headers: privateRobots },
+      { source: "/design-system", headers: privateRobots },
+      { source: "/design-system/:path*", headers: privateRobots },
     ];
   },
 };

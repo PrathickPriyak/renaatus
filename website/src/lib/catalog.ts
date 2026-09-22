@@ -98,3 +98,15 @@ export function projectMeta(project: CatalogProject): string {
   const parts = [project.country, project.year].filter(Boolean);
   return parts.length > 0 ? parts.join(" · ") : "CONTENT_REQUIRED";
 }
+
+export function projectSeoDescription(project: CatalogProject): string {
+  if (project.copy?.trim()) {
+    return project.copy;
+  }
+  const meta = projectMeta(project);
+  const kindLabel = project.kind === "realty" ? "residence" : "infrastructure project";
+  if (meta && meta !== "CONTENT_REQUIRED") {
+    return `${project.name} is a Renaatus ${kindLabel} — ${meta}.`;
+  }
+  return `${project.name} is a Renaatus ${kindLabel}.`;
+}

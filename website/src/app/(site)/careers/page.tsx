@@ -9,13 +9,11 @@ import { Container } from "@/design-system/components/container";
 import { Reveal } from "@/design-system/components/reveal";
 import { Section } from "@/design-system/components/section";
 import { Text } from "@/design-system/components/text";
+import { pageMetadataFromSeo } from "@/lib/seo/metadata";
+import { publicSeo } from "@/lib/seo/pages";
 import { company, offices, stats, verticals } from "@/lib/content";
 
-export const metadata: Metadata = {
-  title: "Careers",
-  description:
-    "Join Renaatus — infrastructure, luxury residences, and Renacon AAC across India, the Maldives, and Mauritius.",
-};
+export const metadata: Metadata = pageMetadataFromSeo(publicSeo.careers);
 
 const peopleContacts = [
   { label: "HR", email: "hr@renaatus.com" },
@@ -26,10 +24,12 @@ export default function CareersPage() {
   return (
     <>
       <PageHero
+        path="/careers"
         eyebrow="Careers"
         title="Build a career with lasting impact."
         copy="Work that spans infrastructure, residences, and green materials — across India, the Maldives, and Mauritius."
         image="/assets/images/banners/careers.jpg"
+        imageAlt="Renaatus careers"
       />
 
       <Section

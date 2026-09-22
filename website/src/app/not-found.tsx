@@ -1,4 +1,13 @@
+import type { Metadata } from "next";
 import Link from "next/link";
+import { pageMetadata } from "@/lib/seo/metadata";
+
+export const metadata: Metadata = pageMetadata({
+  path: "/404",
+  title: "Page not found",
+  description: "This path does not exist on the Renaatus website.",
+  index: false,
+});
 
 export default function NotFound() {
   return (

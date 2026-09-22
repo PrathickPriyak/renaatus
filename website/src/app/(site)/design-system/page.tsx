@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import { ModalDemo } from "./modal-demo";
+import { pageMetadata } from "@/lib/seo/metadata";
 import {
   Badge,
   Button,
@@ -30,11 +31,12 @@ import {
 } from "@/design-system";
 import { colorTokens, typeScale } from "@/design-system/tokens";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
+  path: "/design-system",
   title: "Design system",
-  description: "Renaatus visual language — tokens and reusable components.",
-  robots: { index: false, follow: false },
-};
+  description: "Internal Renaatus visual language — tokens and reusable components.",
+  index: false,
+});
 
 export default function DesignSystemPage() {
   return (
@@ -209,7 +211,7 @@ export default function DesignSystemPage() {
             <MediaFrame className="aspect-[4/5]">
               <Image
                 src="/assets/images/verticals/infrastructure.jpg"
-                alt=""
+                alt="Renaatus infrastructure photography"
                 fill
                 className="object-cover"
                 sizes="(max-width: 1024px) 100vw, 33vw"

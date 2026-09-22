@@ -3,13 +3,9 @@ import Link from "next/link";
 import { InfrastructureGrid, PageIntro, ProjectCard } from "@/components/marketing";
 import { Container } from "@/design-system/components/container";
 import { catalogProjects, projectHref, projectMeta } from "@/lib/catalog";
+import { pageMetadataFromSeo } from "@/lib/seo/metadata";
+import { publicSeo } from "@/lib/seo/pages";
 import { cn } from "@/lib/utils";
-
-export const metadata: Metadata = {
-  title: "Projects",
-  description:
-    "Realty and infrastructure delivered by Renaatus across India, the Maldives, and Mauritius.",
-};
 
 const filters = [
   { href: "/projects", label: "All work", type: undefined },
@@ -25,6 +21,17 @@ type PageProps = {
   searchParams: Promise<{ type?: string }>;
 };
 
+export async function generateMetadata({ searchParams }: PageProps): Promise<Metadata> {
+  const params = await searchParams;
+  if (params.type === "realty") {
+    return pageMetadataFromSeo(publicSeo.residences);
+  }
+  if (params.type === "infrastructure") {
+    return pageMetadataFromSeo(publicSeo.infrastructure);
+  }
+  return pageMetadataFromSeo(publicSeo.projects);
+}
+
 export default async function ProjectsPage({ searchParams }: PageProps) {
   const params = await searchParams;
   const type =
@@ -34,10 +41,26 @@ export default async function ProjectsPage({ searchParams }: PageProps) {
   const showRealty = type !== "infrastructure";
   const showInfra = type !== "realty";
   const residences = catalogProjects.filter((project) => project.kind === "realty");
+  const breadcrumbItems =
+    type === "realty"
+      ? [
+          { href: "/", label: "Home" },
+          { href: "/projects", label: "Projects" },
+          { href: "/projects?type=realty", label: "Residences" },
+        ]
+      : type === "infrastructure"
+        ? [
+            { href: "/", label: "Home" },
+            { href: "/projects", label: "Projects" },
+            { href: "/projects?type=infrastructure", label: "Infrastructure" },
+          ]
+        : undefined;
 
   return (
     <>
       <PageIntro
+        path="/projects"
+        breadcrumbItems={breadcrumbItems}
         eyebrow="Projects"
         title="Work across water, stone, and civic ground."
         copy="Residences in the Maldives and India, and infrastructure delivered as EPC — airports, hospitals, courts, irrigation, and housing."

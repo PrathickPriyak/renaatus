@@ -9,27 +9,40 @@ import { Section } from "@/design-system/components/section";
 import { Text } from "@/design-system/components/text";
 import { company, founderLetter, leadership, timeline } from "@/lib/content";
 
-export const metadata: Metadata = {
-  title: "About",
-  description:
-    "The story of Renaatus — vision, mission, leadership, and a 50-year construction legacy across India, the Maldives, and Mauritius.",
-};
+import { pageMetadataFromSeo } from "@/lib/seo/metadata";
+import { publicSeo } from "@/lib/seo/pages";
+
+export const metadata: Metadata = pageMetadataFromSeo(publicSeo.about);
 
 const aboutStills = [
-  "/assets/images/about/grid-1.png",
-  "/assets/images/about/grid-2.png",
-  "/assets/images/about/grid-3.png",
-  "/assets/images/about/grid-4.png",
+  {
+    src: "/assets/images/about/grid-1.png",
+    alt: "Renaatus project photography, still 1",
+  },
+  {
+    src: "/assets/images/about/grid-2.png",
+    alt: "Renaatus project photography, still 2",
+  },
+  {
+    src: "/assets/images/about/grid-3.png",
+    alt: "Renaatus project photography, still 3",
+  },
+  {
+    src: "/assets/images/about/grid-4.png",
+    alt: "Renaatus project photography, still 4",
+  },
 ] as const;
 
 export default function AboutPage() {
   return (
     <>
       <PageHero
+        path="/about"
         eyebrow="About"
         title="A square foot for everyone. Space for every dream."
         copy="With one million square feet in our sights, we begin with Renaatus Realty — shaping lives, building communities, and turning possibility into place."
         image="/assets/images/about/about-renaatus.jpg"
+        imageAlt="Renaatus leadership and construction legacy"
       />
 
       <Section
@@ -95,11 +108,11 @@ export default function AboutPage() {
 
       <Section eyebrow="The group" title="Places and people already in the work.">
         <div className="bg-line grid gap-px sm:grid-cols-2 lg:grid-cols-4">
-          {aboutStills.map((src) => (
-            <HoverMedia key={src} className="aspect-[4/5]">
+          {aboutStills.map((still) => (
+            <HoverMedia key={still.src} className="aspect-[4/5]">
               <Image
-                src={src}
-                alt=""
+                src={still.src}
+                alt={still.alt}
                 fill
                 className="object-cover"
                 sizes="(max-width: 1024px) 50vw, 25vw"

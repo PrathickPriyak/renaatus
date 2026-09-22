@@ -6,18 +6,17 @@ import { HoverMedia } from "@/components/marketing/hover-media";
 import { Reveal } from "@/design-system/components/reveal";
 import { Section } from "@/design-system/components/section";
 import { projectHref } from "@/lib/catalog";
+import { pageMetadataFromSeo } from "@/lib/seo/metadata";
+import { publicSeo } from "@/lib/seo/pages";
 import { industries } from "@/lib/content";
 
-export const metadata: Metadata = {
-  title: "Industries",
-  description:
-    "Sectors drawn from work Renaatus has already delivered — aviation, healthcare, water, transport, civic buildings, and residences.",
-};
+export const metadata: Metadata = pageMetadataFromSeo(publicSeo.industries);
 
 export default function IndustriesPage() {
   return (
     <>
       <PageIntro
+        path="/industries"
         eyebrow="Industries"
         title="Sectors we have already built in."
         copy="This list is derived from delivered projects. It is not a speculative market map."

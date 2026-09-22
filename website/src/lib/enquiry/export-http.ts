@@ -5,6 +5,7 @@ import { exportEnquiries, parseEnquiryExportFilters } from "@/lib/enquiry/export
 import { AppError } from "@/lib/errors";
 import { jsonError, jsonFromUnknownError } from "@/lib/http";
 import { readClientIp } from "@/lib/security/ip";
+import { PRIVATE_ROBOTS_HEADER_VALUE } from "@/lib/seo/robots";
 
 function attachmentFilename(filename: string): string {
   return (
@@ -56,6 +57,7 @@ export async function handleEnquiryExportRequest(
         "Content-Disposition": `attachment; filename="${attachmentFilename(exported.filename)}"`,
         "Cache-Control": "private, no-store",
         "X-Content-Type-Options": "nosniff",
+        "X-Robots-Tag": PRIVATE_ROBOTS_HEADER_VALUE,
       },
     });
   } catch (error) {

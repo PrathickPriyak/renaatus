@@ -14,7 +14,7 @@ export function HeroMedia() {
       <div className="absolute inset-0" aria-hidden>
         <Image
           src={DESKTOP_POSTER}
-          alt=""
+          alt="Renaatus infrastructure across India"
           fill
           priority
           sizes="100vw"
@@ -22,7 +22,7 @@ export function HeroMedia() {
         />
         <Image
           src={MOBILE_POSTER}
-          alt=""
+          alt="Renaatus residence in the Maldives"
           fill
           priority
           sizes="100vw"
