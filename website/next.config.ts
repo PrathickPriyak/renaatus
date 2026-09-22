@@ -32,7 +32,8 @@ const nextConfig: NextConfig = {
         destination: "/projects?type=infrastructure",
         permanent: false,
       },
-      { source: "/blog", destination: "/journal", permanent: false },
+      { source: "/journal", destination: "/blog", permanent: false },
+      { source: "/journal/:path*", destination: "/blog/:path*", permanent: false },
     ];
   },
   async headers() {

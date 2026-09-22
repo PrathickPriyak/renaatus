@@ -133,6 +133,7 @@ model Media {
   createdBy   User?           @relation("MediaCreatedBy", fields: [createdById], references: [id], onDelete: SetNull)
 
   featuredPosts    Post[]          @relation("PostFeatured")
+  ogPosts          Post[]          @relation("PostOg")
   featuredProjects Project[]       @relation("ProjectCover")
   featuredProducts Product[]       @relation("ProductCover")
   projectImages    ProjectImage[]
@@ -167,8 +168,10 @@ model Post {
   excerpt         String     @db.Text
   body            Json
   status          PostStatus @default(DRAFT)
+  featured        Boolean    @default(false)
   seoTitle        String?
   seoDescription  String?
+  canonicalUrl    String?
   publishedAt     DateTime?
   createdAt       DateTime   @default(now())
   updatedAt       DateTime   @updatedAt
@@ -178,12 +181,16 @@ model Post {
   category        Category?  @relation(fields: [categoryId], references: [id], onDelete: SetNull)
   featuredImageId String?
   featuredImage   Media?     @relation("PostFeatured", fields: [featuredImageId], references: [id], onDelete: SetNull)
+  ogImageId       String?
+  ogImage         Media?     @relation("PostOg", fields: [ogImageId], references: [id], onDelete: SetNull)
   tags            PostTag[]
 
   @@index([status, publishedAt])
+  @@index([featured, status, publishedAt])
   @@index([authorId])
   @@index([categoryId])
   @@index([featuredImageId])
+  @@index([ogImageId])
 }
 
 model PostTag {

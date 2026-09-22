@@ -2,9 +2,14 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { createJournalPost, updateJournalPost } from "@/lib/admin/posts";
+import {
+  createJournalPost,
+  deleteJournalPost,
+  updateJournalPost,
+} from "@/lib/admin/posts";
 import { getCurrentActor } from "@/lib/auth/current-actor";
 import { POST_STATUSES } from "@/lib/constants";
+import { ValidationError } from "@/lib/errors";
 import { getDb } from "@/lib/db";
 import { runAction } from "@/server/safe-action";
 import type { AdminFormState } from "@/types";
@@ -22,7 +27,27 @@ function readPostFields(formData: FormData) {
     excerpt: String(formData.get("excerpt") ?? ""),
     body: String(formData.get("body") ?? ""),
     status: isPostStatus(statusValue) ? statusValue : ("DRAFT" as const),
+    seoTitle: String(formData.get("seoTitle") ?? ""),
+    seoDescription: String(formData.get("seoDescription") ?? ""),
+    canonicalUrl: String(formData.get("canonicalUrl") ?? ""),
+    categoryId: String(formData.get("categoryId") ?? ""),
+    tagNames: String(formData.get("tagNames") ?? ""),
+    featuredImageId: String(formData.get("featuredImageId") ?? ""),
+    ogImageId: String(formData.get("ogImageId") ?? ""),
+    featured: formData.get("featured") === "on" ? "on" : "",
+    publishedAt: String(formData.get("publishedAt") ?? ""),
   };
+}
+
+function revalidateBlog(slug?: string) {
+  revalidatePath("/");
+  revalidatePath("/blog");
+  revalidatePath("/blog", "layout");
+  revalidatePath("/admin");
+  revalidatePath("/admin/blog");
+  if (slug) {
+    revalidatePath(`/blog/${slug}`);
+  }
 }
 
 export async function createJournalPostAction(
@@ -43,8 +68,7 @@ export async function createJournalPostAction(
     };
   }
 
-  revalidatePath("/admin");
-  revalidatePath("/admin/blog");
+  revalidateBlog(result.data.slug);
   redirect(`/admin/blog/${result.data.id}/edit`);
 }
 
@@ -71,8 +95,25 @@ export async function updateJournalPostAction(
     };
   }
 
-  revalidatePath("/admin");
-  revalidatePath("/admin/blog");
   revalidatePath(`/admin/blog/${postId}/edit`);
+  revalidateBlog(result.data.slug);
   return { status: "success", message: "Journal entry saved." };
+}
+
+export async function deleteJournalPostAction(formData: FormData): Promise<void> {
+  const postId = String(formData.get("postId") ?? "").trim();
+  const actor = await getCurrentActor();
+  const result = await runAction("post_delete", async () => {
+    if (!postId) {
+      throw new ValidationError("Missing journal entry.");
+    }
+    await deleteJournalPost(getDb(), actor, postId);
+  });
+
+  if (!result.ok) {
+    redirect(`/admin/blog/${postId}/edit`);
+  }
+
+  revalidateBlog();
+  redirect("/admin/blog");
 }

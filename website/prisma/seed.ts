@@ -143,11 +143,14 @@ async function seed(db: PrismaClient): Promise<void> {
         "Renaatus is proud to partner with Chennai Metro Rail Limited for the iconic Chennai Central Tower — a 119-metre landmark that will reshape the city’s skyline.",
       ),
       status: "PUBLISHED",
+      featured: true,
       publishedAt: new Date("2024-01-15T00:00:00.000Z"),
       authorId: editor.id,
       categoryId: news.id,
       featuredImageId: cmrlImage.id,
       seoTitle: "Partnering with CMRL on Chennai Central Tower",
+      seoDescription:
+        "Renaatus is proud to partner with Chennai Metro Rail Limited for the iconic Chennai Central Tower — a 119-metre landmark that will reshape the city’s skyline.",
     },
     create: {
       title: "Partnering with CMRL on Chennai Central Tower",
@@ -158,11 +161,14 @@ async function seed(db: PrismaClient): Promise<void> {
         "Renaatus is proud to partner with Chennai Metro Rail Limited for the iconic Chennai Central Tower — a 119-metre landmark that will reshape the city’s skyline.",
       ),
       status: "PUBLISHED",
+      featured: true,
       publishedAt: new Date("2024-01-15T00:00:00.000Z"),
       authorId: editor.id,
       categoryId: news.id,
       featuredImageId: cmrlImage.id,
       seoTitle: "Partnering with CMRL on Chennai Central Tower",
+      seoDescription:
+        "Renaatus is proud to partner with Chennai Metro Rail Limited for the iconic Chennai Central Tower — a 119-metre landmark that will reshape the city’s skyline.",
     },
   });
 
@@ -176,11 +182,14 @@ async function seed(db: PrismaClient): Promise<void> {
         "A new era of operational excellence: streamlined operations, data-driven decisions, and future-ready scale — powered by our people.",
       ),
       status: "PUBLISHED",
+      featured: false,
       publishedAt: new Date("2024-06-01T00:00:00.000Z"),
       authorId: editor.id,
       categoryId: news.id,
       featuredImageId: sapImage.id,
       seoTitle: "Renaatus goes live with SAP",
+      seoDescription:
+        "A new era of operational excellence: streamlined operations, data-driven decisions, and future-ready scale — powered by our people.",
     },
     create: {
       title: "Renaatus goes live with SAP",
@@ -191,11 +200,14 @@ async function seed(db: PrismaClient): Promise<void> {
         "A new era of operational excellence: streamlined operations, data-driven decisions, and future-ready scale — powered by our people.",
       ),
       status: "PUBLISHED",
+      featured: false,
       publishedAt: new Date("2024-06-01T00:00:00.000Z"),
       authorId: editor.id,
       categoryId: news.id,
       featuredImageId: sapImage.id,
       seoTitle: "Renaatus goes live with SAP",
+      seoDescription:
+        "A new era of operational excellence: streamlined operations, data-driven decisions, and future-ready scale — powered by our people.",
     },
   });
 

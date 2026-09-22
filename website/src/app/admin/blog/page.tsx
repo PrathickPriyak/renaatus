@@ -48,6 +48,11 @@ export default async function AdminBlogPage() {
                     tone={postTone(post.status)}
                   />
                 </div>
+                {post.featured ? (
+                  <p className="text-caption text-brass mt-2 tracking-[0.12em] uppercase">
+                    Featured
+                  </p>
+                ) : null}
                 <p className="text-caption text-cream-muted mt-2">{post.slug}</p>
                 <Link
                   href={`/admin/blog/${post.id}/edit`}
@@ -76,7 +81,10 @@ export default async function AdminBlogPage() {
                   <tr key={post.id} className="border-line border-t">
                     <td className="px-4 py-3">
                       <p className="text-cream">{post.title}</p>
-                      <p className="text-caption text-cream-muted mt-1">{post.slug}</p>
+                      <p className="text-caption text-cream-muted mt-1">
+                        {post.slug}
+                        {post.featured ? " · Featured" : ""}
+                      </p>
                     </td>
                     <td className="px-4 py-3">
                       <StatusBadge

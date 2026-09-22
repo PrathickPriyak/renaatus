@@ -1,5 +1,6 @@
 import type { PrismaClient } from "../../../generated/prisma/client";
 import { requireMediaEditor } from "@/lib/admin/require-actor";
+import { publicMediaDisplayUrl } from "@/lib/blog/media-url";
 import type { Actor } from "@/lib/auth/session";
 import type { MediaVisibility } from "@/types/domain";
 
@@ -16,15 +17,12 @@ export type AdminMediaItem = {
   publicUrl: string | null;
 };
 
-function publicMediaUrl(visibility: MediaVisibility, key: string): string | null {
-  if (visibility !== "PUBLIC") {
-    return null;
-  }
-  const base = process.env.R2_PUBLIC_BASE_URL?.trim();
-  if (!base) {
-    return null;
-  }
-  return `${base.replace(/\/$/, "")}/${key}`;
+function publicMediaUrl(
+  visibility: MediaVisibility,
+  key: string,
+  bucket: string,
+): string | null {
+  return publicMediaDisplayUrl({ visibility, key, bucket });
 }
 
 export async function listMediaForAdmin(
@@ -39,6 +37,7 @@ export async function listMediaForAdmin(
     select: {
       id: true,
       key: true,
+      bucket: true,
       filename: true,
       mimeType: true,
       byteSize: true,
@@ -51,10 +50,10 @@ export async function listMediaForAdmin(
   });
 
   return rows.map((row) => {
-    const { key, ...item } = row;
+    const { key, bucket, ...item } = row;
     return {
       ...item,
-      publicUrl: publicMediaUrl(item.visibility, key),
+      publicUrl: publicMediaUrl(item.visibility, key, bucket),
     };
   });
 }
