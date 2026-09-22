@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
-import { journalBodyToText, parseJournalBody } from "@/lib/admin/journal-body";
+import { asJournalDoc, journalBodyToText, parseJournalBody, safeHref } from "@/lib/admin/journal-body";
 
 describe("journal body", () => {
   it("parses headings, paragraphs, lists, and links", () => {
@@ -36,5 +36,27 @@ describe("journal body", () => {
     assert.equal(paragraph?.type, "paragraph");
     const json = JSON.stringify(doc);
     assert.equal(json.includes("javascript:"), false);
+  });
+
+  it("strips javascript hrefs from stored journal JSON", () => {
+    const stored = {
+      type: "doc",
+      content: [
+        {
+          type: "paragraph",
+          content: [
+            {
+              type: "text",
+              text: "bad",
+              marks: [{ type: "link", attrs: { href: "javascript:alert(1)" } }],
+            },
+          ],
+        },
+      ],
+    };
+    const doc = asJournalDoc(stored);
+    assert.equal(JSON.stringify(doc).includes("javascript:"), false);
+    assert.equal(safeHref("javascript:alert(1)"), null);
+    assert.equal(safeHref("https://www.renaatus.com/about"), "https://www.renaatus.com/about");
   });
 });

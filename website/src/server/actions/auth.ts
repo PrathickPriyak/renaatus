@@ -70,6 +70,6 @@ export async function signOutStaff(): Promise<void> {
   if (token) {
     await destroyUserSession(getDb(), token);
   }
-  cookieStore.delete(SESSION_COOKIE_NAME);
+  cookieStore.delete({ name: SESSION_COOKIE_NAME, path: "/" });
   redirect("/login");
 }
