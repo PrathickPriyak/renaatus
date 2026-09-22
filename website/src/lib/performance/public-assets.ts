@@ -7,6 +7,8 @@ const DENY_FILES = [
 ] as const;
 
 const ASSET_PATH_PATTERN = /(?:^|["'(=\s])(\/assets\/[A-Za-z0-9._\-/]+)/g;
+const LOCAL_PUBLIC_MEDIA_KEY_PATTERN =
+  /["']((?:images|videos)\/[A-Za-z0-9._\-/]+\.(?:avif|gif|jpe?g|mp4|png|svg|webm|webp))["']/gi;
 
 export function normalizeAssetKey(value: string): string {
   return value
@@ -18,6 +20,13 @@ export function normalizeAssetKey(value: string): string {
 export function extractAssetKeysFromSource(source: string): string[] {
   const keys = new Set<string>();
   for (const match of source.matchAll(ASSET_PATH_PATTERN)) {
+    const raw = match[1];
+    if (!raw) {
+      continue;
+    }
+    keys.add(normalizeAssetKey(raw));
+  }
+  for (const match of source.matchAll(LOCAL_PUBLIC_MEDIA_KEY_PATTERN)) {
     const raw = match[1];
     if (!raw) {
       continue;

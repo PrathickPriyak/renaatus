@@ -19,6 +19,22 @@ describe("public asset publishing", () => {
     ]);
   });
 
+  it("extracts seed and CMS local-public media keys without an /assets prefix", () => {
+    const keys = extractAssetKeysFromSource(`
+      const sapImage = await db.media.upsert({
+        where: { key: "images/news/sap-live.jpg" },
+        create: { key: "images/news/sap-live.jpg", bucket: "local-public" },
+      });
+      const cover = { key: "images/verticals/aac-blocks.jpg" };
+      const privateResume = { key: "resumes/applicant.pdf" };
+      const font = { key: "fonts/fa-solid-900.woff2" };
+    `);
+    assert.deepEqual(keys, [
+      "images/news/sap-live.jpg",
+      "images/verticals/aac-blocks.jpg",
+    ]);
+  });
+
   it("refuses to publish the unused 5 GB dump, fonts, icons, and loop videos", () => {
     assert.equal(isDeniedPublicAsset("fonts/fa-solid-900.woff2"), true);
     assert.equal(isDeniedPublicAsset("icons/stat-r1.png"), true);
