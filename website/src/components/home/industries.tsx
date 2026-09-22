@@ -24,8 +24,8 @@ export function HomeIndustries() {
                   className="object-cover"
                   sizes="(max-width: 1024px) 100vw, 33vw"
                 />
-                <div className="from-ink via-ink/40 to-ink/20 absolute inset-0 bg-gradient-to-t" />
-                <div className="absolute inset-x-0 bottom-0 p-5 md:p-6">
+                <div className="from-ink via-ink/45 to-ink/15 absolute inset-0 bg-gradient-to-t transition-opacity duration-500 group-hover:opacity-90" />
+                <div className="absolute inset-x-0 bottom-0 translate-y-0 p-5 transition-transform duration-500 group-hover:-translate-y-1 md:p-6">
                   <h3 className="font-display text-h4 text-cream">{item.title}</h3>
                   <p className="text-caption text-cream/75 mt-2">{item.works}</p>
                 </div>

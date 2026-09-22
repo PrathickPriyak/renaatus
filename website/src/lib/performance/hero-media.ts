@@ -1,21 +1,23 @@
 export const HERO_MOBILE_MAX_WIDTH = 767;
-export const HERO_IMAGE_QUALITY = 85;
+export const HERO_IMAGE_QUALITY = 90;
 
-export const HERO_DESKTOP_POSTER = "/assets/images/realty/maldives/irumathi-exterior.png";
-export const HERO_MOBILE_POSTER = "/assets/images/realty/maldives/irumathi-exterior.png";
+/** First frames of the branded marketing loops — match LCP to the playing video. */
+export const HERO_DESKTOP_POSTER = "/assets/images/hero/desktop-poster.jpg";
+export const HERO_MOBILE_POSTER = "/assets/images/hero/mobile-poster.jpg";
 export const HERO_DESKTOP_VIDEO = "/assets/videos/hero-desktop.mp4";
+export const HERO_MOBILE_VIDEO = "/assets/videos/hero-mobile.mp4";
 
 /**
- * Desktop hero uses a clean photography still. The branded loop video embeds
- * on-screen kit typography ("5 Elements…") that collides with page copy, so it
- * stays available as an asset but is not autoplayed on the marketing hero.
+ * Autoplay the branded hero loop whenever motion is allowed.
+ * Kit typography is burned into the footage — page chrome stays in the
+ * bottom safe zone so the video can own the center of the frame.
  */
 export function shouldAutoplayHeroVideo(input: {
   reducedMotion: boolean;
   isMobile: boolean;
 }): boolean {
-  void input;
-  return false;
+  void input.isMobile;
+  return !input.reducedMotion;
 }
 
 export function shouldAttachHeroVideoSource(input: {
@@ -23,6 +25,10 @@ export function shouldAttachHeroVideoSource(input: {
   inView: boolean;
 }): boolean {
   return input.autoplay && input.inView;
+}
+
+export function heroVideoSrc(isMobile: boolean): string {
+  return isMobile ? HERO_MOBILE_VIDEO : HERO_DESKTOP_VIDEO;
 }
 
 export function heroVideoPreload(attached: boolean): "none" | "metadata" {

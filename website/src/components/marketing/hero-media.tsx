@@ -1,24 +1,27 @@
 "use client";
 
 import { getImageProps } from "next/image";
-import { useReducedMotion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import {
   HERO_DESKTOP_POSTER,
-  HERO_DESKTOP_VIDEO,
   HERO_IMAGE_QUALITY,
   HERO_MOBILE_MAX_WIDTH,
   HERO_MOBILE_POSTER,
   heroVideoPreload,
+  heroVideoSrc,
   shouldAttachHeroVideoSource,
   shouldAutoplayHeroVideo,
 } from "@/lib/performance/hero-media";
+import { duration, easePremium } from "@/design-system/motion";
 
 export function HeroMedia() {
   const reduced = useReducedMotion();
   const [isMobile, setIsMobile] = useState(true);
   const [inView, setInView] = useState(false);
+  const [ready, setReady] = useState(false);
   const rootRef = useRef<HTMLDivElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
     const media = window.matchMedia(`(max-width: ${HERO_MOBILE_MAX_WIDTH}px)`);
@@ -36,12 +39,9 @@ export function HeroMedia() {
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry?.isIntersecting) {
-          setInView(true);
-          observer.disconnect();
-        }
+        setInView(Boolean(entry?.isIntersecting));
       },
-      { rootMargin: "120px" },
+      { rootMargin: "80px", threshold: 0.12 },
     );
     observer.observe(node);
     return () => observer.disconnect();
@@ -52,6 +52,26 @@ export function HeroMedia() {
     isMobile,
   });
   const attachVideo = shouldAttachHeroVideoSource({ autoplay, inView });
+  const src = heroVideoSrc(isMobile);
+
+  useEffect(() => {
+    setReady(false);
+  }, [src]);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video || !attachVideo) {
+      return;
+    }
+
+    if (inView) {
+      void video.play().catch(() => {
+        /* Autoplay may be blocked; poster remains. */
+      });
+    } else {
+      video.pause();
+    }
+  }, [attachVideo, inView, src]);
 
   const shared = {
     alt: "",
@@ -79,22 +99,28 @@ export function HeroMedia() {
         <img
           {...mobile}
           alt=""
-          className="absolute inset-0 h-full w-full object-cover object-[center_35%] md:object-center"
+          className="absolute inset-0 h-full w-full scale-[1.02] object-cover object-[center_35%] md:object-center"
           decoding="async"
           fetchPriority="high"
         />
       </picture>
       {attachVideo ? (
-        <video
+        <motion.video
+          key={src}
+          ref={videoRef}
           className="absolute inset-0 h-full w-full object-cover object-center"
           autoPlay
           muted
           loop
           playsInline
           preload={heroVideoPreload(true)}
+          onLoadedData={() => setReady(true)}
+          initial={{ opacity: 0, scale: 1.04 }}
+          animate={{ opacity: ready ? 1 : 0, scale: ready ? 1 : 1.04 }}
+          transition={{ duration: duration.slow, ease: easePremium }}
         >
-          <source src={HERO_DESKTOP_VIDEO} type="video/mp4" />
-        </video>
+          <source src={src} type="video/mp4" />
+        </motion.video>
       ) : null}
     </div>
   );

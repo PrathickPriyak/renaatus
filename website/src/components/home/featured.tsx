@@ -65,7 +65,7 @@ export function HomeFeatured() {
               className={cn("min-w-0", col)}
               transition={{ delay: index * 0.05 }}
             >
-              <Link href={item.href} className="group block">
+              <Link href={item.href} className="group lift block">
                 <HoverMedia className={cn(aspect, "rounded-sm")}>
                   <Image
                     src={item.image}
@@ -75,17 +75,21 @@ export function HomeFeatured() {
                     sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 42vw"
                     priority={index === 0}
                   />
-                  <div className="absolute inset-0 bg-[linear-gradient(180deg,transparent_35%,rgba(7,9,14,0.88)_100%)]" />
-                  <div className="absolute inset-x-0 bottom-0 p-6 md:p-9">
+                  <div className="absolute inset-0 bg-[linear-gradient(180deg,transparent_28%,rgba(7,9,14,0.55)_68%,rgba(7,9,14,0.94)_100%)] transition-opacity duration-500 group-hover:opacity-95" />
+                  <div className="absolute inset-x-0 bottom-0 translate-y-1 p-6 transition-transform duration-500 group-hover:translate-y-0 md:p-9">
                     <p className="text-eyebrow text-brass tracking-[0.28em] uppercase">
                       {item.meta}
                     </p>
                     <h3 className="font-display text-cream mt-3 text-[clamp(1.35rem,2.2vw,2rem)] leading-tight">
                       {item.title}
                     </h3>
-                    <p className="text-cream/75 mt-3 max-w-md text-sm leading-relaxed opacity-0 transition-opacity duration-500 group-hover:opacity-100 md:text-[0.95rem]">
+                    <p className="text-cream/75 mt-3 max-w-md text-sm leading-relaxed opacity-90 transition-opacity duration-500 md:text-[0.95rem] md:opacity-0 md:group-hover:opacity-100">
                       {item.copy}
                     </p>
+                    <span className="text-brass mt-5 inline-flex items-center gap-2 text-[0.65rem] tracking-[0.22em] uppercase opacity-0 transition-all duration-500 group-hover:opacity-100">
+                      View project
+                      <span aria-hidden className="bg-brass h-px w-6 transition-all duration-500 group-hover:w-10" />
+                    </span>
                   </div>
                 </HoverMedia>
               </Link>

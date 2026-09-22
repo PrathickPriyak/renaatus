@@ -216,6 +216,24 @@ select {
   animation: fade-up 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
+@keyframes hero-scroll-glint {
+  0% {
+    transform: translateY(-120%);
+    opacity: 0;
+  }
+  30% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(220%);
+    opacity: 0;
+  }
+}
+
+.hero-scroll-glint {
+  animation: hero-scroll-glint 1.8s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+}
+
 @keyframes ds-spin {
   to {
     transform: rotate(360deg);
@@ -243,5 +261,9 @@ select {
   .media-zoom:hover img,
   .media-zoom:hover video {
     transform: none;
+  }
+
+  .hero-scroll-glint {
+    animation: none;
   }
 }

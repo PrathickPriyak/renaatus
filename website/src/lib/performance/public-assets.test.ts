@@ -35,17 +35,17 @@ describe("public asset publishing", () => {
     ]);
   });
 
-  it("refuses to publish the unused 5 GB dump, fonts, icons, and loop videos", () => {
+  it("refuses to publish fonts, icons, documents, and unused loop videos", () => {
     assert.equal(isDeniedPublicAsset("fonts/fa-solid-900.woff2"), true);
     assert.equal(isDeniedPublicAsset("icons/stat-r1.png"), true);
     assert.equal(isDeniedPublicAsset("documents/brand-pack.pdf"), true);
     assert.equal(isDeniedPublicAsset("videos/loading.mp4"), true);
     assert.equal(isDeniedPublicAsset("videos/about-loop.mp4"), true);
-    assert.equal(isDeniedPublicAsset("videos/hero-mobile.mp4"), true);
+    assert.equal(isDeniedPublicAsset("videos/hero-mobile.mp4"), false);
 
     assert.equal(
       shouldPublishAsset("videos/hero-mobile.mp4", ["videos/hero-mobile.mp4"]),
-      false,
+      true,
     );
     assert.equal(
       shouldPublishAsset("videos/hero-desktop.mp4", ["videos/hero-desktop.mp4"]),

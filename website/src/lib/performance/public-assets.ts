@@ -3,7 +3,6 @@ const DENY_PREFIXES = ["fonts/", "icons/", "documents/"] as const;
 const DENY_FILES = [
   "videos/about-loop.mp4",
   "videos/loading.mp4",
-  "videos/hero-mobile.mp4",
 ] as const;
 
 const ASSET_PATH_PATTERN = /(?:^|["'(=\s])(\/assets\/[A-Za-z0-9._\-/]+)/g;

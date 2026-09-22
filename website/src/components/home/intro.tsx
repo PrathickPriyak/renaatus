@@ -16,7 +16,7 @@ export function HomeIntro() {
     <section className="bg-ink py-[var(--section-y)]">
       <Container className="grid items-center gap-14 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:gap-24">
         <Reveal>
-          <MediaFrame className="mx-auto aspect-[4/5] w-full max-w-md lg:mx-0 lg:max-w-none">
+          <MediaFrame className="media-zoom mx-auto aspect-[4/5] w-full max-w-md lg:mx-0 lg:max-w-none">
             <Image
               src={founderLetter.image}
               alt={`${founderLetter.name}, ${founderLetter.role}`}

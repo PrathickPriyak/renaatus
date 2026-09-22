@@ -17,7 +17,7 @@ export function HomeCapabilities() {
       <div className="grid gap-4 lg:grid-cols-3 lg:gap-5">
         {verticals.map((item, index) => (
           <Reveal key={item.title} transition={{ delay: index * 0.08 }}>
-            <Link href={item.href} className="group block h-full">
+            <Link href={item.href} className="group lift block h-full">
               <HoverMedia className="aspect-[3/4] rounded-sm">
                 <Image
                   src={item.image}
@@ -26,8 +26,8 @@ export function HomeCapabilities() {
                   className="object-cover"
                   sizes="(max-width: 1024px) 100vw, 33vw"
                 />
-                <div className="absolute inset-0 bg-[linear-gradient(180deg,transparent_30%,rgba(7,9,14,0.92)_100%)]" />
-                <div className="absolute inset-x-0 bottom-0 p-7 md:p-8">
+                <div className="absolute inset-0 bg-[linear-gradient(180deg,transparent_22%,rgba(7,9,14,0.55)_58%,rgba(7,9,14,0.95)_100%)]" />
+                <div className="absolute inset-x-0 bottom-0 p-7 transition-transform duration-500 group-hover:-translate-y-1 md:p-8">
                   <p className="text-eyebrow text-brass tracking-[0.28em] uppercase">
                     {item.kicker}
                   </p>
@@ -37,6 +37,13 @@ export function HomeCapabilities() {
                   <p className="text-cream/75 mt-4 max-w-sm text-sm leading-7">
                     {item.copy}
                   </p>
+                  <span className="text-brass mt-6 inline-flex items-center gap-2 text-[0.65rem] tracking-[0.22em] uppercase">
+                    Explore
+                    <span
+                      aria-hidden
+                      className="bg-brass h-px w-5 transition-all duration-500 group-hover:w-9"
+                    />
+                  </span>
                 </div>
               </HoverMedia>
             </Link>

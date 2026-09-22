@@ -3,18 +3,21 @@ import { describe, it } from "node:test";
 import {
   HERO_DESKTOP_VIDEO,
   HERO_MOBILE_MAX_WIDTH,
+  HERO_MOBILE_VIDEO,
   heroPosterPriority,
   heroVideoPreload,
+  heroVideoSrc,
   shouldAttachHeroVideoSource,
   shouldAutoplayHeroVideo,
 } from "@/lib/performance/hero-media";
 
 describe("hero media policy", () => {
-  it("does not autoplay the large hero video on mobile", () => {
+  it("autoplays the branded hero loop on mobile when motion is allowed", () => {
     assert.equal(
       shouldAutoplayHeroVideo({ reducedMotion: false, isMobile: true }),
-      false,
+      true,
     );
+    assert.equal(heroVideoSrc(true), HERO_MOBILE_VIDEO);
   });
 
   it("does not autoplay when the visitor prefers reduced motion", () => {
@@ -24,10 +27,14 @@ describe("hero media policy", () => {
     );
   });
 
-  it("keeps the branded hero loop off the marketing hero", () => {
+  it("autoplays the branded hero loop on desktop", () => {
     assert.equal(
       shouldAutoplayHeroVideo({ reducedMotion: false, isMobile: false }),
-      false,
+      true,
+    );
+    assert.equal(
+      shouldAttachHeroVideoSource({ autoplay: true, inView: true }),
+      true,
     );
     assert.equal(
       shouldAttachHeroVideoSource({ autoplay: false, inView: true }),
@@ -35,6 +42,7 @@ describe("hero media policy", () => {
     );
     assert.equal(heroVideoPreload(false), "none");
     assert.equal(heroVideoPreload(true), "metadata");
+    assert.equal(heroVideoSrc(false), HERO_DESKTOP_VIDEO);
   });
 
   it("prioritises only the visible poster breakpoint", () => {
@@ -44,5 +52,6 @@ describe("hero media policy", () => {
     assert.equal(heroPosterPriority({ isMobile: false, variant: "mobile" }), false);
     assert.equal(HERO_MOBILE_MAX_WIDTH, 767);
     assert.equal(HERO_DESKTOP_VIDEO.endsWith("hero-desktop.mp4"), true);
+    assert.equal(HERO_MOBILE_VIDEO.endsWith("hero-mobile.mp4"), true);
   });
 });
