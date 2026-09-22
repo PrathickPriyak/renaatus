@@ -1,5 +1,6 @@
 import { mkdir, readFile, unlink, writeFile } from "node:fs/promises";
 import path from "node:path";
+import { isProductionRuntime } from "@/lib/env/runtime";
 import { AppError } from "@/lib/errors";
 import {
   deleteR2Object,
@@ -49,7 +50,7 @@ export async function putPrivateObject(input: {
     return putR2Object(input);
   }
 
-  if (process.env.APP_ENV === "production") {
+  if (isProductionRuntime()) {
     throw new AppError(
       "File storage is not configured.",
       "STORAGE_UNAVAILABLE",
