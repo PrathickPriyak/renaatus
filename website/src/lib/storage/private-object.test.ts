@@ -97,12 +97,13 @@ describe("private object storage", () => {
   it("fails closed when NODE_ENV is production and APP_ENV is unset without R2", async () => {
     const previousApp = process.env.APP_ENV;
     const previousNode = process.env.NODE_ENV;
-    delete process.env.APP_ENV;
-    process.env.NODE_ENV = "production";
-    delete process.env.R2_ACCOUNT_ID;
-    delete process.env.R2_ACCESS_KEY_ID;
-    delete process.env.R2_SECRET_ACCESS_KEY;
-    delete process.env.R2_BUCKET_PRIVATE;
+    const env = process.env as NodeJS.ProcessEnv & { NODE_ENV?: string };
+    delete env.APP_ENV;
+    env.NODE_ENV = "production";
+    delete env.R2_ACCOUNT_ID;
+    delete env.R2_ACCESS_KEY_ID;
+    delete env.R2_SECRET_ACCESS_KEY;
+    delete env.R2_BUCKET_PRIVATE;
 
     try {
       await assert.rejects(
@@ -116,11 +117,11 @@ describe("private object storage", () => {
       );
     } finally {
       if (previousApp === undefined) {
-        delete process.env.APP_ENV;
+        delete env.APP_ENV;
       } else {
-        process.env.APP_ENV = previousApp;
+        env.APP_ENV = previousApp;
       }
-      process.env.NODE_ENV = previousNode;
+      env.NODE_ENV = previousNode;
     }
   });
 
