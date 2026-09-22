@@ -57,6 +57,28 @@ describe("admin cms", () => {
     await db.$disconnect();
   });
 
+  it("returns the previous slug when a journal slug is renamed", async () => {
+    const created = await createJournalPost(db, editor, {
+      title: `Admin rename ${stamp}`,
+      slug: `admin-rename-old-${stamp}`,
+      excerpt: "A draft that will be renamed.",
+      body: "Body text stored as structured JSON.",
+      status: "DRAFT",
+    });
+    postIds.push(created.id);
+
+    const updated = await updateJournalPost(db, editor, {
+      postId: created.id,
+      title: created.title,
+      slug: `admin-rename-new-${stamp}`,
+      excerpt: created.excerpt,
+      body: "Body text stored as structured JSON.",
+      status: "DRAFT",
+    });
+    assert.equal(updated.slug, `admin-rename-new-${stamp}`);
+    assert.equal(updated.previousSlug, `admin-rename-old-${stamp}`);
+  });
+
   it("returns the deleted slug so public journal pages can be revalidated", async () => {
     const created = await createJournalPost(db, editor, {
       title: `Admin delete ${stamp}`,
@@ -65,6 +87,7 @@ describe("admin cms", () => {
       body: "Body text stored as structured JSON.",
       status: "DRAFT",
     });
+    postIds.push(created.id);
     const deleted = await deleteJournalPost(db, editor, created.id);
     assert.equal(deleted.slug, `admin-delete-${stamp}`);
     assert.equal(await db.post.findUnique({ where: { id: created.id } }), null);

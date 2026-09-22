@@ -3,7 +3,7 @@
 **Date:** 22 September 2026  
 **Branch:** `cursor/production-qa-0b8e`  
 **App:** Next.js 16 production build (`next start`) against local PostgreSQL  
-**Unit tests:** 149 pass  
+**Unit tests:** 150 pass  
 **Live public crawl:** 95 pass, 0 fail  
 **Forms / admin / CMS live script:** 24 pass, 0 fail, 2 warnings
 
@@ -15,6 +15,7 @@ This report is the result of exercising public routes, navigation, CTAs, media, 
 | --- | --- | --- | --- |
 | QA-01 | High | `/assets/images/news/sap-live.jpg` 404 and Next optimizer 400 on `/blog` and `/blog/renaatus-goes-live-with-sap`. Seed/CMS keys are `images/news/…` without an `/assets/` prefix, so `sync-public-assets` never copied the still. | Extract quoted `images/` and `videos/` media keys as well as `/assets/…` paths. Unused loops and the 5 GB dump stay denied. After sync: 68 published files, `sap-live.jpg` HTTP 200, optimizer HTTP 200. |
 | QA-02 | Medium | Deleting a journal post via the admin action called `revalidatePath` without the slug, so `/blog/{slug}` could stay ISR-cached for up to 300s. | `deleteJournalPost` now returns `{ slug }`; the delete action revalidates `/blog/{slug}`. |
+| QA-03 | Medium | Renaming a published slug only revalidated the new path, so `/blog/{old-slug}` could stay ISR-cached. Sitemap was not revalidated on CMS writes. | `updateJournalPost` returns `previousSlug`. The update action revalidates both URLs. `revalidateBlog` also refreshes `/sitemap.xml`. |
 
 ## PASS
 
@@ -93,6 +94,7 @@ Previously failed, now fixed:
 
 - `IMG-BROKEN` / `NET-FAILED` on `sap-live.jpg` (QA-01).
 - Delete action did not revalidate the public slug (QA-02).
+- Slug rename did not revalidate the old public URL (QA-03).
 
 ## WARNING
 
@@ -118,7 +120,7 @@ Previously failed, now fixed:
 
 ## How this was tested
 
-1. Unit/integration: `npm test` (149) covering enquiry pipeline, spam, rate limits, login, permissions, export, blog draft/publish/unpublish/slug/SEO, sitemap, JSON-LD, Turnstile fail-closed, private files.
+1. Unit/integration: `npm test` (150) covering enquiry pipeline, spam, rate limits, login, permissions, export, blog draft/publish/unpublish/slug/SEO, sitemap, JSON-LD, Turnstile fail-closed, private files.
 2. Production build: `npm run build` then `npm start`.
 3. Chromium crawl of sitemap + chrome links, images, video, console, overflow at 375/768, security headers.
 4. Node script against the live server + Prisma for form cases, CRUD, admin cookie session, export bytes, blog lifecycle, logout.
