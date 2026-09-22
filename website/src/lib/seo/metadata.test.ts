@@ -31,8 +31,9 @@ describe("public SEO catalog", () => {
       "The story of Renaatus across India, the Maldives, and Mauritius.",
     );
     assert.ok(metadata.openGraph && "images" in metadata.openGraph);
-    assert.equal(metadata.twitter?.card, "summary_large_image");
-    assert.equal(metadata.twitter?.title, "About Renaatus | Renaatus");
+    assert.ok(metadata.twitter && "card" in metadata.twitter);
+    assert.equal(metadata.twitter.card, "summary_large_image");
+    assert.equal(metadata.twitter.title, "About Renaatus | Renaatus");
     assert.deepEqual(metadata.robots, { index: true, follow: true });
   });
 
